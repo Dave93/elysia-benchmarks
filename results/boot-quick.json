@@ -1,0 +1,791 @@
+{
+  "schemaVersion": 1,
+  "kind": "boot",
+  "status": "passed",
+  "startedAt": "2026-09-16T19:15:35.863Z",
+  "methodology": {
+    "quick": true,
+    "repeats": 2,
+    "configs": [
+      {
+        "id": "E",
+        "label": "Elysia / Bun / Drizzle + Bun SQL"
+      },
+      {
+        "id": "N-sync",
+        "label": "Django Ninja / Gunicorn gthread / Django ORM"
+      },
+      {
+        "id": "N-async",
+        "label": "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface"
+      }
+    ],
+    "caveats": [
+      "New process on each iteration, not cold OS/page/DB caches. Parity ran first and warms shared caches.",
+      "Readiness includes spawn through successful health polling. First DB request is measured through full body read and validated, with a 10-second timeout.",
+      "Config order rotates each round; no cross-language compilation/DX or cost claims."
+    ]
+  },
+  "runs": [
+    {
+      "round": 1,
+      "config": "E",
+      "readyMs": 85.91020899999967,
+      "firstReqMs": 11.55291699999998,
+      "status": 200,
+      "valid": true
+    },
+    {
+      "round": 1,
+      "config": "N-sync",
+      "readyMs": 177.44483299999956,
+      "firstReqMs": 52.1904999999997,
+      "status": 200,
+      "valid": true
+    },
+    {
+      "round": 1,
+      "config": "N-async",
+      "readyMs": 210.8867910000008,
+      "firstReqMs": 55.066749999999956,
+      "status": 200,
+      "valid": true
+    },
+    {
+      "round": 2,
+      "config": "N-sync",
+      "readyMs": 196.25262499999917,
+      "firstReqMs": 57.847541000001,
+      "status": 200,
+      "valid": true
+    },
+    {
+      "round": 2,
+      "config": "N-async",
+      "readyMs": 211.81020800000078,
+      "firstReqMs": 56.82066600000144,
+      "status": 200,
+      "valid": true
+    },
+    {
+      "round": 2,
+      "config": "E",
+      "readyMs": 91.44124999999985,
+      "firstReqMs": 18.238750000000437,
+      "status": 200,
+      "valid": true
+    }
+  ],
+  "env": {
+    "date": "2026-09-16T19:15:35.863Z",
+    "bun": "1.4.2",
+    "bunRevision": "744846f844374847c902b5e7fd59b4342a51ef99",
+    "cpu": "Apple M4 Pro",
+    "cores": "14",
+    "macos": "27.0",
+    "postgres": "psql (PostgreSQL) 17.10 (Homebrew)",
+    "bombardier": "",
+    "python": "Python 3.14.6",
+    "pythonPackages": "annotated-types==0.8.0\nanyio==4.15.1\nasgiref==3.12.1\nclick==8.5.0\ndjango==6.1.1\ndjango-ninja==1.7.0\ngunicorn==26.2.0\nh11==0.16.0\nhttptools==0.8.0\nidna==3.19\norjson==3.12.0\npsycopg==3.3.5\npsycopg-binary==3.3.5\npsycopg-pool==3.3.1\npydantic==2.13.5\npydantic-core==2.46.5\npyjwt==2.14.0\npython-dotenv==1.2.3\npyyaml==6.0.3\nsqlparse==0.6.0\ntyping-extensions==4.16.0\ntyping-inspection==0.4.4\nuvicorn==0.53.0\nuvloop==0.22.1\nwatchfiles==1.2.0\nwebsockets==17.1",
+    "elysiaManifest": {
+      "name": "elysia-api",
+      "private": true,
+      "type": "module",
+      "scripts": {
+        "dev": "bun --watch src/index.ts",
+        "build": "bun build.ts",
+        "build:aot": "bun build-aot.ts",
+        "start": "NODE_ENV=production bun dist/index.js",
+        "typecheck": "tsc --noEmit"
+      },
+      "dependencies": {
+        "elysia": "2.0.0-beta.12",
+        "drizzle-orm": "^0.45.2",
+        "postgres": "^3.4.9",
+        "jose": "^6.2.11"
+      },
+      "devDependencies": {
+        "@types/bun": "^1.3.14",
+        "typescript": "^5.9.0"
+      }
+    },
+    "locks": {
+      "bun.lock": "2c1fc796f16c7db1e32633eae212d875f048625786beb6142135fc5ea4f788cd",
+      "apps/elysia-api/bun.lock": "64898b89e79f0991058533eca815d7c5006714db571f24485c9630af917bdbc6",
+      "apps/django-api/uv.lock": "a6db2b7a79cd3e1911cd567f65b1028e7327e06a759342968f8f9f3e909f309b"
+    },
+    "configs": [
+      {
+        "id": "E",
+        "label": "Elysia / Bun / Drizzle + Bun SQL",
+        "cmd": [
+          "bun",
+          "apps/elysia-api/dist/index.js"
+        ],
+        "env": {
+          "NODE_ENV": "production",
+          "PORT": "3100",
+          "DATABASE_URL": "postgres://postgres@localhost:5432/bench_elysia_django",
+          "PYTHONPATH": "apps/django-api",
+          "DJANGO_SETTINGS_MODULE": "config.settings",
+          "PYTHONHASHSEED": "0"
+        }
+      },
+      {
+        "id": "N-sync",
+        "label": "Django Ninja / Gunicorn gthread / Django ORM",
+        "cmd": [
+          "apps/django-api/.venv/bin/python",
+          "-m",
+          "gunicorn",
+          "config.wsgi:application",
+          "--bind",
+          "127.0.0.1:3100",
+          "--workers",
+          "1",
+          "--worker-class",
+          "gthread",
+          "--threads",
+          "10",
+          "--keep-alive",
+          "5",
+          "--timeout",
+          "60",
+          "--access-logfile",
+          "/dev/null",
+          "--log-level",
+          "warning"
+        ],
+        "env": {
+          "NODE_ENV": "production",
+          "PORT": "3100",
+          "DATABASE_URL": "postgres://postgres@localhost:5432/bench_elysia_django",
+          "PYTHONPATH": "apps/django-api",
+          "DJANGO_SETTINGS_MODULE": "config.settings",
+          "PYTHONHASHSEED": "0",
+          "API_MODE": "sync"
+        }
+      },
+      {
+        "id": "N-async",
+        "label": "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface",
+        "cmd": [
+          "apps/django-api/.venv/bin/python",
+          "-m",
+          "uvicorn",
+          "config.asgi:application",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "3100",
+          "--workers",
+          "1",
+          "--loop",
+          "uvloop",
+          "--http",
+          "httptools",
+          "--lifespan",
+          "off",
+          "--no-access-log",
+          "--no-server-header",
+          "--log-level",
+          "warning"
+        ],
+        "env": {
+          "NODE_ENV": "production",
+          "PORT": "3100",
+          "DATABASE_URL": "postgres://postgres@localhost:5432/bench_elysia_django",
+          "PYTHONPATH": "apps/django-api",
+          "DJANGO_SETTINGS_MODULE": "config.settings",
+          "PYTHONHASHSEED": "0",
+          "API_MODE": "async"
+        }
+      }
+    ],
+    "caveat": "Same-host macOS laptop, API + Postgres + load generator; no CPU affinity or causal framework-only attribution"
+  },
+  "parity": {
+    "passed": true,
+    "date": "2026-09-16T19:15:40.991Z",
+    "configs": [
+      "E",
+      "N-sync",
+      "N-async"
+    ],
+    "checks": 38,
+    "evidence": [
+      {
+        "config": "E",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "E",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "E",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-3",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "N-sync",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "N-sync",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-3",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "N-async",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "N-async",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-3",
+        "status": 422
+      }
+    ],
+    "validationErrors": "status parity; native bodies intentionally not normalized"
+  },
+  "finishedAt": "2026-09-16T19:15:49.713Z"
+}

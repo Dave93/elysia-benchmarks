@@ -1,0 +1,320 @@
+{
+  "date": "2026-09-16T18:43:28.336Z",
+  "note": "plumbing smoke check, not a benchmark result",
+  "duration": "5s",
+  "concurrency": 10,
+  "configs": {
+    "E": {
+      "label": "Elysia / Bun / Drizzle + Bun SQL",
+      "cases": {
+        "health": {
+          "seconds": 5.000050208,
+          "successResponses": 497666,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 99532.2,
+          "attemptedRps": 99532.3,
+          "latencyMs": {
+            "mean": 0.1,
+            "p50": 0.09,
+            "p99": 0.18
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":68180242,\"bytesWritten\":33841288,\"timeTakenSeconds\":5.000050208,\"req1xx\":0,\"req2xx\":497666,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":99.57752790023831,\"stddev\":15.459900672416142,\"max\":1346,\"percentiles\":{\"50\":93,\"75\":120,\"90\":145,\"95\":157,\"99\":179}},\"rps\":{\"mean\":99532.29917811479,\"stddev\":2521.8741212540476,\"max\":107845.0553042143,\"percentiles\":{\"50\":99367.299939,\"75\":101061.889561,\"90\":102550.417369,\"95\":103882.926237,\"99\":106484.825862}}}}"
+        },
+        "echo": {
+          "seconds": 4.999980625,
+          "successResponses": 443494,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 88699.1,
+          "attemptedRps": 88699.6,
+          "latencyMs": {
+            "mean": 0.11,
+            "p50": 0.1,
+            "p99": 0.22
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":86037836,\"bytesWritten\":84707354,\"timeTakenSeconds\":4.999980625,\"req1xx\":0,\"req2xx\":443494,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":111.8510261694634,\"stddev\":20.07552057557971,\"max\":1639,\"percentiles\":{\"50\":98,\"75\":131,\"90\":179,\"95\":193,\"99\":222}},\"rps\":{\"mean\":88699.55808949174,\"stddev\":4252.724502540152,\"max\":104122.45440468723,\"percentiles\":{\"50\":88122.400714,\"75\":91404.159610,\"90\":94167.239217,\"95\":95814.668341,\"99\":101139.678696}}}}"
+        },
+        "me": {
+          "seconds": 5.000060416,
+          "successResponses": 0,
+          "httpFailures": 445283,
+          "transportOrUnknown": 0,
+          "successRps": 0,
+          "attemptedRps": 89434.2,
+          "latencyMs": {
+            "mean": 0.11,
+            "p50": 0.1,
+            "p99": 0.21
+          },
+          "invalid": true,
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":69464148,\"bytesWritten\":28498112,\"timeTakenSeconds\":5.000060416,\"req1xx\":0,\"req2xx\":0,\"req3xx\":0,\"req4xx\":445283,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":111.380034719493,\"stddev\":240.70691266710014,\"max\":48802,\"percentiles\":{\"50\":97,\"75\":128,\"90\":168,\"95\":182,\"99\":213}},\"rps\":{\"mean\":89434.21990766152,\"stddev\":12461.670933128673,\"max\":103957.79683476262,\"percentiles\":{\"50\":90545.848473,\"75\":93229.048911,\"90\":96969.492977,\"95\":98978.858945,\"99\":101418.156397}}}}"
+        },
+        "user": {
+          "seconds": 5.000367917,
+          "successResponses": 140941,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 28186.1,
+          "attemptedRps": 28186.2,
+          "latencyMs": {
+            "mean": 0.35,
+            "p50": 0.34,
+            "p99": 0.88
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":32698312,\"bytesWritten\":10147752,\"timeTakenSeconds\":5.000367917,\"req1xx\":0,\"req2xx\":140941,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":353.9469139569039,\"stddev\":47.25289924662789,\"max\":2347,\"percentiles\":{\"50\":344,\"75\":375,\"90\":410,\"95\":452,\"99\":884}},\"rps\":{\"mean\":28186.195957496355,\"stddev\":903.9919976216903,\"max\":31205.33143087497,\"percentiles\":{\"50\":28126.795394,\"75\":28768.354810,\"90\":29386.897852,\"95\":29613.421584,\"99\":30321.604143}}}}"
+        },
+        "list": {
+          "seconds": 5.000251375,
+          "successResponses": 110351,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 22069.1,
+          "attemptedRps": 22069.3,
+          "latencyMs": {
+            "mean": 0.45,
+            "p50": 0.44,
+            "p99": 1.03
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":253255545,\"bytesWritten\":9159133,\"timeTakenSeconds\":5.000251375,\"req1xx\":0,\"req2xx\":110351,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":452.22981214488317,\"stddev\":54.65544749721517,\"max\":2764,\"percentiles\":{\"50\":441,\"75\":473,\"90\":520,\"95\":601,\"99\":1033}},\"rps\":{\"mean\":22069.263051087517,\"stddev\":612.243810887396,\"max\":23658.54785829748,\"percentiles\":{\"50\":22067.909949,\"75\":22457.891454,\"90\":22731.246721,\"95\":22971.152986,\"99\":23455.472162}}}}"
+        },
+        "order": {
+          "seconds": 5.000260959,
+          "successResponses": 110656,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 22130,
+          "attemptedRps": 22130.4,
+          "latencyMs": {
+            "mean": 0.45,
+            "p50": 0.41,
+            "p99": 1.17
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":25229568,\"bytesWritten\":18590208,\"timeTakenSeconds\":5.000260959,\"req1xx\":0,\"req2xx\":110656,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":450.8146869577791,\"stddev\":129.32057103849036,\"max\":5224,\"percentiles\":{\"50\":408,\"75\":475,\"90\":574,\"95\":683,\"99\":1169}},\"rps\":{\"mean\":22130.37506681873,\"stddev\":1370.7729650263864,\"max\":24443.68497398697,\"percentiles\":{\"50\":22289.458201,\"75\":23151.881090,\"90\":23694.030617,\"95\":23977.417958,\"99\":24321.686432}}}}"
+        },
+        "cpu": {
+          "seconds": 5.046634208,
+          "successResponses": 1045,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 207.1,
+          "attemptedRps": 207.2,
+          "latencyMs": {
+            "mean": 48.08,
+            "p50": 43.61,
+            "p99": 90.1
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":216315,\"bytesWritten\":76285,\"timeTakenSeconds\":5.046634208,\"req1xx\":0,\"req2xx\":1045,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":48077.23732057416,\"stddev\":13498.11951199982,\"max\":95623,\"percentiles\":{\"50\":43606,\"75\":44893,\"90\":83894,\"95\":86953,\"99\":90098}},\"rps\":{\"mean\":207.17315029348885,\"stddev\":23.347551695761005,\"max\":258.89576193851207,\"percentiles\":{\"50\":200.040848,\"75\":201.634073,\"90\":253.322759,\"95\":254.804660,\"99\":256.603248}}}}"
+        }
+      }
+    },
+    "N-sync": {
+      "label": "Django Ninja / Gunicorn gthread / Django ORM",
+      "cases": {
+        "health": {
+          "seconds": 5.00358025,
+          "successResponses": 12622,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 2522.6,
+          "attemptedRps": 2522.5,
+          "latencyMs": {
+            "mean": 3.96,
+            "p50": 3.87,
+            "p99": 7
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2499156,\"bytesWritten\":858296,\"timeTakenSeconds\":5.00358025,\"req1xx\":0,\"req2xx\":12622,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":3961.270242433846,\"stddev\":892.5193424351502,\"max\":9506,\"percentiles\":{\"50\":3873,\"75\":4670,\"90\":5513,\"95\":6031,\"99\":7004}},\"rps\":{\"mean\":2522.5043481980524,\"stddev\":109.71841696752116,\"max\":2798.460846534406,\"percentiles\":{\"50\":2545.677694,\"75\":2598.711429,\"90\":2649.519775,\"95\":2701.491358,\"99\":2751.398674}}}}"
+        },
+        "echo": {
+          "seconds": 5.003905167,
+          "successResponses": 10815,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 2161.3,
+          "attemptedRps": 2159.4,
+          "latencyMs": {
+            "mean": 4.62,
+            "p50": 4.39,
+            "p99": 8.55
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2768640,\"bytesWritten\":2065665,\"timeTakenSeconds\":5.003905167,\"req1xx\":0,\"req2xx\":10815,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":4623.372630605641,\"stddev\":2582.2906460381946,\"max\":82861,\"percentiles\":{\"50\":4394,\"75\":5364,\"90\":6363,\"95\":7026,\"99\":8554}},\"rps\":{\"mean\":2159.390866129269,\"stddev\":385.80257519521376,\"max\":2602.3854766471686,\"percentiles\":{\"50\":2247.644693,\"75\":2396.385412,\"90\":2498.230379,\"95\":2507.585446,\"99\":2600.167841}}}}"
+        },
+        "me": {
+          "seconds": 5.004087333,
+          "successResponses": 0,
+          "httpFailures": 11892,
+          "transportOrUnknown": 0,
+          "successRps": 0,
+          "attemptedRps": 2376.3,
+          "latencyMs": {
+            "mean": 4.21,
+            "p50": 4.08,
+            "p99": 7.81
+          },
+          "invalid": true,
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2414076,\"bytesWritten\":761088,\"timeTakenSeconds\":5.004087333,\"req1xx\":0,\"req2xx\":0,\"req3xx\":0,\"req4xx\":11892,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":4205.04263370333,\"stddev\":1195.7110533761404,\"max\":29071,\"percentiles\":{\"50\":4085,\"75\":4914,\"90\":5818,\"95\":6417,\"99\":7809}},\"rps\":{\"mean\":2376.348083990854,\"stddev\":207.8721687892014,\"max\":2699.994330011907,\"percentiles\":{\"50\":2399.650011,\"75\":2496.380249,\"90\":2551.424588,\"95\":2599.815803,\"99\":2652.956986}}}}"
+        },
+        "user": {
+          "seconds": 5.005088667,
+          "successResponses": 7821,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1562.6,
+          "attemptedRps": 1562.8,
+          "latencyMs": {
+            "mean": 6.4,
+            "p50": 6.22,
+            "p99": 11.37
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2291553,\"bytesWritten\":563112,\"timeTakenSeconds\":5.005088667,\"req1xx\":0,\"req2xx\":7821,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6395.399437412096,\"stddev\":1566.843149560853,\"max\":24016,\"percentiles\":{\"50\":6225,\"75\":7335,\"90\":8484,\"95\":9271,\"99\":11368}},\"rps\":{\"mean\":1562.843566756922,\"stddev\":161.23620353059258,\"max\":1852.326985775881,\"percentiles\":{\"50\":1554.654246,\"75\":1652.027203,\"90\":1746.503326,\"95\":1756.399882,\"99\":1804.692200}}}}"
+        },
+        "list": {
+          "seconds": 5.005370834,
+          "successResponses": 7103,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1419.1,
+          "attemptedRps": 1418.7,
+          "latencyMs": {
+            "mean": 7.04,
+            "p50": 6.83,
+            "p99": 12.26
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":16734668,\"bytesWritten\":589549,\"timeTakenSeconds\":5.005370834,\"req1xx\":0,\"req2xx\":7103,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":7042.138392228636,\"stddev\":1674.346931089458,\"max\":17303,\"percentiles\":{\"50\":6834,\"75\":8175,\"90\":9550,\"95\":10387,\"99\":12264}},\"rps\":{\"mean\":1418.7496627403116,\"stddev\":173.5213955020917,\"max\":1758.2748811594568,\"percentiles\":{\"50\":1403.919251,\"75\":1551.131007,\"90\":1646.980590,\"95\":1699.776904,\"99\":1749.788626}}}}"
+        },
+        "order": {
+          "seconds": 5.004798584,
+          "successResponses": 8000,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1598.5,
+          "attemptedRps": 1598.4,
+          "latencyMs": {
+            "mean": 6.25,
+            "p50": 6.06,
+            "p99": 11.69
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2192000,\"bytesWritten\":1344000,\"timeTakenSeconds\":5.004798584,\"req1xx\":0,\"req2xx\":8000,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6251.2015,\"stddev\":1531.6782669282723,\"max\":22051,\"percentiles\":{\"50\":6059,\"75\":7138,\"90\":8299,\"95\":9143,\"99\":11693}},\"rps\":{\"mean\":1598.3603019124105,\"stddev\":177.64175549861565,\"max\":1903.0091331918595,\"percentiles\":{\"50\":1638.899814,\"75\":1699.766282,\"90\":1754.177134,\"95\":1800.292548,\"99\":1899.600229}}}}"
+        },
+        "cpu": {
+          "seconds": 5.040816375,
+          "successResponses": 1075,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 213.3,
+          "attemptedRps": 213.3,
+          "latencyMs": {
+            "mean": 46.74,
+            "p50": 46.19,
+            "p99": 80.89
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":289175,\"bytesWritten\":78475,\"timeTakenSeconds\":5.040816375,\"req1xx\":0,\"req2xx\":1075,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":46737.938604651164,\"stddev\":13473.033293266453,\"max\":124462,\"percentiles\":{\"50\":46187,\"75\":55097,\"90\":64618,\"95\":69634,\"99\":80886}},\"rps\":{\"mean\":213.3209501083577,\"stddev\":85.08845376743307,\"max\":500.7647178005532,\"percentiles\":{\"50\":201.675591,\"75\":253.866707,\"90\":306.584547,\"95\":350.522120,\"99\":407.654571}}}}"
+        }
+      }
+    },
+    "N-async": {
+      "label": "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface",
+      "cases": {
+        "health": {
+          "seconds": 5.002406625,
+          "successResponses": 16854,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 3369.2,
+          "attemptedRps": 3373.9,
+          "latencyMs": {
+            "mean": 2.97,
+            "p50": 2.74,
+            "p99": 4.42
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2629224,\"bytesWritten\":1146072,\"timeTakenSeconds\":5.002406625,\"req1xx\":0,\"req2xx\":16854,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":2966.1709386495786,\"stddev\":2681.2764249871993,\"max\":104326,\"percentiles\":{\"50\":2740,\"75\":2956,\"90\":3223,\"95\":3404,\"99\":4416}},\"rps\":{\"mean\":3373.856051480414,\"stddev\":654.8133230672564,\"max\":4019.629256529875,\"percentiles\":{\"50\":3509.578165,\"75\":3752.368683,\"90\":3765.265138,\"95\":3882.738123,\"99\":4011.072164}}}}"
+        },
+        "echo": {
+          "seconds": 5.00268125,
+          "successResponses": 16345,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 3267.2,
+          "attemptedRps": 3267.4,
+          "latencyMs": {
+            "mean": 3.06,
+            "p50": 2.89,
+            "p99": 4.04
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":3497830,\"bytesWritten\":3121895,\"timeTakenSeconds\":5.00268125,\"req1xx\":0,\"req2xx\":16345,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":3058.571734475375,\"stddev\":1943.5712976636664,\"max\":53023,\"percentiles\":{\"50\":2891,\"75\":3030,\"90\":3236,\"95\":3414,\"99\":4035}},\"rps\":{\"mean\":3267.4079808784677,\"stddev\":632.6547162627598,\"max\":3776.2526975661144,\"percentiles\":{\"50\":3484.783172,\"75\":3506.143113,\"90\":3517.993128,\"95\":3592.635098,\"99\":3763.257580}}}}"
+        },
+        "me": {
+          "seconds": 5.002024917,
+          "successResponses": 0,
+          "httpFailures": 13996,
+          "transportOrUnknown": 0,
+          "successRps": 0,
+          "attemptedRps": 2798.2,
+          "latencyMs": {
+            "mean": 3.57,
+            "p50": 3.38,
+            "p99": 4.99
+          },
+          "invalid": true,
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2253356,\"bytesWritten\":895744,\"timeTakenSeconds\":5.002024917,\"req1xx\":0,\"req2xx\":0,\"req3xx\":0,\"req4xx\":13996,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":3571.4859959988567,\"stddev\":1541.5049378523772,\"max\":43202,\"percentiles\":{\"50\":3385,\"75\":3714,\"90\":4058,\"95\":4259,\"99\":4986}},\"rps\":{\"mean\":2798.183629053236,\"stddev\":451.5655711394918,\"max\":3150.689213265402,\"percentiles\":{\"50\":2894.837636,\"75\":2955.862362,\"90\":3023.190288,\"95\":3060.335058,\"99\":3106.225342}}}}"
+        },
+        "user": {
+          "seconds": 5.003951875,
+          "successResponses": 7815,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1561.8,
+          "attemptedRps": 1565.7,
+          "latencyMs": {
+            "mean": 6.4,
+            "p50": 6.17,
+            "p99": 13.83
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1961565,\"bytesWritten\":562680,\"timeTakenSeconds\":5.003951875,\"req1xx\":0,\"req2xx\":7815,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6398.411516314779,\"stddev\":2259.359061806446,\"max\":46726,\"percentiles\":{\"50\":6170,\"75\":6871,\"90\":7618,\"95\":8242,\"99\":13831}},\"rps\":{\"mean\":1565.6782827317518,\"stddev\":305.9218891654771,\"max\":2655.6016597510375,\"percentiles\":{\"50\":1638.201590,\"75\":1749.059880,\"90\":1806.167339,\"95\":1856.086386,\"99\":1952.249186}}}}"
+        },
+        "list": {
+          "seconds": 5.004578,
+          "successResponses": 7932,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1584.9,
+          "attemptedRps": 1584.8,
+          "latencyMs": {
+            "mean": 6.31,
+            "p50": 6.14,
+            "p99": 10.37
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":18354648,\"bytesWritten\":658356,\"timeTakenSeconds\":5.004578,\"req1xx\":0,\"req2xx\":7932,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6305.742813918306,\"stddev\":2465.1356846676526,\"max\":53920,\"percentiles\":{\"50\":6144,\"75\":6674,\"90\":7196,\"95\":7615,\"99\":10369}},\"rps\":{\"mean\":1584.8229045157075,\"stddev\":272.55002826110984,\"max\":1912.4468736098588,\"percentiles\":{\"50\":1646.816128,\"75\":1699.383973,\"90\":1758.521532,\"95\":1848.467251,\"99\":1906.709233}}}}"
+        },
+        "order": {
+          "seconds": 5.002468708,
+          "successResponses": 8306,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1660.4,
+          "attemptedRps": 1660.8,
+          "latencyMs": {
+            "mean": 6.02,
+            "p50": 5.74,
+            "p99": 13.93
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1926992,\"bytesWritten\":1395408,\"timeTakenSeconds\":5.002468708,\"req1xx\":0,\"req2xx\":8306,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6019.1064290874065,\"stddev\":2795.0066371286716,\"max\":62961,\"percentiles\":{\"50\":5742,\"75\":6280,\"90\":6894,\"95\":7447,\"99\":13930}},\"rps\":{\"mean\":1660.8262770559156,\"stddev\":337.2705044387273,\"max\":2014.3690990945713,\"percentiles\":{\"50\":1745.494442,\"75\":1838.749154,\"90\":1901.862208,\"95\":1944.834035,\"99\":2004.024683}}}}"
+        },
+        "cpu": {
+          "seconds": 5.038402083,
+          "successResponses": 1035,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 205.4,
+          "attemptedRps": 205.7,
+          "latencyMs": {
+            "mean": 48.57,
+            "p50": 47.71,
+            "p99": 110.86
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":5,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":234945,\"bytesWritten\":75555,\"timeTakenSeconds\":5.038402083,\"req1xx\":0,\"req2xx\":1035,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":48567.750724637684,\"stddev\":9644.613692500032,\"max\":137343,\"percentiles\":{\"50\":47711,\"75\":48372,\"90\":49503,\"95\":52605,\"99\":110862}},\"rps\":{\"mean\":205.70221752483405,\"stddev\":47.13742207578107,\"max\":299.27549890846745,\"percentiles\":{\"50\":249.984376,\"75\":254.687848,\"90\":257.456586,\"95\":261.037160,\"99\":262.878870}}}}"
+        }
+      }
+    }
+  }
+}

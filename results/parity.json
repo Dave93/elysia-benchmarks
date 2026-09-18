@@ -1,0 +1,774 @@
+{
+  "passed": true,
+  "date": "2026-09-16T19:15:00.779Z",
+  "configs": [
+    "E",
+    "E-aot",
+    "N-sync",
+    "N-async"
+  ],
+  "checks": 38,
+  "evidence": [
+    {
+      "config": "E",
+      "case": "health",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "echo",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "me",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "user",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "list",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "order",
+      "status": 201
+    },
+    {
+      "config": "E",
+      "case": "cpu",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "defaults",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "missing-user",
+      "status": 404
+    },
+    {
+      "config": "E",
+      "case": "unauthorized",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "bad-token",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "bad-signature",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "expired",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "future-nbf",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "wrong-alg",
+      "status": 401
+    },
+    {
+      "config": "E",
+      "case": "/users/0",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/users/nope",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/users?page=0",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/users?limit=101",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/cpu?n=0",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/cpu?n=1.5",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "/cpu",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "empty-name",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "long-name",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "bad-email",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "bool-age",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "fraction-age",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "high-age",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "many-tags",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "number-tag",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "missing-age",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "coerced-age",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "extras",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "boundary",
+      "status": 200
+    },
+    {
+      "config": "E",
+      "case": "invalid-order-0",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "invalid-order-1",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "invalid-order-2",
+      "status": 422
+    },
+    {
+      "config": "E",
+      "case": "invalid-order-3",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "health",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "echo",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "me",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "user",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "list",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "order",
+      "status": 201
+    },
+    {
+      "config": "E-aot",
+      "case": "cpu",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "defaults",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "missing-user",
+      "status": 404
+    },
+    {
+      "config": "E-aot",
+      "case": "unauthorized",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "bad-token",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "bad-signature",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "expired",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "future-nbf",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "wrong-alg",
+      "status": 401
+    },
+    {
+      "config": "E-aot",
+      "case": "/users/0",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/users/nope",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/users?page=0",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/users?limit=101",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/cpu?n=0",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/cpu?n=1.5",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "/cpu",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "empty-name",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "long-name",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "bad-email",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "bool-age",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "fraction-age",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "high-age",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "many-tags",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "number-tag",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "missing-age",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "coerced-age",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "extras",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "boundary",
+      "status": 200
+    },
+    {
+      "config": "E-aot",
+      "case": "invalid-order-0",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "invalid-order-1",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "invalid-order-2",
+      "status": 422
+    },
+    {
+      "config": "E-aot",
+      "case": "invalid-order-3",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "health",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "echo",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "me",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "user",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "list",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "order",
+      "status": 201
+    },
+    {
+      "config": "N-sync",
+      "case": "cpu",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "defaults",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "missing-user",
+      "status": 404
+    },
+    {
+      "config": "N-sync",
+      "case": "unauthorized",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "bad-token",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "bad-signature",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "expired",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "future-nbf",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "wrong-alg",
+      "status": 401
+    },
+    {
+      "config": "N-sync",
+      "case": "/users/0",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/users/nope",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/users?page=0",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/users?limit=101",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/cpu?n=0",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/cpu?n=1.5",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "/cpu",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "empty-name",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "long-name",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "bad-email",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "bool-age",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "fraction-age",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "high-age",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "many-tags",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "number-tag",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "missing-age",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "coerced-age",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "extras",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "boundary",
+      "status": 200
+    },
+    {
+      "config": "N-sync",
+      "case": "invalid-order-0",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "invalid-order-1",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "invalid-order-2",
+      "status": 422
+    },
+    {
+      "config": "N-sync",
+      "case": "invalid-order-3",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "health",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "echo",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "me",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "user",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "list",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "order",
+      "status": 201
+    },
+    {
+      "config": "N-async",
+      "case": "cpu",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "defaults",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "missing-user",
+      "status": 404
+    },
+    {
+      "config": "N-async",
+      "case": "unauthorized",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "bad-token",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "bad-signature",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "expired",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "future-nbf",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "wrong-alg",
+      "status": 401
+    },
+    {
+      "config": "N-async",
+      "case": "/users/0",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/users/nope",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/users?page=0",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/users?limit=101",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/cpu?n=0",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/cpu?n=1.5",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "/cpu",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "empty-name",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "long-name",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "bad-email",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "bool-age",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "fraction-age",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "high-age",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "many-tags",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "number-tag",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "missing-age",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "coerced-age",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "extras",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "boundary",
+      "status": 200
+    },
+    {
+      "config": "N-async",
+      "case": "invalid-order-0",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "invalid-order-1",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "invalid-order-2",
+      "status": 422
+    },
+    {
+      "config": "N-async",
+      "case": "invalid-order-3",
+      "status": 422
+    }
+  ],
+  "validationErrors": "status parity; native bodies intentionally not normalized"
+}

@@ -1,0 +1,900 @@
+{
+  "date": "2026-09-16T18:58:20.326Z",
+  "note": "plumbing smoke check, not a benchmark result",
+  "parity": {
+    "passed": true,
+    "date": "2026-09-16T18:58:20.326Z",
+    "configs": [
+      "E",
+      "N-sync",
+      "N-async"
+    ],
+    "checks": 38,
+    "evidence": [
+      {
+        "config": "E",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "E",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "E",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-3",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "N-sync",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "N-sync",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "N-sync",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "N-sync",
+        "case": "invalid-order-3",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "N-async",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "N-async",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "N-async",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "N-async",
+        "case": "invalid-order-3",
+        "status": 422
+      }
+    ],
+    "validationErrors": "status parity; native bodies intentionally not normalized"
+  },
+  "duration": "3s",
+  "concurrency": 10,
+  "configs": {
+    "E": {
+      "label": "Elysia / Bun / Drizzle + Bun SQL",
+      "cases": {
+        "health": {
+          "seconds": 2.999972708,
+          "successResponses": 298163,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 99388.6,
+          "attemptedRps": 99388.9,
+          "latencyMs": {
+            "mean": 0.1,
+            "p50": 0.09,
+            "p99": 0.18
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":40848331,\"bytesWritten\":20275084,\"timeTakenSeconds\":2.999972708,\"req1xx\":0,\"req2xx\":298163,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":99.71708763327442,\"stddev\":16.085058935929318,\"max\":1259,\"percentiles\":{\"50\":94,\"75\":120,\"90\":145,\"95\":156,\"99\":178}},\"rps\":{\"mean\":99388.87425461464,\"stddev\":2187.8228826748004,\"max\":106377.74823339986,\"percentiles\":{\"50\":99549.565729,\"75\":100722.930712,\"90\":102089.598689,\"95\":102840.224120,\"99\":105327.967830}}}}"
+        },
+        "echo": {
+          "seconds": 2.999993625,
+          "successResponses": 249590,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 83196.8,
+          "attemptedRps": 83194.2,
+          "latencyMs": {
+            "mean": 0.12,
+            "p50": 0.1,
+            "p99": 0.32
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":48420460,\"bytesWritten\":47671690,\"timeTakenSeconds\":2.999993625,\"req1xx\":0,\"req2xx\":249590,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":119.2896189751192,\"stddev\":68.14041550772696,\"max\":4503,\"percentiles\":{\"50\":101,\"75\":132,\"90\":185,\"95\":202,\"99\":324}},\"rps\":{\"mean\":83194.19569212072,\"stddev\":16680.472089077986,\"max\":104707.98010448275,\"percentiles\":{\"50\":86677.585211,\"75\":90171.478676,\"90\":91619.431843,\"95\":93460.945883,\"99\":102819.830088}}}}"
+        },
+        "me": {
+          "seconds": 3.000261709,
+          "successResponses": 66559,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 22184.4,
+          "attemptedRps": 22184.6,
+          "latencyMs": {
+            "mean": 0.45,
+            "p50": 0.41,
+            "p99": 1.14
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"headers\":[{\"key\":\"authorization\",\"value\":\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjQyIiwiaWF0IjowfQ.I6J6n-pqhBO5NwwMt2nBiNC1sxNKu_TlDRaIRkKtbhk\"}],\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":15441688,\"bytesWritten\":12180297,\"timeTakenSeconds\":3.000261709,\"req1xx\":0,\"req2xx\":66559,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":449.7541279165853,\"stddev\":80.28875942531124,\"max\":2974,\"percentiles\":{\"50\":415,\"75\":504,\"90\":568,\"95\":622,\"99\":1136}},\"rps\":{\"mean\":22184.634189459248,\"stddev\":1123.4484953415667,\"max\":24412.10474213639,\"percentiles\":{\"50\":22507.267597,\"75\":22913.986697,\"90\":23408.497904,\"95\":23602.548257,\"99\":24328.914130}}}}"
+        },
+        "user": {
+          "seconds": 3.000190833,
+          "successResponses": 85098,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 28364.2,
+          "attemptedRps": 28364.8,
+          "latencyMs": {
+            "mean": 0.35,
+            "p50": 0.34,
+            "p99": 0.89
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":19742736,\"bytesWritten\":6127056,\"timeTakenSeconds\":3.000190833,\"req1xx\":0,\"req2xx\":85098,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":351.67911114244754,\"stddev\":55.457079293760785,\"max\":2602,\"percentiles\":{\"50\":342,\"75\":373,\"90\":408,\"95\":448,\"99\":889}},\"rps\":{\"mean\":28364.785334629603,\"stddev\":863.0090356069439,\"max\":30610.440372604826,\"percentiles\":{\"50\":28411.009266,\"75\":28861.719386,\"90\":29375.581548,\"95\":29840.674789,\"99\":30208.623051}}}}"
+        },
+        "list": {
+          "seconds": 3.000288417,
+          "successResponses": 65662,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 21885.2,
+          "attemptedRps": 21885.3,
+          "latencyMs": {
+            "mean": 0.46,
+            "p50": 0.44,
+            "p99": 1.05
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":150694290,\"bytesWritten\":5449946,\"timeTakenSeconds\":3.000288417,\"req1xx\":0,\"req2xx\":65662,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":456.0023301148305,\"stddev\":64.9151467997801,\"max\":2643,\"percentiles\":{\"50\":443,\"75\":477,\"90\":526,\"95\":613,\"99\":1055}},\"rps\":{\"mean\":21885.320271938126,\"stddev\":670.6076892234303,\"max\":23298.742765914987,\"percentiles\":{\"50\":21957.366479,\"75\":22324.091043,\"90\":22654.624942,\"95\":22942.973714,\"99\":23267.062901}}}}"
+        },
+        "order": {
+          "seconds": 3.000726084,
+          "successResponses": 69569,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 23184.1,
+          "attemptedRps": 23183.8,
+          "latencyMs": {
+            "mean": 0.43,
+            "p50": 0.4,
+            "p99": 1.05
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":15861732,\"bytesWritten\":11687592,\"timeTakenSeconds\":3.000726084,\"req1xx\":0,\"req2xx\":69569,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":430.32396613434145,\"stddev\":161.91901752660573,\"max\":9704,\"percentiles\":{\"50\":396,\"75\":448,\"90\":536,\"95\":607,\"99\":1054}},\"rps\":{\"mean\":23183.794794629033,\"stddev\":1257.1515328930361,\"max\":24958.007776795188,\"percentiles\":{\"50\":23395.425728,\"75\":23930.257538,\"90\":24292.812971,\"95\":24459.387633,\"99\":24704.375145}}}}"
+        },
+        "cpu": {
+          "seconds": 3.049020708,
+          "successResponses": 594,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 194.8,
+          "attemptedRps": 194.9,
+          "latencyMs": {
+            "mean": 50.95,
+            "p50": 45.63,
+            "p99": 97.7
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":122958,\"bytesWritten\":43362,\"timeTakenSeconds\":3.049020708,\"req1xx\":0,\"req2xx\":594,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":50953.17845117845,\"stddev\":15794.119980276873,\"max\":139915,\"percentiles\":{\"50\":45629,\"75\":47839,\"90\":84739,\"95\":90534,\"99\":97703}},\"rps\":{\"mean\":194.94955063453477,\"stddev\":32.50697037039033,\"max\":263.9003993446403,\"percentiles\":{\"50\":199.594574,\"75\":203.262361,\"90\":242.998107,\"95\":254.035997,\"99\":259.995190}}}}"
+        }
+      }
+    },
+    "N-sync": {
+      "label": "Django Ninja / Gunicorn gthread / Django ORM",
+      "cases": {
+        "health": {
+          "seconds": 3.0043845,
+          "successResponses": 7679,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 2555.9,
+          "attemptedRps": 2555.7,
+          "latencyMs": {
+            "mean": 3.91,
+            "p50": 3.83,
+            "p99": 6.85
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1520442,\"bytesWritten\":522172,\"timeTakenSeconds\":3.0043845,\"req1xx\":0,\"req2xx\":7679,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":3908.8886573772625,\"stddev\":962.7442779247216,\"max\":10176,\"percentiles\":{\"50\":3831,\"75\":4595,\"90\":5413,\"95\":5960,\"99\":6850}},\"rps\":{\"mean\":2555.706056489152,\"stddev\":108.31537960607707,\"max\":2848.694443336619,\"percentiles\":{\"50\":2551.685133,\"75\":2646.867829,\"90\":2695.485063,\"95\":2708.141350,\"99\":2806.196925}}}}"
+        },
+        "echo": {
+          "seconds": 3.003555958,
+          "successResponses": 7202,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 2397.8,
+          "attemptedRps": 2397.6,
+          "latencyMs": {
+            "mean": 4.17,
+            "p50": 4.09,
+            "p99": 7.32
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1843712,\"bytesWritten\":1375582,\"timeTakenSeconds\":3.003555958,\"req1xx\":0,\"req2xx\":7202,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":4166.548042210497,\"stddev\":1026.4584911525978,\"max\":10643,\"percentiles\":{\"50\":4087,\"75\":4895,\"90\":5752,\"95\":6271,\"99\":7323}},\"rps\":{\"mean\":2397.607557892429,\"stddev\":120.02364844802986,\"max\":2647.4297428341692,\"percentiles\":{\"50\":2401.736215,\"75\":2495.845540,\"90\":2546.583249,\"95\":2555.542332,\"99\":2635.586636}}}}"
+        },
+        "me": {
+          "seconds": 3.005575208,
+          "successResponses": 4291,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1427.7,
+          "attemptedRps": 1427.3,
+          "latencyMs": {
+            "mean": 7,
+            "p50": 6.63,
+            "p99": 16.67
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"headers\":[{\"key\":\"authorization\",\"value\":\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjQyIiwiaWF0IjowfQ.I6J6n-pqhBO5NwwMt2nBiNC1sxNKu_TlDRaIRkKtbhk\"}],\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1257263,\"bytesWritten\":785253,\"timeTakenSeconds\":3.005575208,\"req1xx\":0,\"req2xx\":4291,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6997.281519459333,\"stddev\":2556.5398875689293,\"max\":46819,\"percentiles\":{\"50\":6627,\"75\":7868,\"90\":9185,\"95\":10194,\"99\":16667}},\"rps\":{\"mean\":1427.2559939032053,\"stddev\":256.86005934594226,\"max\":1748.3172446520225,\"percentiles\":{\"50\":1496.187863,\"75\":1555.073427,\"90\":1648.392817,\"95\":1687.449107,\"99\":1711.387917}}}}"
+        },
+        "user": {
+          "seconds": 3.003514,
+          "successResponses": 4824,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1606.1,
+          "attemptedRps": 1606.1,
+          "latencyMs": {
+            "mean": 6.22,
+            "p50": 6.1,
+            "p99": 10.6
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1413432,\"bytesWritten\":347328,\"timeTakenSeconds\":3.003514,\"req1xx\":0,\"req2xx\":4824,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6221.379975124378,\"stddev\":1380.899722706321,\"max\":17768,\"percentiles\":{\"50\":6097,\"75\":7124,\"90\":8176,\"95\":8911,\"99\":10602}},\"rps\":{\"mean\":1606.086957884037,\"stddev\":118.26167729284948,\"max\":1953.0516431924882,\"percentiles\":{\"50\":1601.291041,\"75\":1696.275319,\"90\":1751.061581,\"95\":1801.456117,\"99\":1853.100051}}}}"
+        },
+        "list": {
+          "seconds": 3.00903925,
+          "successResponses": 4132,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1373.2,
+          "attemptedRps": 1373.7,
+          "latencyMs": {
+            "mean": 7.27,
+            "p50": 6.74,
+            "p99": 19.3
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":9734992,\"bytesWritten\":342956,\"timeTakenSeconds\":3.00903925,\"req1xx\":0,\"req2xx\":4132,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":7269.949661181026,\"stddev\":2924.5763759476513,\"max\":42441,\"percentiles\":{\"50\":6738,\"75\":8119,\"90\":9718,\"95\":11244,\"99\":19297}},\"rps\":{\"mean\":1373.7107378922178,\"stddev\":285.4495659872264,\"max\":1753.3203504135956,\"percentiles\":{\"50\":1448.060179,\"75\":1550.975796,\"90\":1604.418810,\"95\":1648.564348,\"99\":1705.339845}}}}"
+        },
+        "order": {
+          "seconds": 3.00534725,
+          "successResponses": 4672,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1554.6,
+          "attemptedRps": 1554.3,
+          "latencyMs": {
+            "mean": 6.43,
+            "p50": 6.22,
+            "p99": 11.34
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1280128,\"bytesWritten\":784896,\"timeTakenSeconds\":3.00534725,\"req1xx\":0,\"req2xx\":4672,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6426.806720890411,\"stddev\":1561.8569070284984,\"max\":15056,\"percentiles\":{\"50\":6223,\"75\":7389,\"90\":8697,\"95\":9477,\"99\":11341}},\"rps\":{\"mean\":1554.3129702220565,\"stddev\":172.11028040883085,\"max\":1895.4667070500836,\"percentiles\":{\"50\":1597.317784,\"75\":1698.022483,\"90\":1750.196897,\"95\":1785.935756,\"99\":1856.043742}}}}"
+        },
+        "cpu": {
+          "seconds": 3.027371834,
+          "successResponses": 656,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 216.7,
+          "attemptedRps": 216.2,
+          "latencyMs": {
+            "mean": 45.99,
+            "p50": 45.76,
+            "p99": 79.07
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":176464,\"bytesWritten\":47888,\"timeTakenSeconds\":3.027371834,\"req1xx\":0,\"req2xx\":656,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":45987.42987804878,\"stddev\":13363.388769614769,\"max\":89730,\"percentiles\":{\"50\":45763,\"75\":53596,\"90\":64518,\"95\":69333,\"99\":79073}},\"rps\":{\"mean\":216.20198556696164,\"stddev\":103.83467669486836,\"max\":500.93926111458984,\"percentiles\":{\"50\":203.169866,\"75\":297.313652,\"90\":352.334214,\"95\":367.875290,\"99\":495.679337}}}}"
+        }
+      }
+    },
+    "N-async": {
+      "label": "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface",
+      "cases": {
+        "health": {
+          "seconds": 3.002514041,
+          "successResponses": 10385,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 3458.8,
+          "attemptedRps": 3459.2,
+          "latencyMs": {
+            "mean": 2.89,
+            "p50": 2.69,
+            "p99": 4.8
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1620060,\"bytesWritten\":706180,\"timeTakenSeconds\":3.002514041,\"req1xx\":0,\"req2xx\":10385,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":2888.802022147328,\"stddev\":1547.9431886620723,\"max\":36091,\"percentiles\":{\"50\":2692,\"75\":2866,\"90\":3153,\"95\":3423,\"99\":4803}},\"rps\":{\"mean\":3459.212623229711,\"stddev\":714.3577155189514,\"max\":4036.513697429896,\"percentiles\":{\"50\":3711.102319,\"75\":3765.666680,\"90\":3878.860212,\"95\":4002.927140,\"99\":4035.512510}}}}"
+        },
+        "echo": {
+          "seconds": 3.001702542,
+          "successResponses": 10360,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 3451.4,
+          "attemptedRps": 3451.7,
+          "latencyMs": {
+            "mean": 2.9,
+            "p50": 2.85,
+            "p99": 3.71
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/echo\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"name\\\":\\\"Jane Doe\\\",\\\"email\\\":\\\"jane@example.com\\\",\\\"age\\\":30,\\\"tags\\\":[\\\"a\\\",\\\"b\\\"]}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":2217040,\"bytesWritten\":1978760,\"timeTakenSeconds\":3.001702542,\"req1xx\":0,\"req2xx\":10360,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":2895.163803088803,\"stddev\":181.91866815934875,\"max\":7088,\"percentiles\":{\"50\":2852,\"75\":2978,\"90\":3158,\"95\":3320,\"99\":3706}},\"rps\":{\"mean\":3451.7128440295187,\"stddev\":172.23330505336256,\"max\":3794.810257969177,\"percentiles\":{\"50\":3492.120902,\"75\":3516.203898,\"90\":3579.410871,\"95\":3755.602044,\"99\":3793.331031}}}}"
+        },
+        "me": {
+          "seconds": 3.00486425,
+          "successResponses": 4362,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1451.6,
+          "attemptedRps": 1451.6,
+          "latencyMs": {
+            "mean": 6.88,
+            "p50": 6.63,
+            "p99": 9.49
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"headers\":[{\"key\":\"authorization\",\"value\":\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjQyIiwiaWF0IjowfQ.I6J6n-pqhBO5NwwMt2nBiNC1sxNKu_TlDRaIRkKtbhk\"}],\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":1094862,\"bytesWritten\":798246,\"timeTakenSeconds\":3.00486425,\"req1xx\":0,\"req2xx\":4362,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6882.221458046767,\"stddev\":4500.852375059045,\"max\":108693,\"percentiles\":{\"50\":6635,\"75\":7197,\"90\":7872,\"95\":8395,\"99\":9487}},\"rps\":{\"mean\":1451.6223435693528,\"stddev\":239.4045217484266,\"max\":1722.9365933996326,\"percentiles\":{\"50\":1504.865758,\"75\":1589.305512,\"90\":1666.284431,\"95\":1704.531155,\"99\":1713.044146}}}}"
+        },
+        "user": {
+          "seconds": 3.084428166,
+          "successResponses": 3742,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1213.2,
+          "attemptedRps": 1247.7,
+          "latencyMs": {
+            "mean": 8.24,
+            "p50": 6.45,
+            "p99": 42.55
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":939242,\"bytesWritten\":269424,\"timeTakenSeconds\":3.084428166,\"req1xx\":0,\"req2xx\":3742,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":8236.914751469802,\"stddev\":10960.716148464033,\"max\":152208,\"percentiles\":{\"50\":6451,\"75\":8014,\"90\":10178,\"95\":13523,\"99\":42551}},\"rps\":{\"mean\":1247.7292032595476,\"stddev\":413.12501280690583,\"max\":1918.307850548674,\"percentiles\":{\"50\":1390.153128,\"75\":1649.209781,\"90\":1743.823986,\"95\":1816.129500,\"99\":1910.023613}}}}"
+        },
+        "list": {
+          "seconds": 3.019812666,
+          "successResponses": 4567,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1512.3,
+          "attemptedRps": 1516.1,
+          "latencyMs": {
+            "mean": 6.59,
+            "p50": 6.25,
+            "p99": 13.88
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users?page=7&limit=20\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":10568038,\"bytesWritten\":379061,\"timeTakenSeconds\":3.019812666,\"req1xx\":0,\"req2xx\":4567,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":6590.186117801621,\"stddev\":2156.4245309512694,\"max\":38626,\"percentiles\":{\"50\":6253,\"75\":6980,\"90\":8203,\"95\":9647,\"99\":13882}},\"rps\":{\"mean\":1516.0549959013504,\"stddev\":255.54912777935348,\"max\":1910.2636555951472,\"percentiles\":{\"50\":1557.426980,\"75\":1653.938441,\"90\":1751.229538,\"95\":1846.722068,\"99\":1901.148579}}}}"
+        },
+        "order": {
+          "seconds": 3.003349958,
+          "successResponses": 4235,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 1410.1,
+          "attemptedRps": 1423.9,
+          "latencyMs": {
+            "mean": 7.09,
+            "p50": 5.94,
+            "p99": 30.79
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"POST\",\"url\":\"http://127.0.0.1:3100/orders\",\"headers\":[{\"key\":\"content-type\",\"value\":\"application/json\"}],\"body\":\"{\\\"userId\\\":4242,\\\"amount\\\":19.99,\\\"currency\\\":\\\"USD\\\"}\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":982520,\"bytesWritten\":711480,\"timeTakenSeconds\":3.003349958,\"req1xx\":0,\"req2xx\":4235,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":7088.536245572609,\"stddev\":5071.8956004667225,\"max\":76818,\"percentiles\":{\"50\":5940,\"75\":6983,\"90\":10064,\"95\":13099,\"99\":30790}},\"rps\":{\"mean\":1423.8828118164308,\"stddev\":477.4527974488736,\"max\":3227.4545356548197,\"percentiles\":{\"50\":1563.389808,\"75\":1743.259339,\"90\":1852.334683,\"95\":1935.319582,\"99\":2012.836057}}}}"
+        },
+        "cpu": {
+          "seconds": 3.0380745,
+          "successResponses": 670,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 220.5,
+          "attemptedRps": 221.3,
+          "latencyMs": {
+            "mean": 45.17,
+            "p50": 45.4,
+            "p99": 48.16
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/cpu?n=15000\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":152090,\"bytesWritten\":48910,\"timeTakenSeconds\":3.0380745,\"req1xx\":0,\"req2xx\":670,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":45165.53880597015,\"stddev\":5909.5357175378485,\"max\":131980,\"percentiles\":{\"50\":45402,\"75\":45834,\"90\":46185,\"95\":46408,\"99\":48158}},\"rps\":{\"mean\":221.3133018893361,\"stddev\":48.781867660288135,\"max\":275.3619812228462,\"percentiles\":{\"50\":249.553412,\"75\":259.071828,\"90\":266.113746,\"95\":271.226292,\"99\":275.118301}}}}"
+        }
+      }
+    }
+  }
+}

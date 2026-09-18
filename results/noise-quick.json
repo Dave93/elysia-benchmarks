@@ -1,0 +1,3643 @@
+{
+  "schemaVersion": 1,
+  "kind": "noise",
+  "status": "passed",
+  "startedAt": "2026-09-16T19:15:49.742Z",
+  "methodology": {
+    "quick": true,
+    "warmup": "1s",
+    "duration": "3s",
+    "repeats": 5,
+    "concurrencies": [
+      10
+    ],
+    "configs": [
+      {
+        "id": "E",
+        "label": "Elysia / Bun / Drizzle + Bun SQL",
+        "sensitivity": false,
+        "cmd": [
+          "bun",
+          "apps/elysia-api/dist/index.js"
+        ]
+      }
+    ],
+    "cases": [
+      "health",
+      "user"
+    ],
+    "roundOrders": [
+      [
+        "E"
+      ],
+      [
+        "E"
+      ],
+      [
+        "E"
+      ],
+      [
+        "E"
+      ],
+      [
+        "E"
+      ]
+    ],
+    "caveats": [
+      "Quick runs test plumbing only. Full benchmark automatically requires parity plus a recorded quick preflight before full windows.",
+      "Successful RPS = req2xx / bombardier result.timeTakenSeconds; wallSeconds also includes client startup/exit.",
+      "Latency includes timed attempts, including failures, not a success-only distribution. 2xx is the generator's status granularity; exact status/semantics checked by parity.",
+      "Non-2xx includes others; transport errors overlap status buckets and must not be added to them. errorRate and transportErrorRate are separate rates over total status buckets.",
+      "Process-tree RSS sums supervisor and workers and may double-count shared pages; CPU is coarse ps CPU-time deltas over the recorded sample span.",
+      "Process churn or unavailable samples invalidate resource measurements. Very short-lived children between samples cannot be accounted for.",
+      "Host 1/5/15-minute load averages are advisory context only, not foreign CPU, contention proof, or statistical significance.",
+      "API, client and database share a laptop; no CPU affinity, cross-language causal attribution, or cloud cost extrapolation.",
+      "CPU route uses different crypto bindings and must be reported separately from API/DB conclusions.",
+      "No failed windows are silently retried or removed. Warmup is retained but excluded from summaries.",
+      "Five same-config process-start repetitions describe observed variability, not a universal noise floor or significance threshold."
+    ]
+  },
+  "quickPreflight": [],
+  "runs": [
+    {
+      "round": 1,
+      "config": "E",
+      "case": "health",
+      "concurrency": 10,
+      "readyMs": 95.96841700000004,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 81607.69062147182,
+        "successRps": 81585.36697923369,
+        "actualSeconds": 0.999272333,
+        "req2xx": 81526,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.12148393150651325,
+          "p50": 0.097,
+          "p90": 0.161,
+          "p95": 0.195,
+          "p99": 0.749,
+          "max": 6.137
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 11169062,
+            "bytesWritten": 5543768,
+            "timeTakenSeconds": 0.999272333,
+            "req1xx": 0,
+            "req2xx": 81526,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 121.48393150651326,
+              "stddev": 113.9501111186613,
+              "max": 6137,
+              "percentiles": {
+                "50": 97,
+                "75": 126,
+                "90": 161,
+                "95": 195,
+                "99": 749
+              }
+            },
+            "rps": {
+              "mean": 81607.69062147182,
+              "stddev": 30982.672810388533,
+              "max": 103124.8013948229,
+              "percentiles": {
+                "50": 97246.756821,
+                "75": 99166.108638,
+                "90": 100764.556694,
+                "95": 101391.549014,
+                "99": 103124.801395
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":11169062,\"bytesWritten\":5543768,\"timeTakenSeconds\":0.999272333,\"req1xx\":0,\"req2xx\":81526,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":121.48393150651326,\"stddev\":113.9501111186613,\"max\":6137,\"percentiles\":{\"50\":97,\"75\":126,\"90\":161,\"95\":195,\"99\":749}},\"rps\":{\"mean\":81607.69062147182,\"stddev\":30982.672810388533,\"max\":103124.8013948229,\"percentiles\":{\"50\":97246.756821,\"75\":99166.108638,\"90\":100764.556694,\"95\":101391.549014,\"99\":103124.801395}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:50.491Z",
+        "wallSeconds": 1.0117845
+      },
+      "measurement": {
+        "reportedRps": 99188.1390409697,
+        "successRps": 99186.10742044267,
+        "actualSeconds": 3.000006833,
+        "req2xx": 297559,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.09987731172641393,
+          "p50": 0.094,
+          "p90": 0.144,
+          "p95": 0.156,
+          "p99": 0.179,
+          "max": 3.587
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 40765583,
+            "bytesWritten": 20234012,
+            "timeTakenSeconds": 3.000006833,
+            "req1xx": 0,
+            "req2xx": 297559,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 99.87731172641392,
+              "stddev": 22.76478744030673,
+              "max": 3587,
+              "percentiles": {
+                "50": 94,
+                "75": 119,
+                "90": 144,
+                "95": 156,
+                "99": 179
+              }
+            },
+            "rps": {
+              "mean": 99188.1390409697,
+              "stddev": 2952.090387547009,
+              "max": 104336.07941626213,
+              "percentiles": {
+                "50": 99446.959964,
+                "75": 100579.672848,
+                "90": 102455.228913,
+                "95": 103585.471431,
+                "99": 104113.87838
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":40765583,\"bytesWritten\":20234012,\"timeTakenSeconds\":3.000006833,\"req1xx\":0,\"req2xx\":297559,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":99.87731172641392,\"stddev\":22.76478744030673,\"max\":3587,\"percentiles\":{\"50\":94,\"75\":119,\"90\":144,\"95\":156,\"99\":179}},\"rps\":{\"mean\":99188.1390409697,\"stddev\":2952.090387547009,\"max\":104336.07941626213,\"percentiles\":{\"50\":99446.959964,\"75\":100579.672848,\"90\":102455.228913,\"95\":103585.471431,\"99\":104113.878380}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:51.531Z",
+        "wallSeconds": 3.0115684590000003,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586151531,
+              "elapsedMs": 27.75541599999997,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 63920,
+                  "cpuSeconds": 1.04
+                }
+              ],
+              "rssKb": 63920,
+              "cpuSeconds": 1.04,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586152059,
+              "elapsedMs": 555.2681249999998,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64576,
+                  "cpuSeconds": 1.57
+                }
+              ],
+              "rssKb": 64576,
+              "cpuSeconds": 1.57,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586152584,
+              "elapsedMs": 1080.489166,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64592,
+                  "cpuSeconds": 2.14
+                }
+              ],
+              "rssKb": 64592,
+              "cpuSeconds": 2.14,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586153116,
+              "elapsedMs": 1612.4786660000002,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64608,
+                  "cpuSeconds": 2.72
+                }
+              ],
+              "rssKb": 64608,
+              "cpuSeconds": 2.72,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586153642,
+              "elapsedMs": 2138.8272500000003,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64608,
+                  "cpuSeconds": 3.29
+                }
+              ],
+              "rssKb": 64608,
+              "cpuSeconds": 3.29,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586154168,
+              "elapsedMs": 2664.801458,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64608,
+                  "cpuSeconds": 3.86
+                }
+              ],
+              "rssKb": 64608,
+              "cpuSeconds": 3.86,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            },
+            {
+              "atMs": 1789586154567,
+              "elapsedMs": 3063.0571659999996,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 64624,
+                  "cpuSeconds": 4.29
+                }
+              ],
+              "rssKb": 64624,
+              "cpuSeconds": 4.29,
+              "hostLoadAvg": [
+                3.47802734375,
+                3.94140625,
+                4.24072265625
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 62.99330357142857,
+            "rssPeakMb": 63.109375,
+            "cpuSeconds": 3.25,
+            "cpuCores": 1.0707337417111826,
+            "spanSeconds": 3.0353017499999995,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 1,
+      "config": "E",
+      "case": "user",
+      "concurrency": 10,
+      "readyMs": 95.96841700000004,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 25885.083591166614,
+        "successRps": 25877.77330565267,
+        "actualSeconds": 1.000163333,
+        "req2xx": 25882,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3854969090487597,
+          "p50": 0.359,
+          "p90": 0.446,
+          "p95": 0.511,
+          "p99": 0.98,
+          "max": 20.86
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 6004624,
+            "bytesWritten": 1863504,
+            "timeTakenSeconds": 1.000163333,
+            "req1xx": 0,
+            "req2xx": 25882,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 385.49690904875973,
+              "stddev": 389.0326852503816,
+              "max": 20860,
+              "percentiles": {
+                "50": 359,
+                "75": 397,
+                "90": 446,
+                "95": 511,
+                "99": 980
+              }
+            },
+            "rps": {
+              "mean": 25885.083591166614,
+              "stddev": 4422.409895145905,
+              "max": 28717.006827881836,
+              "percentiles": {
+                "50": 26710.795168,
+                "75": 27472.894537,
+                "90": 28032.662741,
+                "95": 28342.973777,
+                "99": 28717.006828
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":6004624,\"bytesWritten\":1863504,\"timeTakenSeconds\":1.000163333,\"req1xx\":0,\"req2xx\":25882,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":385.49690904875973,\"stddev\":389.0326852503816,\"max\":20860,\"percentiles\":{\"50\":359,\"75\":397,\"90\":446,\"95\":511,\"99\":980}},\"rps\":{\"mean\":25885.083591166614,\"stddev\":4422.409895145905,\"max\":28717.006827881836,\"percentiles\":{\"50\":26710.795168,\"75\":27472.894537,\"90\":28032.662741,\"95\":28342.973777,\"99\":28717.006828}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:54.568Z",
+        "wallSeconds": 1.007760125
+      },
+      "measurement": {
+        "reportedRps": 27722.57982206411,
+        "successRps": 27724.23617001159,
+        "actualSeconds": 3.000154792,
+        "req2xx": 83177,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3597970352381067,
+          "p50": 0.347,
+          "p90": 0.418,
+          "p95": 0.467,
+          "p99": 0.915,
+          "max": 6.884
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 19297064,
+            "bytesWritten": 5988744,
+            "timeTakenSeconds": 3.000154792,
+            "req1xx": 0,
+            "req2xx": 83177,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 359.7970352381067,
+              "stddev": 85.00286205480981,
+              "max": 6884,
+              "percentiles": {
+                "50": 347,
+                "75": 380,
+                "90": 418,
+                "95": 467,
+                "99": 915
+              }
+            },
+            "rps": {
+              "mean": 27722.57982206411,
+              "stddev": 1463.5556379254028,
+              "max": 30546.009927453226,
+              "percentiles": {
+                "50": 28011.274663,
+                "75": 28436.374711,
+                "90": 28886.900463,
+                "95": 29335.698847,
+                "99": 29949.875708
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":19297064,\"bytesWritten\":5988744,\"timeTakenSeconds\":3.000154792,\"req1xx\":0,\"req2xx\":83177,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":359.7970352381067,\"stddev\":85.00286205480981,\"max\":6884,\"percentiles\":{\"50\":347,\"75\":380,\"90\":418,\"95\":467,\"99\":915}},\"rps\":{\"mean\":27722.57982206411,\"stddev\":1463.5556379254028,\"max\":30546.009927453226,\"percentiles\":{\"50\":28011.274663,\"75\":28436.374711,\"90\":28886.900463,\"95\":29335.698847,\"99\":29949.875708}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:55.607Z",
+        "wallSeconds": 3.0088155000000008,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586155607,
+              "elapsedMs": 31.59229200000027,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114752,
+                  "cpuSeconds": 5.67
+                }
+              ],
+              "rssKb": 114752,
+              "cpuSeconds": 5.67,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586156134,
+              "elapsedMs": 558.0208339999999,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114928,
+                  "cpuSeconds": 6.21
+                }
+              ],
+              "rssKb": 114928,
+              "cpuSeconds": 6.21,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586156659,
+              "elapsedMs": 1083.1410420000002,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114944,
+                  "cpuSeconds": 6.78
+                }
+              ],
+              "rssKb": 114944,
+              "cpuSeconds": 6.78,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586157188,
+              "elapsedMs": 1612.0003749999996,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114960,
+                  "cpuSeconds": 7.34
+                }
+              ],
+              "rssKb": 114960,
+              "cpuSeconds": 7.34,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586157716,
+              "elapsedMs": 2140.7475839999997,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114960,
+                  "cpuSeconds": 7.9
+                }
+              ],
+              "rssKb": 114960,
+              "cpuSeconds": 7.9,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586158249,
+              "elapsedMs": 2673.432667,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114960,
+                  "cpuSeconds": 8.47
+                }
+              ],
+              "rssKb": 114960,
+              "cpuSeconds": 8.47,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            },
+            {
+              "atMs": 1789586158639,
+              "elapsedMs": 3063.810624999999,
+              "processes": [
+                {
+                  "pid": 63644,
+                  "ppid": 63599,
+                  "rssKb": 114960,
+                  "cpuSeconds": 8.89
+                }
+              ],
+              "rssKb": 114960,
+              "cpuSeconds": 8.89,
+              "hostLoadAvg": [
+                3.919921875,
+                4.02490234375,
+                4.2685546875
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 112.22991071428571,
+            "rssPeakMb": 112.265625,
+            "cpuSeconds": 3.2200000000000006,
+            "cpuCores": 1.0619288080137077,
+            "spanSeconds": 3.032218332999999,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "config": "E",
+      "case": "health",
+      "concurrency": 10,
+      "readyMs": 88.20829200000117,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 97929.3935253458,
+        "successRps": 97924.71100988013,
+        "actualSeconds": 1.000023375,
+        "req2xx": 97927,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.10119604399195319,
+          "p50": 0.095,
+          "p90": 0.145,
+          "p95": 0.158,
+          "p99": 0.197,
+          "max": 1.261
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 13415999,
+            "bytesWritten": 6659036,
+            "timeTakenSeconds": 1.000023375,
+            "req1xx": 0,
+            "req2xx": 97927,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 101.19604399195319,
+              "stddev": 21.336496367607847,
+              "max": 1261,
+              "percentiles": {
+                "50": 95,
+                "75": 120,
+                "90": 145,
+                "95": 158,
+                "99": 197
+              }
+            },
+            "rps": {
+              "mean": 97929.3935253458,
+              "stddev": 9122.04274653185,
+              "max": 106580.15893753692,
+              "percentiles": {
+                "50": 99550.224888,
+                "75": 101214.969694,
+                "90": 102084.920863,
+                "95": 102663.426154,
+                "99": 106580.158938
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":13415999,\"bytesWritten\":6659036,\"timeTakenSeconds\":1.000023375,\"req1xx\":0,\"req2xx\":97927,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":101.19604399195319,\"stddev\":21.336496367607847,\"max\":1261,\"percentiles\":{\"50\":95,\"75\":120,\"90\":145,\"95\":158,\"99\":197}},\"rps\":{\"mean\":97929.3935253458,\"stddev\":9122.04274653185,\"max\":106580.15893753692,\"percentiles\":{\"50\":99550.224888,\"75\":101214.969694,\"90\":102084.920863,\"95\":102663.426154,\"99\":106580.158938}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:58.916Z",
+        "wallSeconds": 1.0079773750000003
+      },
+      "measurement": {
+        "reportedRps": 95628.75302827539,
+        "successRps": 95628.35573417539,
+        "actualSeconds": 3.000051583,
+        "req2xx": 286890,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.10364400989926453,
+          "p50": 0.094,
+          "p90": 0.146,
+          "p95": 0.159,
+          "p99": 0.213,
+          "max": 2.318
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 39303930,
+            "bytesWritten": 19508520,
+            "timeTakenSeconds": 3.000051583,
+            "req1xx": 0,
+            "req2xx": 286890,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 103.64400989926453,
+              "stddev": 49.14419236663539,
+              "max": 2318,
+              "percentiles": {
+                "50": 94,
+                "75": 119,
+                "90": 146,
+                "95": 159,
+                "99": 213
+              }
+            },
+            "rps": {
+              "mean": 95628.75302827539,
+              "stddev": 17200.395280431498,
+              "max": 106035.94678390682,
+              "percentiles": {
+                "50": 99280.711991,
+                "75": 101228.678085,
+                "90": 103033.244761,
+                "95": 103975.163646,
+                "99": 105848.398906
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":39303930,\"bytesWritten\":19508520,\"timeTakenSeconds\":3.000051583,\"req1xx\":0,\"req2xx\":286890,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":103.64400989926453,\"stddev\":49.14419236663539,\"max\":2318,\"percentiles\":{\"50\":94,\"75\":119,\"90\":146,\"95\":159,\"99\":213}},\"rps\":{\"mean\":95628.75302827539,\"stddev\":17200.395280431498,\"max\":106035.94678390682,\"percentiles\":{\"50\":99280.711991,\"75\":101228.678085,\"90\":103033.244761,\"95\":103975.163646,\"99\":105848.398906}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:15:59.948Z",
+        "wallSeconds": 3.007731916999999,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586159948,
+              "elapsedMs": 23.673375000000306,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 62816,
+                  "cpuSeconds": 1.18
+                }
+              ],
+              "rssKb": 62816,
+              "cpuSeconds": 1.18,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586160475,
+              "elapsedMs": 550.4538329999996,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 62816,
+                  "cpuSeconds": 1.71
+                }
+              ],
+              "rssKb": 62816,
+              "cpuSeconds": 1.71,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586161004,
+              "elapsedMs": 1079.8485,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 63232,
+                  "cpuSeconds": 2.17
+                }
+              ],
+              "rssKb": 63232,
+              "cpuSeconds": 2.17,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586161531,
+              "elapsedMs": 1606.0711250000004,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 64496,
+                  "cpuSeconds": 2.75
+                }
+              ],
+              "rssKb": 64496,
+              "cpuSeconds": 2.75,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586162057,
+              "elapsedMs": 2132.3495829999993,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 64496,
+                  "cpuSeconds": 3.32
+                }
+              ],
+              "rssKb": 64496,
+              "cpuSeconds": 3.32,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586162583,
+              "elapsedMs": 2658.526,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 64496,
+                  "cpuSeconds": 3.89
+                }
+              ],
+              "rssKb": 64496,
+              "cpuSeconds": 3.89,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586162980,
+              "elapsedMs": 3054.977832999999,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 64496,
+                  "cpuSeconds": 4.32
+                }
+              ],
+              "rssKb": 64496,
+              "cpuSeconds": 4.32,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 62.339285714285715,
+            "rssPeakMb": 62.984375,
+            "cpuSeconds": 3.14,
+            "cpuCores": 1.035857678931966,
+            "spanSeconds": 3.031304457999999,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "config": "E",
+      "case": "user",
+      "concurrency": 10,
+      "readyMs": 88.20829200000117,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 26556.776090022093,
+        "successRps": 26550.5239544344,
+        "actualSeconds": 1.00020625,
+        "req2xx": 26556,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3757026660641663,
+          "p50": 0.349,
+          "p90": 0.43,
+          "p95": 0.496,
+          "p99": 0.963,
+          "max": 27.356
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 6160992,
+            "bytesWritten": 1912032,
+            "timeTakenSeconds": 1.00020625,
+            "req1xx": 0,
+            "req2xx": 26556,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 375.7026660641663,
+              "stddev": 509.9569654748674,
+              "max": 27356,
+              "percentiles": {
+                "50": 349,
+                "75": 383,
+                "90": 430,
+                "95": 496,
+                "99": 963
+              }
+            },
+            "rps": {
+              "mean": 26556.776090022093,
+              "stddev": 4925.8058544602945,
+              "max": 29687.86596147691,
+              "percentiles": {
+                "50": 27893.283193,
+                "75": 28736.311966,
+                "90": 29068.954412,
+                "95": 29384.588599,
+                "99": 29687.865961
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":6160992,\"bytesWritten\":1912032,\"timeTakenSeconds\":1.00020625,\"req1xx\":0,\"req2xx\":26556,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":375.7026660641663,\"stddev\":509.9569654748674,\"max\":27356,\"percentiles\":{\"50\":349,\"75\":383,\"90\":430,\"95\":496,\"99\":963}},\"rps\":{\"mean\":26556.776090022093,\"stddev\":4925.8058544602945,\"max\":29687.86596147691,\"percentiles\":{\"50\":27893.283193,\"75\":28736.311966,\"90\":29068.954412,\"95\":29384.588599,\"99\":29687.865961}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:02.980Z",
+        "wallSeconds": 1.00708525
+      },
+      "measurement": {
+        "reportedRps": 28629.66939406111,
+        "successRps": 28629.431977267395,
+        "actualSeconds": 3.000234167,
+        "req2xx": 85895,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3484248559287502,
+          "p50": 0.34,
+          "p90": 0.403,
+          "p95": 0.439,
+          "p99": 0.877,
+          "max": 2.543
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 19927640,
+            "bytesWritten": 6184440,
+            "timeTakenSeconds": 3.000234167,
+            "req1xx": 0,
+            "req2xx": 85895,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 348.4248559287502,
+              "stddev": 54.81770103476011,
+              "max": 2543,
+              "percentiles": {
+                "50": 340,
+                "75": 369,
+                "90": 403,
+                "95": 439,
+                "99": 877
+              }
+            },
+            "rps": {
+              "mean": 28629.66939406111,
+              "stddev": 930.1602493955511,
+              "max": 30702.55905829751,
+              "percentiles": {
+                "50": 28683.601224,
+                "75": 29257.39392,
+                "90": 29825.016028,
+                "95": 30087.274587,
+                "99": 30490.852744
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":19927640,\"bytesWritten\":6184440,\"timeTakenSeconds\":3.000234167,\"req1xx\":0,\"req2xx\":85895,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":348.4248559287502,\"stddev\":54.81770103476011,\"max\":2543,\"percentiles\":{\"50\":340,\"75\":369,\"90\":403,\"95\":439,\"99\":877}},\"rps\":{\"mean\":28629.66939406111,\"stddev\":930.1602493955511,\"max\":30702.55905829751,\"percentiles\":{\"50\":28683.601224,\"75\":29257.393920,\"90\":29825.016028,\"95\":30087.274587,\"99\":30490.852744}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:04.011Z",
+        "wallSeconds": 3.0080939579999977,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586164011,
+              "elapsedMs": 23.338666999999987,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 111600,
+                  "cpuSeconds": 5.7
+                }
+              ],
+              "rssKb": 111600,
+              "cpuSeconds": 5.7,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586164539,
+              "elapsedMs": 550.9147499999999,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112480,
+                  "cpuSeconds": 6.25
+                }
+              ],
+              "rssKb": 112480,
+              "cpuSeconds": 6.25,
+              "hostLoadAvg": [
+                3.76611328125,
+                3.9912109375,
+                4.2548828125
+              ]
+            },
+            {
+              "atMs": 1789586165067,
+              "elapsedMs": 1079.1627499999995,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112496,
+                  "cpuSeconds": 6.81
+                }
+              ],
+              "rssKb": 112496,
+              "cpuSeconds": 6.81,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586165593,
+              "elapsedMs": 1605.443542000001,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112496,
+                  "cpuSeconds": 7.37
+                }
+              ],
+              "rssKb": 112496,
+              "cpuSeconds": 7.37,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586166119,
+              "elapsedMs": 2131.1546670000007,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112496,
+                  "cpuSeconds": 7.94
+                }
+              ],
+              "rssKb": 112496,
+              "cpuSeconds": 7.94,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586166647,
+              "elapsedMs": 2659.4099589999987,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112880,
+                  "cpuSeconds": 8.5
+                }
+              ],
+              "rssKb": 112880,
+              "cpuSeconds": 8.5,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586167043,
+              "elapsedMs": 3055.4295,
+              "processes": [
+                {
+                  "pid": 64822,
+                  "ppid": 63599,
+                  "rssKb": 112880,
+                  "cpuSeconds": 8.92
+                }
+              ],
+              "rssKb": 112880,
+              "cpuSeconds": 8.92,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 109.83928571428571,
+            "rssPeakMb": 110.234375,
+            "cpuSeconds": 3.2199999999999998,
+            "cpuCores": 1.0619734623233827,
+            "spanSeconds": 3.0320908330000003,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 3,
+      "config": "E",
+      "case": "health",
+      "concurrency": 10,
+      "readyMs": 92.6785830000008,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 97629.21096342741,
+        "successRps": 97608.26238441678,
+        "actualSeconds": 1.000038292,
+        "req2xx": 97612,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.10152226160717945,
+          "p50": 0.095,
+          "p90": 0.148,
+          "p95": 0.161,
+          "p99": 0.2,
+          "max": 1.125
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 13372844,
+            "bytesWritten": 6637616,
+            "timeTakenSeconds": 1.000038292,
+            "req1xx": 0,
+            "req2xx": 97612,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 101.52226160717944,
+              "stddev": 17.271260098948847,
+              "max": 1125,
+              "percentiles": {
+                "50": 95,
+                "75": 121,
+                "90": 148,
+                "95": 161,
+                "99": 200
+              }
+            },
+            "rps": {
+              "mean": 97629.21096342741,
+              "stddev": 9659.734792662386,
+              "max": 107530.99735899473,
+              "percentiles": {
+                "50": 99187.200427,
+                "75": 100228.166473,
+                "90": 101480.230961,
+                "95": 104086.701585,
+                "99": 107530.997359
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":13372844,\"bytesWritten\":6637616,\"timeTakenSeconds\":1.000038292,\"req1xx\":0,\"req2xx\":97612,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":101.52226160717944,\"stddev\":17.271260098948847,\"max\":1125,\"percentiles\":{\"50\":95,\"75\":121,\"90\":148,\"95\":161,\"99\":200}},\"rps\":{\"mean\":97629.21096342741,\"stddev\":9659.734792662386,\"max\":107530.99735899473,\"percentiles\":{\"50\":99187.200427,\"75\":100228.166473,\"90\":101480.230961,\"95\":104086.701585,\"99\":107530.997359}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:07.325Z",
+        "wallSeconds": 1.0076550419999986
+      },
+      "measurement": {
+        "reportedRps": 89590.47494281053,
+        "successRps": 89046.08238845084,
+        "actualSeconds": 3.000053375,
+        "req2xx": 267143,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.111349213716998,
+          "p50": 0.094,
+          "p90": 0.147,
+          "p95": 0.161,
+          "p99": 0.236,
+          "max": 45.054
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 36598591,
+            "bytesWritten": 18165724,
+            "timeTakenSeconds": 3.000053375,
+            "req1xx": 0,
+            "req2xx": 267143,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 111.34921371699801,
+              "stddev": 439.38797490387896,
+              "max": 45054,
+              "percentiles": {
+                "50": 94,
+                "75": 120,
+                "90": 147,
+                "95": 161,
+                "99": 236
+              }
+            },
+            "rps": {
+              "mean": 89590.47494281053,
+              "stddev": 27132.450897678274,
+              "max": 111014.46798675838,
+              "percentiles": {
+                "50": 99145.042748,
+                "75": 100560.262175,
+                "90": 102459.503594,
+                "95": 103414.619594,
+                "99": 106835.310145
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":36598591,\"bytesWritten\":18165724,\"timeTakenSeconds\":3.000053375,\"req1xx\":0,\"req2xx\":267143,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":111.34921371699801,\"stddev\":439.38797490387896,\"max\":45054,\"percentiles\":{\"50\":94,\"75\":120,\"90\":147,\"95\":161,\"99\":236}},\"rps\":{\"mean\":89590.47494281053,\"stddev\":27132.450897678274,\"max\":111014.46798675838,\"percentiles\":{\"50\":99145.042748,\"75\":100560.262175,\"90\":102459.503594,\"95\":103414.619594,\"99\":106835.310145}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:08.357Z",
+        "wallSeconds": 3.011996875000001,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586168357,
+              "elapsedMs": 23.587917000000743,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 62992,
+                  "cpuSeconds": 1.18
+                }
+              ],
+              "rssKb": 62992,
+              "cpuSeconds": 1.18,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586168883,
+              "elapsedMs": 549.2698340000024,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 63040,
+                  "cpuSeconds": 1.71
+                }
+              ],
+              "rssKb": 63040,
+              "cpuSeconds": 1.71,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586169409,
+              "elapsedMs": 1075.497625,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 63056,
+                  "cpuSeconds": 2.27
+                }
+              ],
+              "rssKb": 63056,
+              "cpuSeconds": 2.27,
+              "hostLoadAvg": [
+                3.94482421875,
+                4.0244140625,
+                4.2646484375
+              ]
+            },
+            {
+              "atMs": 1789586169938,
+              "elapsedMs": 1604.3650000000016,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 63072,
+                  "cpuSeconds": 2.85
+                }
+              ],
+              "rssKb": 63072,
+              "cpuSeconds": 2.85,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586170468,
+              "elapsedMs": 2134.0653340000026,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 63072,
+                  "cpuSeconds": 3.41
+                }
+              ],
+              "rssKb": 63072,
+              "cpuSeconds": 3.41,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586171033,
+              "elapsedMs": 2699.153959000003,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 63184,
+                  "cpuSeconds": 3.74
+                }
+              ],
+              "rssKb": 63184,
+              "cpuSeconds": 3.74,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586171393,
+              "elapsedMs": 3059.078542000003,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 64336,
+                  "cpuSeconds": 4.11
+                }
+              ],
+              "rssKb": 64336,
+              "cpuSeconds": 4.11,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 61.767857142857146,
+            "rssPeakMb": 62.828125,
+            "cpuSeconds": 2.9300000000000006,
+            "cpuCores": 0.9652475866236611,
+            "spanSeconds": 3.035490625000002,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 3,
+      "config": "E",
+      "case": "user",
+      "concurrency": 10,
+      "readyMs": 92.6785830000008,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 26586.787485401543,
+        "successRps": 26582.388280351457,
+        "actualSeconds": 1.00009825,
+        "req2xx": 26585,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.37524999059620084,
+          "p50": 0.349,
+          "p90": 0.435,
+          "p95": 0.495,
+          "p99": 0.988,
+          "max": 20.879
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 6167720,
+            "bytesWritten": 1914120,
+            "timeTakenSeconds": 1.00009825,
+            "req1xx": 0,
+            "req2xx": 26585,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 375.24999059620086,
+              "stddev": 374.3388161368489,
+              "max": 20879,
+              "percentiles": {
+                "50": 349,
+                "75": 386,
+                "90": 435,
+                "95": 495,
+                "99": 988
+              }
+            },
+            "rps": {
+              "mean": 26586.787485401543,
+              "stddev": 4608.187308780664,
+              "max": 30491.544729694207,
+              "percentiles": {
+                "50": 27762.666717,
+                "75": 28305.83158,
+                "90": 29111.83749,
+                "95": 29610.520293,
+                "99": 30491.54473
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":6167720,\"bytesWritten\":1914120,\"timeTakenSeconds\":1.00009825,\"req1xx\":0,\"req2xx\":26585,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":375.24999059620086,\"stddev\":374.3388161368489,\"max\":20879,\"percentiles\":{\"50\":349,\"75\":386,\"90\":435,\"95\":495,\"99\":988}},\"rps\":{\"mean\":26586.787485401543,\"stddev\":4608.187308780664,\"max\":30491.544729694207,\"percentiles\":{\"50\":27762.666717,\"75\":28305.831580,\"90\":29111.837490,\"95\":29610.520293,\"99\":30491.544730}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:11.394Z",
+        "wallSeconds": 1.007432541000002
+      },
+      "measurement": {
+        "reportedRps": 28402.82182399063,
+        "successRps": 28402.96790242813,
+        "actualSeconds": 3.000707542,
+        "req2xx": 85229,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.35121279142076056,
+          "p50": 0.342,
+          "p90": 0.41,
+          "p95": 0.449,
+          "p99": 0.897,
+          "max": 2.802
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 19773128,
+            "bytesWritten": 6136488,
+            "timeTakenSeconds": 3.000707542,
+            "req1xx": 0,
+            "req2xx": 85229,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 351.21279142076054,
+              "stddev": 56.42488235135185,
+              "max": 2802,
+              "percentiles": {
+                "50": 342,
+                "75": 374,
+                "90": 410,
+                "95": 449,
+                "99": 897
+              }
+            },
+            "rps": {
+              "mean": 28402.82182399063,
+              "stddev": 921.5247599924118,
+              "max": 31093.523219113456,
+              "percentiles": {
+                "50": 28394.853433,
+                "75": 29033.872367,
+                "90": 29496.068174,
+                "95": 29910.680914,
+                "99": 30496.44456
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":19773128,\"bytesWritten\":6136488,\"timeTakenSeconds\":3.000707542,\"req1xx\":0,\"req2xx\":85229,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":351.21279142076054,\"stddev\":56.42488235135185,\"max\":2802,\"percentiles\":{\"50\":342,\"75\":374,\"90\":410,\"95\":449,\"99\":897}},\"rps\":{\"mean\":28402.82182399063,\"stddev\":921.5247599924118,\"max\":31093.523219113456,\"percentiles\":{\"50\":28394.853433,\"75\":29033.872367,\"90\":29496.068174,\"95\":29910.680914,\"99\":30496.444560}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:12.426Z",
+        "wallSeconds": 3.008616917000003,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586172426,
+              "elapsedMs": 24.260749999997643,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112112,
+                  "cpuSeconds": 5.49
+                }
+              ],
+              "rssKb": 112112,
+              "cpuSeconds": 5.49,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586172953,
+              "elapsedMs": 551.6177920000009,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112288,
+                  "cpuSeconds": 6.03
+                }
+              ],
+              "rssKb": 112288,
+              "cpuSeconds": 6.03,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586173479,
+              "elapsedMs": 1077.513708999999,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112288,
+                  "cpuSeconds": 6.59
+                }
+              ],
+              "rssKb": 112288,
+              "cpuSeconds": 6.59,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586174005,
+              "elapsedMs": 1603.890542000001,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112288,
+                  "cpuSeconds": 7.15
+                }
+              ],
+              "rssKb": 112288,
+              "cpuSeconds": 7.15,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586174531,
+              "elapsedMs": 2129.8798749999987,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112288,
+                  "cpuSeconds": 7.72
+                }
+              ],
+              "rssKb": 112288,
+              "cpuSeconds": 7.72,
+              "hostLoadAvg": [
+                4.26953125,
+                4.09033203125,
+                4.2861328125
+              ]
+            },
+            {
+              "atMs": 1789586175057,
+              "elapsedMs": 2655.9383339999986,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112336,
+                  "cpuSeconds": 8.29
+                }
+              ],
+              "rssKb": 112336,
+              "cpuSeconds": 8.29,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586175458,
+              "elapsedMs": 3056.8410000000003,
+              "processes": [
+                {
+                  "pid": 66071,
+                  "ppid": 63599,
+                  "rssKb": 112336,
+                  "cpuSeconds": 8.71
+                }
+              ],
+              "rssKb": 112336,
+              "cpuSeconds": 8.71,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 109.64508928571429,
+            "rssPeakMb": 109.703125,
+            "cpuSeconds": 3.2200000000000006,
+            "cpuCores": 1.0618020743226821,
+            "spanSeconds": 3.0325802500000028,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 4,
+      "config": "E",
+      "case": "health",
+      "concurrency": 10,
+      "readyMs": 95.20833300000231,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 97390.09891959265,
+        "successRps": 97380.06114637422,
+        "actualSeconds": 0.999978834,
+        "req2xx": 97378,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.10172140524553801,
+          "p50": 0.094,
+          "p90": 0.149,
+          "p95": 0.164,
+          "p99": 0.202,
+          "max": 1.232
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 13340786,
+            "bytesWritten": 6621704,
+            "timeTakenSeconds": 0.999978834,
+            "req1xx": 0,
+            "req2xx": 97378,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 101.72140524553801,
+              "stddev": 18.802793248080867,
+              "max": 1232,
+              "percentiles": {
+                "50": 94,
+                "75": 118,
+                "90": 149,
+                "95": 164,
+                "99": 202
+              }
+            },
+            "rps": {
+              "mean": 97390.09891959265,
+              "stddev": 8060.686629237493,
+              "max": 104928.43970608411,
+              "percentiles": {
+                "50": 98161.656697,
+                "75": 100471.476887,
+                "90": 101987.176686,
+                "95": 103532.963651,
+                "99": 104928.439706
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":13340786,\"bytesWritten\":6621704,\"timeTakenSeconds\":0.999978834,\"req1xx\":0,\"req2xx\":97378,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":101.72140524553801,\"stddev\":18.802793248080867,\"max\":1232,\"percentiles\":{\"50\":94,\"75\":118,\"90\":149,\"95\":164,\"99\":202}},\"rps\":{\"mean\":97390.09891959265,\"stddev\":8060.686629237493,\"max\":104928.43970608411,\"percentiles\":{\"50\":98161.656697,\"75\":100471.476887,\"90\":101987.176686,\"95\":103532.963651,\"99\":104928.439706}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:15.744Z",
+        "wallSeconds": 1.0072265000000007
+      },
+      "measurement": {
+        "reportedRps": 97900.46593055186,
+        "successRps": 97900.21095806964,
+        "actualSeconds": 3.00000375,
+        "req2xx": 293701,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.1011526007742568,
+          "p50": 0.095,
+          "p90": 0.146,
+          "p95": 0.16,
+          "p99": 0.185,
+          "max": 1.483
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 40237037,
+            "bytesWritten": 19971668,
+            "timeTakenSeconds": 3.00000375,
+            "req1xx": 0,
+            "req2xx": 293701,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 101.15260077425681,
+              "stddev": 17.459609468017916,
+              "max": 1483,
+              "percentiles": {
+                "50": 95,
+                "75": 118,
+                "90": 146,
+                "95": 160,
+                "99": 185
+              }
+            },
+            "rps": {
+              "mean": 97900.46593055186,
+              "stddev": 2973.7006626176208,
+              "max": 104581.03346119063,
+              "percentiles": {
+                "50": 97998.957243,
+                "75": 99968.954114,
+                "90": 101633.697955,
+                "95": 102527.58989,
+                "99": 104446.179264
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":40237037,\"bytesWritten\":19971668,\"timeTakenSeconds\":3.00000375,\"req1xx\":0,\"req2xx\":293701,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":101.15260077425681,\"stddev\":17.459609468017916,\"max\":1483,\"percentiles\":{\"50\":95,\"75\":118,\"90\":146,\"95\":160,\"99\":185}},\"rps\":{\"mean\":97900.46593055186,\"stddev\":2973.7006626176208,\"max\":104581.03346119063,\"percentiles\":{\"50\":97998.957243,\"75\":99968.954114,\"90\":101633.697955,\"95\":102527.589890,\"99\":104446.179264}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:16.776Z",
+        "wallSeconds": 3.0079495419999986,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586176776,
+              "elapsedMs": 24.61108400000012,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63360,
+                  "cpuSeconds": 1.19
+                }
+              ],
+              "rssKb": 63360,
+              "cpuSeconds": 1.19,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586177303,
+              "elapsedMs": 551.7506670000002,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63408,
+                  "cpuSeconds": 1.73
+                }
+              ],
+              "rssKb": 63408,
+              "cpuSeconds": 1.73,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586177829,
+              "elapsedMs": 1077.720792,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63424,
+                  "cpuSeconds": 2.3
+                }
+              ],
+              "rssKb": 63424,
+              "cpuSeconds": 2.3,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586178356,
+              "elapsedMs": 1603.918292000002,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63440,
+                  "cpuSeconds": 2.87
+                }
+              ],
+              "rssKb": 63440,
+              "cpuSeconds": 2.87,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586178888,
+              "elapsedMs": 2136.142083999999,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63456,
+                  "cpuSeconds": 3.45
+                }
+              ],
+              "rssKb": 63456,
+              "cpuSeconds": 3.45,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586179416,
+              "elapsedMs": 2664.439792000001,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63456,
+                  "cpuSeconds": 4.03
+                }
+              ],
+              "rssKb": 63456,
+              "cpuSeconds": 4.03,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            },
+            {
+              "atMs": 1789586179809,
+              "elapsedMs": 3056.7615000000005,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 63488,
+                  "cpuSeconds": 4.46
+                }
+              ],
+              "rssKb": 63488,
+              "cpuSeconds": 4.46,
+              "hostLoadAvg": [
+                4.32763671875,
+                4.10498046875,
+                4.2900390625
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 61.94642857142857,
+            "rssPeakMb": 62,
+            "cpuSeconds": 3.27,
+            "cpuCores": 1.0784425412225327,
+            "spanSeconds": 3.0321504160000003,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 4,
+      "config": "E",
+      "case": "user",
+      "concurrency": 10,
+      "readyMs": 95.20833300000231,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 24645.907987370538,
+        "successRps": 24634.226101592074,
+        "actualSeconds": 1.000356167,
+        "req2xx": 24643,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.40484324148845513,
+          "p50": 0.372,
+          "p90": 0.48,
+          "p95": 0.598,
+          "p99": 1.085,
+          "max": 22.758
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 5717176,
+            "bytesWritten": 1774296,
+            "timeTakenSeconds": 1.000356167,
+            "req1xx": 0,
+            "req2xx": 24643,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 404.84324148845513,
+              "stddev": 419.31321631652474,
+              "max": 22758,
+              "percentiles": {
+                "50": 372,
+                "75": 411,
+                "90": 480,
+                "95": 598,
+                "99": 1085
+              }
+            },
+            "rps": {
+              "mean": 24645.907987370538,
+              "stddev": 4483.209422096973,
+              "max": 28616.257140392903,
+              "percentiles": {
+                "50": 25349.049411,
+                "75": 27218.8831,
+                "90": 27629.393998,
+                "95": 27813.797899,
+                "99": 28616.25714
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":5717176,\"bytesWritten\":1774296,\"timeTakenSeconds\":1.000356167,\"req1xx\":0,\"req2xx\":24643,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":404.84324148845513,\"stddev\":419.31321631652474,\"max\":22758,\"percentiles\":{\"50\":372,\"75\":411,\"90\":480,\"95\":598,\"99\":1085}},\"rps\":{\"mean\":24645.907987370538,\"stddev\":4483.209422096973,\"max\":28616.257140392903,\"percentiles\":{\"50\":25349.049411,\"75\":27218.883100,\"90\":27629.393998,\"95\":27813.797899,\"99\":28616.257140}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:19.810Z",
+        "wallSeconds": 1.0082687909999986
+      },
+      "measurement": {
+        "reportedRps": 26460.152560740607,
+        "successRps": 26454.653772355956,
+        "actualSeconds": 2.998565042,
+        "req2xx": 79326,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3770749691147921,
+          "p50": 0.354,
+          "p90": 0.429,
+          "p95": 0.48,
+          "p99": 0.927,
+          "max": 24.714
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 18403632,
+            "bytesWritten": 5711472,
+            "timeTakenSeconds": 2.998565042,
+            "req1xx": 0,
+            "req2xx": 79326,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 377.0749691147921,
+              "stddev": 328.3093812767342,
+              "max": 24714,
+              "percentiles": {
+                "50": 354,
+                "75": 389,
+                "90": 429,
+                "95": 480,
+                "99": 927
+              }
+            },
+            "rps": {
+              "mean": 26460.152560740607,
+              "stddev": 4466.706323526202,
+              "max": 31024.341318512525,
+              "percentiles": {
+                "50": 27282.381038,
+                "75": 27927.309061,
+                "90": 28272.44125,
+                "95": 28671.922552,
+                "99": 29327.088212
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":18403632,\"bytesWritten\":5711472,\"timeTakenSeconds\":2.998565042,\"req1xx\":0,\"req2xx\":79326,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":377.0749691147921,\"stddev\":328.3093812767342,\"max\":24714,\"percentiles\":{\"50\":354,\"75\":389,\"90\":429,\"95\":480,\"99\":927}},\"rps\":{\"mean\":26460.152560740607,\"stddev\":4466.706323526202,\"max\":31024.341318512525,\"percentiles\":{\"50\":27282.381038,\"75\":27927.309061,\"90\":28272.441250,\"95\":28671.922552,\"99\":29327.088212}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:20.860Z",
+        "wallSeconds": 3.0165375419999982,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586180860,
+              "elapsedMs": 41.68329199999789,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110416,
+                  "cpuSeconds": 5.86
+                }
+              ],
+              "rssKb": 110416,
+              "cpuSeconds": 5.86,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586181387,
+              "elapsedMs": 568.7540000000008,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110720,
+                  "cpuSeconds": 6.32
+                }
+              ],
+              "rssKb": 110720,
+              "cpuSeconds": 6.32,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586181913,
+              "elapsedMs": 1094.3225839999977,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110736,
+                  "cpuSeconds": 6.88
+                }
+              ],
+              "rssKb": 110736,
+              "cpuSeconds": 6.88,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586182439,
+              "elapsedMs": 1620.5287089999983,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110736,
+                  "cpuSeconds": 7.44
+                }
+              ],
+              "rssKb": 110736,
+              "cpuSeconds": 7.44,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586182965,
+              "elapsedMs": 2146.5781669999997,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110736,
+                  "cpuSeconds": 8.01
+                }
+              ],
+              "rssKb": 110736,
+              "cpuSeconds": 8.01,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586183491,
+              "elapsedMs": 2672.514209000001,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110736,
+                  "cpuSeconds": 8.57
+                }
+              ],
+              "rssKb": 110736,
+              "cpuSeconds": 8.57,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            },
+            {
+              "atMs": 1789586183900,
+              "elapsedMs": 3081.9090419999993,
+              "processes": [
+                {
+                  "pid": 67447,
+                  "ppid": 63599,
+                  "rssKb": 110736,
+                  "cpuSeconds": 9
+                }
+              ],
+              "rssKb": 110736,
+              "cpuSeconds": 9,
+              "hostLoadAvg": [
+                4.54150390625,
+                4.15283203125,
+                4.3056640625
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 108.09375,
+            "rssPeakMb": 108.140625,
+            "cpuSeconds": 3.1399999999999997,
+            "cpuCores": 1.032818039910358,
+            "spanSeconds": 3.0402257500000016,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 5,
+      "config": "E",
+      "case": "health",
+      "concurrency": 10,
+      "readyMs": 88.87262499999633,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 97495.24657149681,
+        "successRps": 97491.22384008992,
+        "actualSeconds": 1.000120792,
+        "req2xx": 97503,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.10167305621365495,
+          "p50": 0.094,
+          "p90": 0.149,
+          "p95": 0.162,
+          "p99": 0.199,
+          "max": 1.075
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 13357911,
+            "bytesWritten": 6630204,
+            "timeTakenSeconds": 1.000120792,
+            "req1xx": 0,
+            "req2xx": 97503,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 101.67305621365496,
+              "stddev": 20.601200692943824,
+              "max": 1075,
+              "percentiles": {
+                "50": 94,
+                "75": 121,
+                "90": 149,
+                "95": 162,
+                "99": 199
+              }
+            },
+            "rps": {
+              "mean": 97495.24657149681,
+              "stddev": 9284.718648019934,
+              "max": 103502.13026475256,
+              "percentiles": {
+                "50": 99010.521435,
+                "75": 100708.526445,
+                "90": 101440.530452,
+                "95": 103142.133956,
+                "99": 103502.130265
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":13357911,\"bytesWritten\":6630204,\"timeTakenSeconds\":1.000120792,\"req1xx\":0,\"req2xx\":97503,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":101.67305621365496,\"stddev\":20.601200692943824,\"max\":1075,\"percentiles\":{\"50\":94,\"75\":121,\"90\":149,\"95\":162,\"99\":199}},\"rps\":{\"mean\":97495.24657149681,\"stddev\":9284.718648019934,\"max\":103502.13026475256,\"percentiles\":{\"50\":99010.521435,\"75\":100708.526445,\"90\":101440.530452,\"95\":103142.133956,\"99\":103502.130265}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:24.183Z",
+        "wallSeconds": 1.0077752919999985
+      },
+      "measurement": {
+        "reportedRps": 99287.11360515794,
+        "successRps": 99286.77913645149,
+        "actualSeconds": 2.999976458,
+        "req2xx": 297858,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.09982326813448018,
+          "p50": 0.094,
+          "p90": 0.145,
+          "p95": 0.157,
+          "p99": 0.177,
+          "max": 1.307
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/health",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 40806546,
+            "bytesWritten": 20254344,
+            "timeTakenSeconds": 2.999976458,
+            "req1xx": 0,
+            "req2xx": 297858,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 99.82326813448019,
+              "stddev": 17.336699911451742,
+              "max": 1307,
+              "percentiles": {
+                "50": 94,
+                "75": 119,
+                "90": 145,
+                "95": 157,
+                "99": 177
+              }
+            },
+            "rps": {
+              "mean": 99287.11360515794,
+              "stddev": 2521.797501061236,
+              "max": 107591.01907602274,
+              "percentiles": {
+                "50": 99222.482436,
+                "75": 100768.860401,
+                "90": 102283.998185,
+                "95": 103185.642687,
+                "99": 106212.151929
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/health"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/health\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":40806546,\"bytesWritten\":20254344,\"timeTakenSeconds\":2.999976458,\"req1xx\":0,\"req2xx\":297858,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":99.82326813448019,\"stddev\":17.336699911451742,\"max\":1307,\"percentiles\":{\"50\":94,\"75\":119,\"90\":145,\"95\":157,\"99\":177}},\"rps\":{\"mean\":99287.11360515794,\"stddev\":2521.797501061236,\"max\":107591.01907602274,\"percentiles\":{\"50\":99222.482436,\"75\":100768.860401,\"90\":102283.998185,\"95\":103185.642687,\"99\":106212.151929}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:25.216Z",
+        "wallSeconds": 3.008396167000006,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586185216,
+              "elapsedMs": 23.712250000004133,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 62896,
+                  "cpuSeconds": 1.17
+                }
+              ],
+              "rssKb": 62896,
+              "cpuSeconds": 1.17,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586185741,
+              "elapsedMs": 548.9652090000018,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 62960,
+                  "cpuSeconds": 1.71
+                }
+              ],
+              "rssKb": 62960,
+              "cpuSeconds": 1.71,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586186267,
+              "elapsedMs": 1075.6340419999979,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 62960,
+                  "cpuSeconds": 2.28
+                }
+              ],
+              "rssKb": 62960,
+              "cpuSeconds": 2.28,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586186793,
+              "elapsedMs": 1601.5664590000015,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 62976,
+                  "cpuSeconds": 2.85
+                }
+              ],
+              "rssKb": 62976,
+              "cpuSeconds": 2.85,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586187319,
+              "elapsedMs": 2127.4657920000027,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 62992,
+                  "cpuSeconds": 3.42
+                }
+              ],
+              "rssKb": 62992,
+              "cpuSeconds": 3.42,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586187846,
+              "elapsedMs": 2654.4588340000046,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 63008,
+                  "cpuSeconds": 3.99
+                }
+              ],
+              "rssKb": 63008,
+              "cpuSeconds": 3.99,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586188248,
+              "elapsedMs": 3055.908792000002,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 63008,
+                  "cpuSeconds": 4.42
+                }
+              ],
+              "rssKb": 63008,
+              "cpuSeconds": 4.42,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 61.495535714285715,
+            "rssPeakMb": 61.53125,
+            "cpuSeconds": 3.25,
+            "cpuCores": 1.071830257367269,
+            "spanSeconds": 3.0321965419999977,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "round": 5,
+      "config": "E",
+      "case": "user",
+      "concurrency": 10,
+      "readyMs": 88.87262499999633,
+      "valid": true,
+      "issues": [],
+      "warmup": {
+        "reportedRps": 26468.680733706715,
+        "successRps": 26463.22015241275,
+        "actualSeconds": 1.000142834,
+        "req2xx": 26467,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3769412475913402,
+          "p50": 0.353,
+          "p90": 0.436,
+          "p95": 0.502,
+          "p99": 0.978,
+          "max": 19.027
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 1,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 6140344,
+            "bytesWritten": 1905624,
+            "timeTakenSeconds": 1.000142834,
+            "req1xx": 0,
+            "req2xx": 26467,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 376.9412475913402,
+              "stddev": 342.00539585535756,
+              "max": 19027,
+              "percentiles": {
+                "50": 353,
+                "75": 388,
+                "90": 436,
+                "95": 502,
+                "99": 978
+              }
+            },
+            "rps": {
+              "mean": 26468.680733706715,
+              "stddev": 4196.983904440669,
+              "max": 30441.564642437577,
+              "percentiles": {
+                "50": 27131.573592,
+                "75": 28250.320884,
+                "90": 28927.963216,
+                "95": 29538.676348,
+                "99": 30441.564642
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "1s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":1,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":6140344,\"bytesWritten\":1905624,\"timeTakenSeconds\":1.000142834,\"req1xx\":0,\"req2xx\":26467,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":376.9412475913402,\"stddev\":342.00539585535756,\"max\":19027,\"percentiles\":{\"50\":353,\"75\":388,\"90\":436,\"95\":502,\"99\":978}},\"rps\":{\"mean\":26468.680733706715,\"stddev\":4196.983904440669,\"max\":30441.564642437577,\"percentiles\":{\"50\":27131.573592,\"75\":28250.320884,\"90\":28927.963216,\"95\":29538.676348,\"99\":30441.564642}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:28.249Z",
+        "wallSeconds": 1.0079130420000002
+      },
+      "measurement": {
+        "reportedRps": 25902.351352008387,
+        "successRps": 25898.45152330757,
+        "actualSeconds": 3.000295208,
+        "req2xx": 77703,
+        "non2xx": 0,
+        "transportErrors": 0,
+        "errorRate": 0,
+        "transportErrorRate": 0,
+        "latMs": {
+          "mean": 0.3852380731760679,
+          "p50": 0.347,
+          "p90": 0.419,
+          "p95": 0.473,
+          "p99": 0.947,
+          "max": 63.58
+        },
+        "valid": true,
+        "invalidReasons": [],
+        "raw": {
+          "spec": {
+            "numberOfConnections": 10,
+            "testType": "timed",
+            "testDurationSeconds": 3,
+            "method": "GET",
+            "url": "http://127.0.0.1:3100/users/4242",
+            "body": "",
+            "stream": false,
+            "timeoutSeconds": 2,
+            "client": "fasthttp"
+          },
+          "result": {
+            "bytesRead": 18027096,
+            "bytesWritten": 5594616,
+            "timeTakenSeconds": 3.000295208,
+            "req1xx": 0,
+            "req2xx": 77703,
+            "req3xx": 0,
+            "req4xx": 0,
+            "req5xx": 0,
+            "others": 0,
+            "latency": {
+              "mean": 385.23807317606787,
+              "stddev": 869.1851804299455,
+              "max": 63580,
+              "percentiles": {
+                "50": 347,
+                "75": 380,
+                "90": 419,
+                "95": 473,
+                "99": 947
+              }
+            },
+            "rps": {
+              "mean": 25902.351352008387,
+              "stddev": 6327.658618322641,
+              "max": 31157.8076547643,
+              "percentiles": {
+                "50": 28068.011243,
+                "75": 28570.952508,
+                "90": 29239.339337,
+                "95": 29442.271404,
+                "99": 30701.43611
+              }
+            }
+          }
+        },
+        "command": [
+          "bombardier",
+          "-c",
+          "10",
+          "-d",
+          "3s",
+          "-l",
+          "--print",
+          "r",
+          "--format",
+          "json",
+          "-m",
+          "GET",
+          "http://127.0.0.1:3100/users/4242"
+        ],
+        "stdout": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/users/4242\",\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":18027096,\"bytesWritten\":5594616,\"timeTakenSeconds\":3.000295208,\"req1xx\":0,\"req2xx\":77703,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":385.23807317606787,\"stddev\":869.1851804299455,\"max\":63580,\"percentiles\":{\"50\":347,\"75\":380,\"90\":419,\"95\":473,\"99\":947}},\"rps\":{\"mean\":25902.351352008387,\"stddev\":6327.658618322641,\"max\":31157.8076547643,\"percentiles\":{\"50\":28068.011243,\"75\":28570.952508,\"90\":29239.339337,\"95\":29442.271404,\"99\":30701.436110}}}}",
+        "stderr": "",
+        "exitCode": 0,
+        "startedAt": "2026-09-16T19:16:29.282Z",
+        "wallSeconds": 3.012498916999997,
+        "resources": {
+          "samples": [
+            {
+              "atMs": 1789586189282,
+              "elapsedMs": 23.7971250000046,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 112384,
+                  "cpuSeconds": 5.8
+                }
+              ],
+              "rssKb": 112384,
+              "cpuSeconds": 5.8,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586189808,
+              "elapsedMs": 550.4965000000011,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113104,
+                  "cpuSeconds": 6.35
+                }
+              ],
+              "rssKb": 113104,
+              "cpuSeconds": 6.35,
+              "hostLoadAvg": [
+                4.498046875,
+                4.14990234375,
+                4.3037109375
+              ]
+            },
+            {
+              "atMs": 1789586190335,
+              "elapsedMs": 1077.2964580000043,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113104,
+                  "cpuSeconds": 6.91
+                }
+              ],
+              "rssKb": 113104,
+              "cpuSeconds": 6.91,
+              "hostLoadAvg": [
+                4.4580078125,
+                4.14697265625,
+                4.3017578125
+              ]
+            },
+            {
+              "atMs": 1789586190920,
+              "elapsedMs": 1662.1990000000005,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113104,
+                  "cpuSeconds": 7.46
+                }
+              ],
+              "rssKb": 113104,
+              "cpuSeconds": 7.46,
+              "hostLoadAvg": [
+                4.4580078125,
+                4.14697265625,
+                4.3017578125
+              ]
+            },
+            {
+              "atMs": 1789586191446,
+              "elapsedMs": 2187.748250000004,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113136,
+                  "cpuSeconds": 7.9
+                }
+              ],
+              "rssKb": 113136,
+              "cpuSeconds": 7.9,
+              "hostLoadAvg": [
+                4.4580078125,
+                4.14697265625,
+                4.3017578125
+              ]
+            },
+            {
+              "atMs": 1789586191973,
+              "elapsedMs": 2715.352666000006,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113136,
+                  "cpuSeconds": 8.46
+                }
+              ],
+              "rssKb": 113136,
+              "cpuSeconds": 8.46,
+              "hostLoadAvg": [
+                4.4580078125,
+                4.14697265625,
+                4.3017578125
+              ]
+            },
+            {
+              "atMs": 1789586192318,
+              "elapsedMs": 3060.390416000002,
+              "processes": [
+                {
+                  "pid": 70925,
+                  "ppid": 63599,
+                  "rssKb": 113152,
+                  "cpuSeconds": 8.82
+                }
+              ],
+              "rssKb": 113152,
+              "cpuSeconds": 8.82,
+              "hostLoadAvg": [
+                4.4580078125,
+                4.14697265625,
+                4.3017578125
+              ]
+            }
+          ],
+          "errors": [],
+          "summary": {
+            "rssMeanMb": 110.36830357142857,
+            "rssPeakMb": 110.5,
+            "cpuSeconds": 3.0200000000000005,
+            "cpuCores": 0.9945355569844744,
+            "spanSeconds": 3.0365932909999973,
+            "valid": true,
+            "issues": []
+          }
+        }
+      }
+    }
+  ],
+  "env": {
+    "date": "2026-09-16T19:15:49.742Z",
+    "bun": "1.4.2",
+    "bunRevision": "744846f844374847c902b5e7fd59b4342a51ef99",
+    "cpu": "Apple M4 Pro",
+    "cores": "14",
+    "macos": "27.0",
+    "postgres": "psql (PostgreSQL) 17.10 (Homebrew)",
+    "bombardier": "",
+    "python": "Python 3.14.6",
+    "pythonPackages": "annotated-types==0.8.0\nanyio==4.15.1\nasgiref==3.12.1\nclick==8.5.0\ndjango==6.1.1\ndjango-ninja==1.7.0\ngunicorn==26.2.0\nh11==0.16.0\nhttptools==0.8.0\nidna==3.19\norjson==3.12.0\npsycopg==3.3.5\npsycopg-binary==3.3.5\npsycopg-pool==3.3.1\npydantic==2.13.5\npydantic-core==2.46.5\npyjwt==2.14.0\npython-dotenv==1.2.3\npyyaml==6.0.3\nsqlparse==0.6.0\ntyping-extensions==4.16.0\ntyping-inspection==0.4.4\nuvicorn==0.53.0\nuvloop==0.22.1\nwatchfiles==1.2.0\nwebsockets==17.1",
+    "elysiaManifest": {
+      "name": "elysia-api",
+      "private": true,
+      "type": "module",
+      "scripts": {
+        "dev": "bun --watch src/index.ts",
+        "build": "bun build.ts",
+        "build:aot": "bun build-aot.ts",
+        "start": "NODE_ENV=production bun dist/index.js",
+        "typecheck": "tsc --noEmit"
+      },
+      "dependencies": {
+        "elysia": "2.0.0-beta.12",
+        "drizzle-orm": "^0.45.2",
+        "postgres": "^3.4.9",
+        "jose": "^6.2.11"
+      },
+      "devDependencies": {
+        "@types/bun": "^1.3.14",
+        "typescript": "^5.9.0"
+      }
+    },
+    "locks": {
+      "bun.lock": "2c1fc796f16c7db1e32633eae212d875f048625786beb6142135fc5ea4f788cd",
+      "apps/elysia-api/bun.lock": "64898b89e79f0991058533eca815d7c5006714db571f24485c9630af917bdbc6",
+      "apps/django-api/uv.lock": "a6db2b7a79cd3e1911cd567f65b1028e7327e06a759342968f8f9f3e909f309b"
+    },
+    "configs": [
+      {
+        "id": "E",
+        "label": "Elysia / Bun / Drizzle + Bun SQL",
+        "cmd": [
+          "bun",
+          "apps/elysia-api/dist/index.js"
+        ],
+        "env": {
+          "NODE_ENV": "production",
+          "PORT": "3100",
+          "DATABASE_URL": "postgres://postgres@localhost:5432/bench_elysia_django",
+          "PYTHONPATH": "apps/django-api",
+          "DJANGO_SETTINGS_MODULE": "config.settings",
+          "PYTHONHASHSEED": "0"
+        }
+      }
+    ],
+    "caveat": "Same-host macOS laptop, API + Postgres + load generator; no CPU affinity or causal framework-only attribution"
+  },
+  "parity": {
+    "passed": true,
+    "date": "2026-09-16T19:15:50.394Z",
+    "configs": [
+      "E"
+    ],
+    "checks": 38,
+    "evidence": [
+      {
+        "config": "E",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "E",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "E",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-3",
+        "status": 422
+      }
+    ],
+    "validationErrors": "status parity; native bodies intentionally not normalized"
+  },
+  "finishedAt": "2026-09-16T19:16:32.509Z"
+}

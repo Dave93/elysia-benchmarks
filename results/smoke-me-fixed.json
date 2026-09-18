@@ -1,0 +1,228 @@
+{
+  "date": "2026-09-16T18:54:14.325Z",
+  "note": "plumbing smoke check, not a benchmark result",
+  "parity": {
+    "passed": true,
+    "date": "2026-09-16T18:54:14.325Z",
+    "configs": [
+      "E"
+    ],
+    "checks": 38,
+    "evidence": [
+      {
+        "config": "E",
+        "case": "health",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "echo",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "me",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "user",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "list",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "order",
+        "status": 201
+      },
+      {
+        "config": "E",
+        "case": "cpu",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "defaults",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "missing-user",
+        "status": 404
+      },
+      {
+        "config": "E",
+        "case": "unauthorized",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-token",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "bad-signature",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "expired",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "future-nbf",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "wrong-alg",
+        "status": 401
+      },
+      {
+        "config": "E",
+        "case": "/users/0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users/nope",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?page=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/users?limit=101",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu?n=1.5",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "/cpu",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "empty-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "long-name",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bad-email",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "bool-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "fraction-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "high-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "many-tags",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "number-tag",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "missing-age",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "coerced-age",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "extras",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "boundary",
+        "status": 200
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-0",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-1",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-2",
+        "status": 422
+      },
+      {
+        "config": "E",
+        "case": "invalid-order-3",
+        "status": 422
+      }
+    ],
+    "validationErrors": "status parity; native bodies intentionally not normalized"
+  },
+  "duration": "3s",
+  "concurrency": 10,
+  "configs": {
+    "E": {
+      "label": "Elysia / Bun / Drizzle + Bun SQL",
+      "cases": {
+        "me": {
+          "seconds": 3.000260167,
+          "successResponses": 69354,
+          "httpFailures": 0,
+          "transportOrUnknown": 0,
+          "successRps": 23116,
+          "attemptedRps": 23116.2,
+          "latencyMs": {
+            "mean": 0.43,
+            "p50": 0.4,
+            "p99": 1.06
+          },
+          "raw": "{\"spec\":{\"numberOfConnections\":10,\"testType\":\"timed\",\"testDurationSeconds\":3,\"method\":\"GET\",\"url\":\"http://127.0.0.1:3100/me\",\"headers\":[{\"key\":\"authorization\",\"value\":\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjQyIiwiaWF0IjowfQ.I6J6n-pqhBO5NwwMt2nBiNC1sxNKu_TlDRaIRkKtbhk\"}],\"body\":\"\",\"stream\":false,\"timeoutSeconds\":2,\"client\":\"fasthttp\"},\"result\":{\"bytesRead\":16090128,\"bytesWritten\":12691782,\"timeTakenSeconds\":3.000260167,\"req1xx\":0,\"req2xx\":69354,\"req3xx\":0,\"req4xx\":0,\"req5xx\":0,\"others\":0,\"latency\":{\"mean\":431.638564466361,\"stddev\":74.77480151951913,\"max\":2979,\"percentiles\":{\"50\":396,\"75\":485,\"90\":543,\"95\":592,\"99\":1057}},\"rps\":{\"mean\":23116.21722325703,\"stddev\":664.9143159026868,\"max\":24582.777446308035,\"percentiles\":{\"50\":23220.200356,\"75\":23561.142064,\"90\":23842.549203,\"95\":24077.489269,\"99\":24421.508647}}}}"
+        }
+      }
+    }
+  }
+}

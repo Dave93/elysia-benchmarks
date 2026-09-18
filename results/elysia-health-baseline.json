@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-16T18:27:04.354Z",
+  "purpose": "plumbing baseline only; not Django comparison",
+  "bun": "1.4.2",
+  "config": "Elysia 2.0.0-beta.12 ordinary build",
+  "concurrency": 10,
+  "warmup": "1s",
+  "duration": "3s",
+  "raw": {
+    "spec": {
+      "numberOfConnections": 10,
+      "testType": "timed",
+      "testDurationSeconds": 3,
+      "method": "GET",
+      "url": "http://127.0.0.1:3100/health",
+      "body": "",
+      "stream": false,
+      "timeoutSeconds": 2,
+      "client": "fasthttp"
+    },
+    "result": {
+      "bytesRead": 41081368,
+      "bytesWritten": 20390752,
+      "timeTakenSeconds": 2.999979292,
+      "req1xx": 0,
+      "req2xx": 299864,
+      "req3xx": 0,
+      "req4xx": 0,
+      "req5xx": 0,
+      "others": 0,
+      "latency": {
+        "mean": 99.11990435664168,
+        "stddev": 14.003148681820162,
+        "max": 1145,
+        "percentiles": {
+          "50": 94,
+          "75": 119,
+          "90": 143,
+          "95": 154,
+          "99": 176
+        }
+      },
+      "rps": {
+        "mean": 99955.39445270314,
+        "stddev": 2798.5696412754382,
+        "max": 105583.0070260783,
+        "percentiles": {
+          "50": 100193.435796,
+          "75": 101588.944122,
+          "90": 103359.689971,
+          "95": 104252.63366,
+          "99": 105258.107738
+        }
+      }
+    }
+  }
+}
