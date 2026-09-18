@@ -33,14 +33,21 @@ export function quickMode(value = process.env.BENCH_QUICK): boolean {
   throw new Error("BENCH_QUICK must be 0 or 1");
 }
 
+// bombardier's default per-request timeout is 2 s. A single-worker Django stack at c=500 queues past that,
+// so every slow response became a transport error and the fail-closed warmup discarded the whole
+// combination: the interrupted 2026-09-17 run had no valid Django window at c=500 at all. A slow answer
+// is a measurement, not a failure; 180 s lets it be recorded as latency.
+export const REQUEST_TIMEOUT_S = 180;
+
 export async function runBombardier(c: Case, concurrency: number, duration: string): Promise<WindowRecord> {
-  const command = ["bombardier", "-c", String(concurrency), "-d", duration, "-l", "--print", "r", "--format", "json", ...bombardierArgs(c)];
+  const command = ["bombardier", "-c", String(concurrency), "-d", duration, "-l", "-t", `${REQUEST_TIMEOUT_S}s`, "--print", "r", "--format", "json", ...bombardierArgs(c)];
   const startedAt = new Date().toISOString(), start = performance.now();
   let stdout = "", stderr = "", exitCode = -1;
   try {
     const proc = Bun.spawn(command, { stdout: "pipe", stderr: "pipe" });
     // A wedged client must not hang the entire run. Normal errors are retained, never retried away.
-    const timeout = setTimeout(() => { proc.kill("SIGKILL"); }, (Number.parseFloat(duration) + 60) * 1000);
+    // bombardier drains in-flight requests after the window closes, for up to the request timeout.
+    const timeout = setTimeout(() => { proc.kill("SIGKILL"); }, (Number.parseFloat(duration) + REQUEST_TIMEOUT_S + 60) * 1000);
     try {
       [stdout, stderr, exitCode] = await Promise.all([new Response(proc.stdout).text(), new Response(proc.stderr).text(), proc.exited]);
     } finally { clearTimeout(timeout); }

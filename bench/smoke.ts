@@ -34,13 +34,13 @@ for (const cfg of selectConfigs()) {
     results.configs[cfg.id] = { label: cfg.label, cases: {} };
     for (const c of cs) {
       if (c.name === "order") await resetOrders();
-      const warm = Bun.spawn(["bombardier", "-c", String(CONC), "-d", DURATION, "-l", "--print", "r", "--format", "json", ...bombardierArgs(c)], { stdout: "pipe", stderr: "inherit" });
+      const warm = Bun.spawn(["bombardier", "-c", String(CONC), "-d", DURATION, "-l", "-t", "180s", "--print", "r", "--format", "json", ...bombardierArgs(c)], { stdout: "pipe", stderr: "inherit" });
       const warmRaw = await new Response(warm.stdout).text();
       if (await warm.exited !== 0) throw new Error("Warmup process failed");
       const warmResult = parse(warmRaw);
       if (!warmResult.successResponses || warmResult.httpFailures || warmResult.transportOrUnknown) throw new Error("Warmup response errors");
       if (c.name === "order") await resetOrders();
-      const p = Bun.spawn(["bombardier", "-c", String(CONC), "-d", DURATION, "-l", "--print", "r", "--format", "json", ...bombardierArgs(c)], { stdout: "pipe", stderr: "inherit" });
+      const p = Bun.spawn(["bombardier", "-c", String(CONC), "-d", DURATION, "-l", "-t", "180s", "--print", "r", "--format", "json", ...bombardierArgs(c)], { stdout: "pipe", stderr: "inherit" });
       const raw = await new Response(p.stdout).text();
       if (await p.exited !== 0) throw new Error(`bombardier failed on ${cfg.id}/${c.name}`);
       const parsed = parse(raw);
