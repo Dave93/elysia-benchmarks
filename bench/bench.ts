@@ -27,6 +27,7 @@ export interface BenchmarkDocument {
     quick: boolean; warmup: string; duration: string; repeats: number; concurrencies: number[];
     configs: { id: string; label: string; sensitivity: boolean; cmd: string[] }[];
     cases: string[]; roundOrders: string[][]; caveats: string[];
+    harnessVersion?: number; resumedFrom?: { path: string; startedAt: string; carriedValidWindows: number; priorEnv: unknown };
   };
   quickPreflight: BenchmarkRun[]; runs: BenchmarkRun[];
 }
@@ -42,6 +43,9 @@ export function quickMode(value = process.env.BENCH_QUICK): boolean {
 // combination: the interrupted 2026-09-17 run had no valid Django window at c=500 at all. A slow answer
 // is a measurement, not a failure; 180 s lets it be recorded as latency.
 export const REQUEST_TIMEOUT_S = 180;
+// Bump whenever a change alters what a window measures. RESUME refuses to splice documents across versions:
+// v2 = 180 s request timeout + foreign-CPU contention gate + sleep detection.
+export const HARNESS_VERSION = 2;
 
 export async function runBombardier(c: Case, concurrency: number, duration: string): Promise<WindowRecord> {
   const command = ["bombardier", "-c", String(concurrency), "-d", duration, "-l", "-t", `${REQUEST_TIMEOUT_S}s`, "--print", "r", "--format", "json", ...bombardierArgs(c)];
@@ -119,6 +123,10 @@ export async function runBenchmark(options: BenchmarkOptions = {}) {
   const repeats = options.repeats ?? (quick ? 1 : 3);
   if (!Number.isSafeInteger(repeats) || repeats < 1) throw new Error("repeats must be a positive integer");
   const warmup = quick ? "1s" : "5s", duration = quick ? "3s" : "30s";
+  // RESUME=<earlier results file> continues an interrupted run: every valid window it recorded is carried
+  // over and skipped, so a lid close or a stray kill costs one window instead of hours. Only an identical
+  // matrix measured by the same harness version can be resumed.
+  const prior: BenchmarkDocument | undefined = process.env.RESUME ? JSON.parse(await Bun.file(process.env.RESUME).text()) : undefined;
   const output = createOutput(process.env.OUT ?? uniqueOutPath("results", kind));
   const result: BenchmarkDocument = {
     schemaVersion: 1, kind, status: "running", startedAt: new Date().toISOString(),
@@ -141,12 +149,34 @@ export async function runBenchmark(options: BenchmarkOptions = {}) {
       ],
     }, quickPreflight: [], runs: [],
   };
+  result.methodology.harnessVersion = HARNESS_VERSION;
+  if (prior) {
+    const pm = prior.methodology as any, m = result.methodology as any;
+    const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+    const mismatch = [
+      pm.harnessVersion !== HARNESS_VERSION && `harness version ${pm.harnessVersion ?? "none"} ≠ ${HARNESS_VERSION}`,
+      prior.kind !== kind && "kind",
+      !same(pm.quick, m.quick) && "quick", !same(pm.warmup, m.warmup) && "warmup", !same(pm.duration, m.duration) && "duration",
+      !same(pm.repeats, m.repeats) && "repeats", !same(pm.concurrencies, m.concurrencies) && "concurrencies",
+      !same(pm.cases, m.cases) && "cases", !same(pm.configs, m.configs) && "configs",
+    ].filter(Boolean);
+    if (mismatch.length) throw new Error(`RESUME refused: ${process.env.RESUME} differs in ${mismatch.join(", ")}`);
+    result.runs = prior.runs.filter((r) => r.valid);
+    if (prior.quickPreflight.length && prior.quickPreflight.every((r) => r.valid)) result.quickPreflight = prior.quickPreflight;
+    m.resumedFrom = { path: process.env.RESUME, startedAt: prior.startedAt, carriedValidWindows: result.runs.length, priorEnv: prior.env };
+    console.log(`resuming from ${process.env.RESUME}: ${result.runs.length} valid windows carried over`);
+  }
+  const done = (round: number, cfg: string, c: string, conc: number) =>
+    result.runs.some((r) => r.valid && r.round === round && r.config === cfg && r.case === c && r.concurrency === conc);
   const checkpoint = () => output.save(result);
   const runRound = async (round: number, target: BenchmarkRun[], w: string, d: string, cs: number[]) => {
     for (const cfg of rotate(configs, round)) {
+      const resumable = target === result.runs;
+      if (resumable && selectedCases.every((c) => cs.every((conc) => done(round + 1, cfg.id, c.name, conc)))) continue;
       const srv = await startServer(cfg);
       try {
         for (const c of selectedCases) for (const concurrency of cs) {
+          if (resumable && done(round + 1, cfg.id, c.name, concurrency)) continue;
           const record: BenchmarkRun = { round: round + 1, config: cfg.id, case: c.name, concurrency, readyMs: srv.readyMs, valid: false, issues: [] };
           target.push(record); checkpoint();
           console.log(`${target === result.quickPreflight ? "preflight " : ""}round ${round + 1} ${cfg.id}/${c.name}/c=${concurrency}`);
@@ -164,7 +194,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}) {
     const parity = await verifyParity(configs);
     if (!parity || parity.passed !== true) throw new Error("parity did not explicitly pass");
     result.parity = parity; checkpoint();
-    if (!quick && kind === "bench") {
+    if (!quick && kind === "bench" && !(result.quickPreflight.length && result.quickPreflight.every((r) => r.valid))) {
       await runRound(0, result.quickPreflight, "1s", "3s", [10]);
       if (result.quickPreflight.some((r) => !r.valid)) throw new Error("quick preflight failed; refusing full measurements");
     }
