@@ -1,5 +1,6 @@
 // Fail-closed benchmark runner. Importing this module does not run parity or start services.
 import { selectConfigs, startServer, collectEnv, type ConfigSpec } from "./lib";
+import { CONTENTION, MAX_CONTENDED_RETRIES, startForeignSampler, waitIdle } from "./contention";
 import { cases, bombardierArgs, type Case } from "./cases";
 import { resetOrders } from "./db-reset";
 import {
@@ -10,10 +11,13 @@ import {
 export interface WindowRecord extends RunMetrics {
   command: string[]; stdout: string; stderr: string; exitCode: number;
   wallSeconds: number; startedAt: string; resources?: ResourceRecord;
+  foreignCpu?: { mean: number; peak: number; samples: number[] };
 }
 export interface BenchmarkRun {
   round: number; config: string; case: string; concurrency: number;
   readyMs: number; warmup?: WindowRecord; measurement?: WindowRecord;
+  // Attempts measured while foreign CPU was at or above the gate. Kept, flagged, never counted.
+  contendedAttempts?: WindowRecord[];
   valid: boolean; issues: string[];
 }
 export interface BenchmarkDocument {
@@ -59,21 +63,46 @@ export async function runBombardier(c: Case, concurrency: number, duration: stri
  * warmup. A failed warmup never becomes a valid measured window. */
 export async function runWindow(pid: number, c: Case, concurrency: number, warmup: string, duration: string,
   record: BenchmarkRun, checkpoint: () => void): Promise<void> {
+  const label = `${record.config}/${c.name}/c=${concurrency}`;
   try {
+    await waitIdle(label, pid);
     if (c.name === "order") await resetOrders();
     record.warmup = await runBombardier(c, concurrency, warmup);
     checkpoint();
     if (!record.warmup.valid) throw new Error(`warmup failed: ${record.warmup.invalidReasons.join("; ")}`);
-    if (c.name === "order") await resetOrders();
-    const sampler = await startTreeSampler(pid);
-    try { record.measurement = await runBombardier(c, concurrency, duration); }
-    finally {
-      const resources = await sampler.stop(); // join before shutdown or next window
-      if (record.measurement) record.measurement.resources = resources;
+    let contendedExhausted = false;
+    for (let attempt = 0; ; attempt++) {
+      if (c.name === "order") await resetOrders();
+      const sampler = await startTreeSampler(pid);
+      const foreign = startForeignSampler(pid);
+      let measured: WindowRecord | undefined;
+      try { measured = await runBombardier(c, concurrency, duration); }
+      finally {
+        const resources = await sampler.stop(); // join before shutdown or next window
+        const fcpu = await foreign.stop();
+        if (measured) {
+          measured.resources = resources;
+          measured.foreignCpu = { mean: fcpu.length ? fcpu.reduce((a, b) => a + b, 0) / fcpu.length : 0, peak: Math.max(0, ...fcpu), samples: fcpu };
+        }
+      }
+      const fmean = measured!.foreignCpu!.mean;
+      if (fmean >= CONTENTION && attempt < MAX_CONTENDED_RETRIES) {
+        (record.contendedAttempts ??= []).push(measured!);
+        console.log(`  [contended] foreign CPU ${fmean.toFixed(0)}% ≥ ${CONTENTION}% — re-measuring (${attempt + 1}/${MAX_CONTENDED_RETRIES})`);
+        checkpoint();
+        await waitIdle(label, pid);
+        continue;
+      }
+      record.measurement = measured!;
+      if (fmean >= CONTENTION) {
+        contendedExhausted = true;
+        record.issues.push(`still contended after ${MAX_CONTENDED_RETRIES} re-measurements: foreign CPU ${fmean.toFixed(0)}% ≥ ${CONTENTION}%`);
+      }
+      break;
     }
-    const measured = record.measurement;
+    const measured = record.measurement!;
     record.issues.push(...measured.invalidReasons, ...measured.resources!.errors, ...measured.resources!.summary.issues);
-    record.valid = measured.valid && measured.resources!.errors.length === 0 && measured.resources!.summary.valid;
+    record.valid = measured.valid && measured.resources!.errors.length === 0 && measured.resources!.summary.valid && !contendedExhausted;
   } catch (e) { record.issues.push(String(e)); record.valid = false; }
   checkpoint();
 }
@@ -102,10 +131,10 @@ export async function runBenchmark(options: BenchmarkOptions = {}) {
         "Non-2xx includes others; transport errors overlap status buckets and must not be added to them. errorRate and transportErrorRate are separate rates over total status buckets.",
         "Process-tree RSS sums supervisor and workers and may double-count shared pages; CPU is coarse ps CPU-time deltas over the recorded sample span.",
         "Process churn or unavailable samples invalidate resource measurements. Very short-lived children between samples cannot be accounted for.",
-        "Host 1/5/15-minute load averages are advisory context only, not foreign CPU, contention proof, or statistical significance.",
+        `Foreign CPU is sampled once a second during every measured window and must average below ${CONTENTION}% (100% = one core); the harness also waits for that before each window. Host load averages remain advisory context only.`,
         "API, client and database share a laptop; no CPU affinity, cross-language causal attribution, or cloud cost extrapolation.",
         "CPU route uses different crypto bindings and must be reported separately from API/DB conclusions.",
-        "No failed windows are silently retried or removed. Warmup is retained but excluded from summaries.",
+        "No failed window is retried or removed. A window measured while foreign CPU (every process outside the server tree, this harness, bombardier and the fixture's Postgres backends) averaged at or above the contention gate is re-measured after the machine is quiet again; the contended attempt stays in the record under contendedAttempts and never enters a summary. Warmup is retained but excluded from summaries.",
         kind === "noise" ? "Five same-config process-start repetitions describe observed variability, not a universal noise floor or significance threshold." : "Repeats are outermost; configuration order rotates by one each round. Each configuration gets a fresh process each round.",
       ],
     }, quickPreflight: [], runs: [],
