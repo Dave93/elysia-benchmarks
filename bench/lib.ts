@@ -82,6 +82,10 @@ export async function collectEnv() {
     cpu: await optional(["sysctl", "-n", "machdep.cpu.brand_string"]), cores: await optional(["sysctl", "-n", "hw.ncpu"]),
     macos: await optional(["sw_vers", "-productVersion"]), postgres: await optional(["psql", "--version"]),
     bombardier: await optional(["bombardier", "--version"]), python: await optional([py, "--version"]),
+    // bombardier --version writes outside captured stdout, which left this field empty in earlier runs;
+    // the binary's hash identifies the load generator exactly.
+    bombardierSha256: await optional(["sh", "-c", "shasum -a 256 \"$(command -v bombardier)\" | cut -d' ' -f1"]),
+    somaxconn: await optional(["sysctl", "-n", "kern.ipc.somaxconn"]),
     pythonPackages: await optional(["uv", "pip", "freeze", "--python", py]),
     elysiaManifest: await Bun.file("apps/elysia-api/package.json").json(),
     locks: Object.fromEntries(await Promise.all(["bun.lock", "apps/elysia-api/bun.lock", "apps/django-api/uv.lock"].map(async path => [path, await Bun.file(path).exists() ? new Bun.CryptoHasher("sha256").update(await Bun.file(path).arrayBuffer()).digest("hex") : null]))),

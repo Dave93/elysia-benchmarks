@@ -10,6 +10,14 @@ const med = (xs: (number | null | undefined)[]) => {
   const numbers = xs.filter((x): x is number => typeof x === "number" && Number.isFinite(x));
   return numbers.length ? median(numbers) : null;
 };
+// Successful requests per CPU-second the whole server tree spent, over the resource sample span. One Gunicorn
+// worker with ten threads and one Bun process use cores differently; this is the per-core efficiency that
+// survives "you only ran one worker", and it is null whenever the tree's CPU attribution was incomplete.
+function perCpuSecond(x: { successRps?: number | null; resources?: { summary: { cpuCores: number | null } } }): number | null {
+  const cores = x.resources?.summary.cpuCores;
+  return x.successRps != null && cores != null && cores > 0 ? x.successRps / cores : null;
+}
+
 function table(runs: BenchmarkRun[]): string {
   const groups = new Map<string, BenchmarkRun[]>();
   for (const r of runs) {
@@ -17,8 +25,8 @@ function table(runs: BenchmarkRun[]): string {
     groups.set(key, [...groups.get(key) ?? [], r]);
   }
   const lines = [
-    "| Config | Case | c | Valid / recorded | Success req/s | p50 ms | p99 ms | Mean tree RSS MiB | Tree CPU cores | Non-2xx incl. others | Transport errors (overlap) |",
-    "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+    "| Config | Case | c | Valid / recorded | Success req/s | Success req per tree CPU-second | p50 ms | p99 ms | Mean tree RSS MiB | Tree CPU cores | Non-2xx incl. others | Transport errors (overlap) |",
+    "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
   ];
   for (const rs of groups.values()) {
     const r = rs[0], good = rs.filter((r) => r.valid && r.measurement?.valid);
@@ -28,7 +36,7 @@ function table(runs: BenchmarkRun[]): string {
       const known = values.filter((v): v is number => typeof v === "number");
       return `${known.reduce((s, x) => s + x, 0)}${known.length < rs.length ? " + unknown" : ""}`;
     };
-    lines.push(`| ${cell(r.config)} | ${cell(r.case)} | ${r.concurrency} | ${good.length}/${rs.length} | ${fmt(med(m.map((x) => x.successRps)), 1)} | ${fmt(med(m.map((x) => x.latMs.p50)))} | ${fmt(med(m.map((x) => x.latMs.p99)))} | ${fmt(med(m.map((x) => x.resources?.summary.rssMeanMb)))} | ${fmt(med(m.map((x) => x.resources?.summary.cpuCores)))} | ${sumKnown("non2xx")} | ${sumKnown("transportErrors")} |`);
+    lines.push(`| ${cell(r.config)} | ${cell(r.case)} | ${r.concurrency} | ${good.length}/${rs.length} | ${fmt(med(m.map((x) => x.successRps)), 1)} | ${fmt(med(m.map(perCpuSecond)), 0)} | ${fmt(med(m.map((x) => x.latMs.p50)))} | ${fmt(med(m.map((x) => x.latMs.p99)))} | ${fmt(med(m.map((x) => x.resources?.summary.rssMeanMb)))} | ${fmt(med(m.map((x) => x.resources?.summary.cpuCores)))} | ${sumKnown("non2xx")} | ${sumKnown("transportErrors")} |`);
   }
   return lines.join("\n");
 }
