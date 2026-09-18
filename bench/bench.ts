@@ -1,6 +1,6 @@
 // Fail-closed benchmark runner. Importing this module does not run parity or start services.
 import { selectConfigs, startServer, collectEnv, type ConfigSpec } from "./lib";
-import { CONTENTION, MAX_CONTENDED_RETRIES, startForeignSampler, waitIdle } from "./contention";
+import { CONTENTION, MAX_CONTENDED_RETRIES, SLEEP_GAP_MS, startForeignSampler, waitIdle } from "./contention";
 import { cases, bombardierArgs, type Case } from "./cases";
 import { resetOrders } from "./db-reset";
 import {
@@ -11,7 +11,7 @@ import {
 export interface WindowRecord extends RunMetrics {
   command: string[]; stdout: string; stderr: string; exitCode: number;
   wallSeconds: number; startedAt: string; resources?: ResourceRecord;
-  foreignCpu?: { mean: number; peak: number; samples: number[] };
+  foreignCpu?: { mean: number; peak: number; samples: number[]; maxGapMs: number };
 }
 export interface BenchmarkRun {
   round: number; config: string; case: string; concurrency: number;
@@ -79,22 +79,24 @@ export async function runWindow(pid: number, c: Case, concurrency: number, warmu
       try { measured = await runBombardier(c, concurrency, duration); }
       finally {
         const resources = await sampler.stop(); // join before shutdown or next window
-        const fcpu = await foreign.stop();
+        const { samples: fcpu, maxGapMs } = await foreign.stop();
         if (measured) {
           measured.resources = resources;
-          measured.foreignCpu = { mean: fcpu.length ? fcpu.reduce((a, b) => a + b, 0) / fcpu.length : 0, peak: Math.max(0, ...fcpu), samples: fcpu };
+          measured.foreignCpu = { mean: fcpu.length ? fcpu.reduce((a, b) => a + b, 0) / fcpu.length : 0, peak: Math.max(0, ...fcpu), samples: fcpu, maxGapMs };
         }
       }
-      const fmean = measured!.foreignCpu!.mean;
-      if (fmean >= CONTENTION && attempt < MAX_CONTENDED_RETRIES) {
+      const fmean = measured!.foreignCpu!.mean, slept = measured!.foreignCpu!.maxGapMs > SLEEP_GAP_MS;
+      if ((fmean >= CONTENTION || slept) && attempt < MAX_CONTENDED_RETRIES) {
         (record.contendedAttempts ??= []).push(measured!);
-        console.log(`  [contended] foreign CPU ${fmean.toFixed(0)}% ≥ ${CONTENTION}% — re-measuring (${attempt + 1}/${MAX_CONTENDED_RETRIES})`);
+        console.log(slept
+          ? `  [slept] ${(measured!.foreignCpu!.maxGapMs / 1000).toFixed(0)} s gap in sampling — the machine slept during the window, re-measuring (${attempt + 1}/${MAX_CONTENDED_RETRIES})`
+          : `  [contended] foreign CPU ${fmean.toFixed(0)}% ≥ ${CONTENTION}% — re-measuring (${attempt + 1}/${MAX_CONTENDED_RETRIES})`);
         checkpoint();
         await waitIdle(label, pid);
         continue;
       }
       record.measurement = measured!;
-      if (fmean >= CONTENTION) {
+      if (fmean >= CONTENTION || slept) {
         contendedExhausted = true;
         record.issues.push(`still contended after ${MAX_CONTENDED_RETRIES} re-measurements: foreign CPU ${fmean.toFixed(0)}% ≥ ${CONTENTION}%`);
       }

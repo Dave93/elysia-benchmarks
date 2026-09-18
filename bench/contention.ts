@@ -49,10 +49,22 @@ export async function foreignCpu(serverPid = 0): Promise<number> {
   return sum;
 }
 
+// A window during which the machine slept (lid closed, system sleep) is not a measurement: the load generator
+// and the server were both frozen, and the throughput it reports describes nothing. Sampling once a second
+// makes sleep visible as a gap between consecutive samples. Wall clock is used on purpose — the monotonic
+// clock does not advance while the machine sleeps, so it would hide exactly the gap this is looking for.
+export const SLEEP_GAP_MS = Number(process.env.SLEEP_GAP_MS ?? 10_000);
+
 export function startForeignSampler(serverPid: number, intervalMs = 1000) {
-  const samples: number[] = []; let active = true;
-  const loop = (async () => { while (active) { samples.push(await foreignCpu(serverPid)); await Bun.sleep(intervalMs); } })();
-  return { stop: async () => { active = false; await loop; return samples; } };
+  const samples: number[] = []; let active = true, last = Date.now(), maxGapMs = 0;
+  const loop = (async () => {
+    while (active) {
+      samples.push(await foreignCpu(serverPid));
+      const now = Date.now(); maxGapMs = Math.max(maxGapMs, now - last); last = now;
+      await Bun.sleep(intervalMs);
+    }
+  })();
+  return { stop: async () => { active = false; await loop; return { samples, maxGapMs }; } };
 }
 
 export async function waitIdle(label: string, serverPid = 0): Promise<void> {
