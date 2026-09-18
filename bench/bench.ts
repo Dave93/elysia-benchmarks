@@ -2,7 +2,7 @@
 import { selectConfigs, startServer, collectEnv, type ConfigSpec } from "./lib";
 import { CONTENTION, MAX_CONTENDED_RETRIES, SLEEP_GAP_MS, startForeignSampler, waitIdle } from "./contention";
 import { cases, bombardierArgs, type Case } from "./cases";
-import { resetOrders } from "./db-reset";
+import { resetOrders, flushWal, checkpointCounts } from "./db-reset";
 import {
   parseBombardier, parseConcurrencies, rotate, selectNames, startTreeSampler,
   uniqueOutPath, createOutput, type ResourceRecord, type RunMetrics,
@@ -12,6 +12,8 @@ export interface WindowRecord extends RunMetrics {
   command: string[]; stdout: string; stderr: string; exitCode: number;
   wallSeconds: number; startedAt: string; resources?: ResourceRecord;
   foreignCpu?: { mean: number; peak: number; samples: number[]; maxGapMs: number };
+  // Postgres checkpoints that began during the window (after a CHECKPOINT issued just before it).
+  pgCheckpoints?: { timed: number; requested: number };
 }
 export interface BenchmarkRun {
   round: number; config: string; case: string; concurrency: number;
@@ -45,7 +47,8 @@ export function quickMode(value = process.env.BENCH_QUICK): boolean {
 export const REQUEST_TIMEOUT_S = 180;
 // Bump whenever a change alters what a window measures. RESUME refuses to splice documents across versions:
 // v2 = 180 s request timeout + foreign-CPU contention gate + sleep detection.
-export const HARNESS_VERSION = 2;
+// v3 = CHECKPOINT before every warmup and measurement, in-window checkpoint counts recorded.
+export const HARNESS_VERSION = 3;
 
 export async function runBombardier(c: Case, concurrency: number, duration: string): Promise<WindowRecord> {
   const command = ["bombardier", "-c", String(concurrency), "-d", duration, "-l", "-t", `${REQUEST_TIMEOUT_S}s`, "--print", "r", "--format", "json", ...bombardierArgs(c)];
@@ -71,12 +74,15 @@ export async function runWindow(pid: number, c: Case, concurrency: number, warmu
   try {
     await waitIdle(label, pid);
     if (c.name === "order") await resetOrders();
+    await flushWal();
     record.warmup = await runBombardier(c, concurrency, warmup);
     checkpoint();
     if (!record.warmup.valid) throw new Error(`warmup failed: ${record.warmup.invalidReasons.join("; ")}`);
     let contendedExhausted = false;
     for (let attempt = 0; ; attempt++) {
       if (c.name === "order") await resetOrders();
+      await flushWal();
+      const cpBefore = await checkpointCounts();
       const sampler = await startTreeSampler(pid);
       const foreign = startForeignSampler(pid);
       let measured: WindowRecord | undefined;
@@ -84,7 +90,9 @@ export async function runWindow(pid: number, c: Case, concurrency: number, warmu
       finally {
         const resources = await sampler.stop(); // join before shutdown or next window
         const { samples: fcpu, maxGapMs } = await foreign.stop();
+        const cpAfter = await checkpointCounts();
         if (measured) {
+          measured.pgCheckpoints = { timed: cpAfter.timed - cpBefore.timed, requested: cpAfter.requested - cpBefore.requested };
           measured.resources = resources;
           measured.foreignCpu = { mean: fcpu.length ? fcpu.reduce((a, b) => a + b, 0) / fcpu.length : 0, peak: Math.max(0, ...fcpu), samples: fcpu, maxGapMs };
         }
@@ -144,6 +152,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}) {
         `Foreign CPU is sampled once a second during every measured window and must average below ${CONTENTION}% (100% = one core); the harness also waits for that before each window. Host load averages remain advisory context only.`,
         "API, client and database share a laptop; no CPU affinity, cross-language causal attribution, or cloud cost extrapolation.",
         "CPU route uses different crypto bindings and must be reported separately from API/DB conclusions.",
+        "Postgres runs CHECKPOINT before every warmup and measured window, so checkpoints left over from earlier windows cannot land in this one; a checkpoint the window's own writes force is kept and counted under pgCheckpoints.",
         "No failed window is retried or removed. A window measured while foreign CPU (every process outside the server tree, this harness, bombardier and the fixture's Postgres backends) averaged at or above the contention gate is re-measured after the machine is quiet again; the contended attempt stays in the record under contendedAttempts and never enters a summary. Warmup is retained but excluded from summaries.",
         kind === "noise" ? "Five same-config process-start repetitions describe observed variability, not a universal noise floor or significance threshold." : "Repeats are outermost; configuration order rotates by one each round. Each configuration gets a fresh process each round.",
       ],
