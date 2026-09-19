@@ -1,13 +1,14 @@
 # Elysia vs Django — benchmark data pack
 
-Seven equivalent SaaS-slice routes, adapted from `../elysia_vs_nest`, with an explicitly named Python stack rather than an intentionally weak `runserver` baseline. **No publication-quality full run yet.** Short measurements are plumbing checks only.
+Seven equivalent SaaS-slice routes, adapted from `../elysia_vs_nest`, with an explicitly named Python stack rather than an intentionally weak `runserver` baseline. The run of record is `results/full-2026-09-18b.json` (harness v3, 2026-09-18): 3 configurations × 7 routes × c=10/100/500 × 3 rounds, 189/189 windows valid. Quick and smoke artifacts below are plumbing checks only.
 
 ## Configurations
 
 - `E`: Elysia **2.0.0-beta.12**, Bun **1.4.2**, Drizzle + Bun SQL.
 - `N-sync`: Django **6.1.1**, Ninja **1.7.0**, CPython **3.14.6**, Gunicorn **26.2.0** gthread, one worker / ten threads.
 - `N-async`: same Django API under Uvicorn **0.53.0**, uvloop + httptools, async ORM interface.
-- `E-aot`: optional Elysia AOT sensitivity, same source/dependencies.
+- `E-aot`: optional Elysia AOT sensitivity, same source/dependencies. Not part of the full matrix.
+- `E-native`: `/cpu` diagnostic only, same build with `CPU_HASHER=bun-native` (`Bun.SHA256.hash` instead of `node:crypto`).
 
 Both Django modes use Pydantic 2, orjson and psycopg binary + connection pool max 10. Async ORM here is a synchronous ORM bridge, **not native async SQL**. Full dependency pins are in `bun.lock`, `apps/elysia-api/bun.lock`, `apps/django-api/uv.lock`.
 
@@ -19,7 +20,7 @@ Both Django modes use Pydantic 2, orjson and psycopg binary + connection pool ma
 - [Specification](docs/spec.md).
 - [Independent Grok review prompt](docs/grok-review-prompt.md): ready to paste; no Grok response has been obtained yet.
 
-Research recommends investigating Granian, DRF, latest Python patch, stable Elysia, and equal-resource Linux/multi-worker lanes. These are **not implemented or measured** by this first fixture. Do not present this as exhaustive “best possible Python vs best possible JS”.
+Research recommends investigating Granian, DRF, latest Python patch, stable Elysia, and equal-resource Linux/multi-worker lanes. These are **not implemented or measured**; the run of record was published without them. Do not present this as exhaustive “best possible Python vs best possible JS”.
 
 ## Setup (macOS, project root)
 
@@ -68,6 +69,13 @@ OUT=results/my-full.json bun run bench
 ```
 
 Inspect each command's recorded metadata, raw errors and samples before reporting any ratio. `CONFIGS=E,N-sync,N-async`, `CASES=health,echo,me,user,list,order,cpu`, `CONC=10,100,500` restrict the main matrix. The full matrix takes many minutes; resource sampling covers the server tree, not only Gunicorn's master. Laptop + client + database contention is not a cloud-server result.
+
+## Results
+
+- `results/full-2026-09-18b.json` + `results/full-2026-09-18b-summary.md`: **run of record**, harness v3 (CHECKPOINT before every window, in-window checkpoints recorded). 189/189 valid, zero contended attempts, zero in-window checkpoints.
+- `results/cpu-hasher-2026-09-18.json` + summary: `/cpu` diagnostic, E (`node:crypto`) vs E-native (`Bun.SHA256.hash`), 3 rounds.
+- `results/full-2026-09-18.json` + summary: earlier full run on harness v2, superseded; checkpoints forced by earlier windows' WAL landed in E `/order` windows.
+- Noise floor and boot exist only as quick runs (below); no full-duration noise floor was measured.
 
 ## Existing diagnostic artifacts
 

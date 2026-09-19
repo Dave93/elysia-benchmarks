@@ -1,6 +1,6 @@
 # Elysia vs Django: benchmark specification
 
-Status: implementation in progress, no publication-quality results yet.
+Status: run of record `results/full-2026-09-18b.json` (harness v3, 2026-09-18). Granian, multi-worker and equal-resource Linux lanes are not measured.
 
 ## Scope
 
