@@ -26,7 +26,7 @@
 
 ## 2026-09-18
 
-- Full run `results/full-2026-09-18.json`, 09:29–12:18 local, status passed: 189/189 windows valid, 3 rounds × 3 configs × 7 routes × c=10/100/500. Eight contended attempts were discarded and re-measured. Sources, in the order they showed up: Spotlight indexing, Chrome and Arc, a bun script from a `miss` worktree session, supacode running `git diff` across `miss` worktrees, Raycast. The longest stall was about 15 minutes on E `/health` c=500 in round 3.
+- Full run `results/full-2026-09-18.json`, 09:29–12:18 local, status passed: 189/189 windows valid, 3 rounds × 3 configs × 7 routes × c=10/100/500. Eight contended attempts were discarded and re-measured. Sources, in the order they showed up: Spotlight indexing, Chrome and Arc, a bun script from another project's worktree session, a git client running `git diff` across that project's worktrees, Raycast. The longest stall was about 15 minutes on E `/health` c=500 in round 3.
 - E `/order` falls at c=500 in every round (18.1k, 20.3k, 14.5k success req/s against 26.0k, 26.6k, 19.8k at c=100). The drop repeats, so it is not one noisy window; round 3 is lower across the board for E `/order`, and that round ran while the machine was busiest. Not investigated further in this run.
 - Summary: `results/full-2026-09-18-summary.md`. Noise floor and boot diagnostics exist only as quick runs; a full-duration noise run is still missing.
 - Bombardier version string is still empty in env; the executable hash is recorded instead.
