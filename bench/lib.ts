@@ -10,6 +10,7 @@ export const CONFIGS: ConfigSpec[] = [
   { id: "E", label: "Elysia / Bun / Drizzle + Bun SQL", cmd: ["bun", "apps/elysia-api/dist/index.js"], env: BASE_ENV },
   { id: "N-sync", label: "Django Ninja / Gunicorn gthread / Django ORM", cmd: [py, "-m", "gunicorn", "config.wsgi:application", "--bind", "127.0.0.1:3100", "--workers", "1", "--worker-class", "gthread", "--threads", "10", "--keep-alive", "5", "--timeout", "60", "--access-logfile", "/dev/null", "--log-level", "warning"], env: { ...BASE_ENV, API_MODE: "sync" } },
   { id: "N-async", label: "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface", cmd: [py, "-m", "uvicorn", "config.asgi:application", "--host", "127.0.0.1", "--port", "3100", "--workers", "1", "--loop", "uvloop", "--http", "httptools", "--lifespan", "off", "--no-access-log", "--no-server-header", "--log-level", "warning"], env: { ...BASE_ENV, API_MODE: "async" } },
+  { id: "H", label: "Hono / Bun / Drizzle + Bun SQL", cmd: ["bun", "apps/hono-api/dist/index.js"], env: BASE_ENV },
   { id: "E-aot", label: "Elysia / Bun / AOT", cmd: ["bun", "apps/elysia-api/dist-aot/index.js"], env: BASE_ENV, sensitivity: true },
   // /cpu diagnostic only: Bun.SHA256.hash instead of node:crypto, same algorithm and output.
   { id: "E-native", label: "Elysia / Bun / Bun.SHA256 hasher", cmd: ["bun", "apps/elysia-api/dist/index.js"], env: { ...BASE_ENV, CPU_HASHER: "bun-native" }, sensitivity: true },

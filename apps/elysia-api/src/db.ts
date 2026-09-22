@@ -10,3 +10,8 @@ export const db =
     : (await import("drizzle-orm/postgres-js")).drizzle((await import("postgres")).default(url, { max: 10 }), { schema });
 
 export { schema };
+
+// Re-exported so a sibling app (apps/hono-api) binds to THIS drizzle instance.
+// Two node_modules copies of drizzle-orm produce incompatible types and, worse,
+// two driver registries; the Hono twin must share the driver, not merely match it.
+export { eq } from "drizzle-orm";
