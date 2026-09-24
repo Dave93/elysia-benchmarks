@@ -1,9 +1,15 @@
 #!/bin/zsh
 # Overnight run for configuration H (Hono) against E (Elysia): noise floor on H,
-# then the full matrix. Started from cron, so nothing about the shell can be
-# assumed: PATH is set here in full, every precondition is checked before any
-# load is generated, and the crontab line that started it removes itself on
-# exit whether the run succeeded or not.
+# then the full matrix.
+#
+# START IT FROM LAUNCHD, NOT CRON. Measured 2026-09-24: the same 300k-hash loop
+# takes 85 ms in a terminal, 227-246 ms when cron starts it, and 90 ms under a
+# LaunchAgent with ProcessType=Interactive. cron's children are scheduled as
+# background work on Apple Silicon, and `taskpolicy -B -p $$` from inside the
+# job does not lift it (266 ms). The first overnight run went through cron and
+# came out ~3x slow on every route for both frameworks. scripts/dev.davr.hono-overnight.plist
+# is the agent; the preflight below measures the throttle directly and refuses
+# to run under it, whatever launched the script.
 #
 #   scripts/overnight-hono.sh --check   # preconditions only, safe any time
 #   scripts/overnight-hono.sh           # the real run, ~1.5-2 h
@@ -36,7 +42,11 @@ preflight() {
   psql -U postgres -lqt | cut -d'|' -f1 | grep -qw bench_elysia_django || fail "database bench_elysia_django missing"
   lsof -ti tcp:3100 >/dev/null && fail "something already listens on :3100"
   [ -f apps/hono-api/dist/index.js ] || fail "apps/hono-api is not built"
-  echo "preflight OK: somaxconn=$smc, spotlight off, postgres up, :3100 free"
+  # The throttle check. A 300k-iteration SHA-256 loop runs in ~85 ms at full
+  # speed and 230-440 ms when the process is scheduled as background work.
+  local ms; ms=$(bun -e 'const {createHash}=require("node:crypto");const t=performance.now();let h="x";for(let i=0;i<300000;i++)h=createHash("sha256").update(h).digest("hex");console.log(Math.round(performance.now()-t))')
+  [ "$ms" -le 150 ] || fail "throttled: hash self-test took ${ms} ms (full speed is ~85). Started from cron? Use the LaunchAgent."
+  echo "preflight OK: somaxconn=$smc, spotlight off, postgres up, :3100 free, self-test ${ms} ms"
 }
 
 if [ "${1:-}" = "--check" ]; then
@@ -44,8 +54,19 @@ if [ "${1:-}" = "--check" ]; then
   exit 0
 fi
 
-# The real run: remove our own crontab line on any exit.
-trap '( crontab -l 2>/dev/null | grep -v "overnight-hono.sh" | crontab - ) || true' EXIT
+# A LaunchAgent with a calendar interval that missed its time (lid closed)
+# fires on wake, which would put the run in the middle of Davron's morning.
+# Only the small hours are quiet enough.
+hour=$(date +%H)
+if [ "$hour" -lt 1 ] || [ "$hour" -ge 5 ]; then
+  echo "=== $(date '+%F %T') refused: started at hour $hour, outside 01-05" >>"$LOG"
+  exit 3
+fi
+
+# One-shot: unload the agent on any exit. `launchctl bootout` stops this job,
+# so it is the very last thing the trap does.
+AGENT=$HOME/Library/LaunchAgents/dev.davr.hono-overnight.plist
+trap 'rm -f "$AGENT"; launchctl bootout gui/$(id -u)/dev.davr.hono-overnight 2>/dev/null || true' EXIT
 
 exec >>"$LOG" 2>&1
 echo "=== overnight-hono start $(date '+%Y-%m-%d %H:%M:%S %Z')"

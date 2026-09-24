@@ -39,3 +39,32 @@
 - Correction on the v2 `/order` diagnosis: the v2 run did not record `pgCheckpoints`. The checkpoint cause rests on the Postgres server log (`log_checkpoints = on`): the run had five `checkpoint starting: wal` events, each within seconds of an E `/order` measured window (09:48:07 vs 09:48:12; 11:06:16 vs 11:06:22; 11:07:03 vs 11:07:03; 11:45:36 vs 11:45:29; 11:46:39 vs 11:46:47, eight seconds early, during reset and warmup). Four of those five windows dipped: r1 c=500 18,136, r2 c=500 20,268, r3 c=100 19,795, r3 c=500 14,545 success req/s. The fifth, r2 c=100 at 26,589, was the highest c=100 window of the three. That is timing correlation, and the v3 rerun removing the dip supports it; neither is a per-window measurement.
 - Per-route RSS in the summary tables reflects process history, not the route. Each configuration runs all 21 windows of a round in one process, in a fixed case order, so RSS climbs as a high-water mark: E in round 1 goes 65 MiB (`/health`) → 106 (`/me`) → 157 (`/list`) → 165 (`/cpu`), N-async 71 → 159 within `/health` alone, N-sync 84 → 103. In the hasher diagnostic, where E serves only `/cpu`, it sits at 71–77 MiB against 165 in the main table. Compare RSS only at matching positions in the sequence, or quote the round-level range.
 - README, `docs/spec.md` and `docs/methodology.md` updated to name the run of record and state that Granian, multi-worker and equal-resource Linux lanes were not measured. Local home paths scrubbed from `results/authoritative-e2e.txt`.
+
+## 2026-09-24 — cron ran the whole Hono matrix on background scheduling, ~3x slow
+
+The first overnight run of `CONFIGS=E,H` (`results/full-hono-2026-09-24.json`,
+126/126 windows valid, harness said "passed") is **not a run of record and must
+not be quoted**. E's own numbers came out about a third of the Django run of
+record on the same machine and the same code: `/health` c=100 46,632 against
+138,992, `/users/:id` 11,914 against 33,432, `/cpu` 59 against 212. Both
+configurations were slowed alike, and the tree used ~1.0 core in every window,
+so the harness's CPU and contention gates saw nothing wrong.
+
+Cause, measured the same morning with one 300k-iteration SHA-256 loop:
+terminal 85 ms; started by cron 227 and 246 ms; `taskpolicy -b` 437 ms;
+`taskpolicy -B -p $$` from inside the cron job 266 ms (does not lift it);
+LaunchAgent with `ProcessType=Interactive` 90 ms. cron's children are scheduled
+as background work on Apple Silicon. No low-power mode, no thermal warning.
+
+The same-code `/cpu` route is why the file cannot be rescued by taking E/H
+ratios: both sides call one `sha256Loop` from one module, yet H read 7% faster
+on it at every concurrency. At ~60 req/s the framework is invisible on that
+route, so the 7% is the scheduler, and it would be sitting inside every other
+ratio too.
+
+Fixes: `scripts/overnight-hono.sh` now runs a throttle self-test in preflight
+and refuses above 150 ms; it is started by `scripts/dev.davr.hono-overnight.plist`,
+not cron; it refuses to start outside 01:00-05:00 so a missed calendar fire on
+wake cannot land in a working morning. A second defect in the cron version:
+its self-removing `crontab -` failed with "Operation not permitted" (cron has
+no permission to rewrite the crontab), so the line had to be removed by hand.
