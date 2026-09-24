@@ -79,11 +79,15 @@ preflight
 (cd apps/hono-api && bun run build) || fail "hono build"
 
 echo "--- noise floor on H $(date '+%H:%M:%S')"
-caffeinate -dimsu env CONFIGS=H OUT="results/noise-hono-$STAMP.json" bun bench/noise.ts \
+caffeinate -dimsu env CONFIGS=H CONTENTION=200 OUT="results/noise-hono-$STAMP.json" bun bench/noise.ts \
   || echo "noise run exited non-zero; continuing to the matrix, the report will say so"
 
 echo "--- full matrix E,H $(date '+%H:%M:%S')"
-caffeinate -dimsu env CONFIGS=E,H OUT="results/full-hono-$STAMP.json" bun bench/bench.ts
+# ORDERS_AUTOVACUUM=off and CONTENTION=200: see bench/db-reset.ts and the
+# 2026-09-24 daytime entry in results/friction-log.md. Both are recorded in
+# the result's env block; autovacuum is restored whatever the run's outcome.
+caffeinate -dimsu env CONFIGS=E,H ORDERS_AUTOVACUUM=off CONTENTION=200 OUT="results/full-hono-$STAMP.json" bun bench/bench.ts
 rc=$?
+psql -U postgres -d bench_elysia_django -qc "ALTER TABLE orders RESET (autovacuum_enabled)" || echo "WARNING: could not restore autovacuum on orders"
 echo "=== overnight-hono end rc=$rc $(date '+%Y-%m-%d %H:%M:%S %Z')"
 exit $rc

@@ -5,6 +5,17 @@ export async function resetOrders() {
   const c = connect();
   await c`DELETE FROM orders WHERE id > ${SEED_ORDERS}`;
   await c`SELECT setval('orders_id_seq', ${SEED_ORDERS})`;
+  // ORDERS_AUTOVACUUM=off: each /orders window inserts ~750k rows, the insert
+  // threshold (1000 + 0.2 x table) trips within seconds, and autovacuum then
+  // runs inside a measured window for whichever config happens to be up. The
+  // 2026-09-24 daytime run dipped both E and H at random that way. The VACUUM
+  // below already cleans between windows, so the daemon adds only noise. The
+  // setting is per table and persists, so it is set every reset and the caller
+  // restores it after the run. Off by default so older runs stay reproducible.
+  const av = process.env.ORDERS_AUTOVACUUM;
+  if (av === "off" || av === "on") {
+    await c.unsafe(`ALTER TABLE orders SET (autovacuum_enabled = ${av === "on"})`);
+  }
   await c.unsafe("VACUUM (FULL, ANALYZE) orders");
   await c.end();
 }
