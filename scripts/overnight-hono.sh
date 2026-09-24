@@ -58,7 +58,8 @@ fi
 # fires on wake, which would put the run in the middle of Davron's morning.
 # Only the small hours are quiet enough.
 hour=$(date +%H)
-if [ "$hour" -lt 1 ] || [ "$hour" -ge 5 ]; then
+# ANY_HOUR=1 is the manual override for a run started by hand from a terminal.
+if [ -z "${ANY_HOUR:-}" ] && { [ "$hour" -lt 1 ] || [ "$hour" -ge 5 ]; }; then
   echo "=== $(date '+%F %T') refused: started at hour $hour, outside 01-05" >>"$LOG"
   exit 3
 fi
