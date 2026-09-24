@@ -68,3 +68,38 @@ not cron; it refuses to start outside 01:00-05:00 so a missed calendar fire on
 wake cannot land in a working morning. A second defect in the cron version:
 its self-removing `crontab -` failed with "Operation not permitted" (cron has
 no permission to rewrite the crontab), so the line had to be removed by hand.
+
+## 2026-09-24, daytime — the hand-started Hono run is a preview, not a run of record
+
+Started from a terminal at 09:00 at full speed (self-test 75 ms), finished
+10:38 with 125/126 windows valid. Kept as `results/PREVIEW-*-hono-2026-09-24.*`.
+Four things stop it being the run of record, each measured:
+
+1. **Round 1 and the whole noise phase ran thermally throttled.** E `/health`
+   c=100 read 109,304 in round 1 at only 95% foreign CPU, then 135,159 and
+   128,419; the noise phase sat at ~103k throughout. `kernel_task` was at 112%
+   CPU at 09:26, which is how macOS sheds heat. The noise floor measured in that
+   state (5.2% on `/health`) is therefore not a floor.
+2. **Round-to-round spread 7-40% on most cells**, against 0.5-2.7% for E in the
+   Django run of record. Foreign CPU ran 95-400% (daytime use, a parallel
+   Claude session in another repo running `bun test`, WindowServer at 40-87%).
+   The 450% gate rejected none of it, so the gate is too loose for daytime and
+   must not be read as "the run was clean".
+3. **`/orders` dips hit both configurations at random**: H round 2 at 16,785
+   (c=100) and 14,172 (c=500), E round 3 at 13,948 (c=500), all with zero
+   checkpoints in the window. Leading hypothesis, not yet tested: autovacuum on
+   `orders`. Each window inserts ~750k rows and the insert threshold
+   (1000 + 0.2 × table) trips within seconds; the table shows 288 lifetime
+   autovacuums. One H c=500 warm-up also failed with 16 "server closed
+   connection before returning the first response byte" out of 134,386.
+4. **Retracted on the spot:** the same Postgres cluster hosts ~80 databases with
+   ~600 TimescaleDB jobs, and the log is full of "out of background workers".
+   None of them ran — `job_stats` shows 0 runs since 09:00 — so they are noise
+   in the log, not the cause.
+
+What survives as a direction, because it held in every round pairwise: `/echo`
+E ahead by ~6-15%; `/cpu` H ahead by ~8-15% on identical hashing code, also
+seen at 7% in the throttled night run, and NOT explained by RSS (98-132 MiB on
+both). `/health`, `/me`, `/users/:id`, `/orders` at c=10/100: tied. `/users`
+list: H ahead in the medians but rounds overlap. None of this is quotable until
+a quiet run agrees.

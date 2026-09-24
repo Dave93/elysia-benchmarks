@@ -1,0 +1,330 @@
+=== overnight-hono start 2026-09-24 09:00:39 +05
+preflight OK: somaxconn=4096, spotlight off, postgres up, :3100 free, self-test 75 ms
+$ bun build.ts
+$ bun build.ts
+--- noise floor on H 09:00:40
+parity E: 38 cases passed
+parity H: 38 cases passed
+round 1 H/health/c=100
+  103453.9 successful req/s
+round 1 H/user/c=100
+  27924.2 successful req/s
+round 2 H/health/c=100
+  100441.1 successful req/s
+round 2 H/user/c=100
+  28564.5 successful req/s
+round 3 H/health/c=100
+  105558.7 successful req/s
+round 3 H/user/c=100
+  28429.9 successful req/s
+round 4 H/health/c=100
+  103606.5 successful req/s
+round 4 H/user/c=100
+  27636.8 successful req/s
+round 5 H/health/c=100
+  105617.4 successful req/s
+round 5 H/user/c=100
+  27913.3 successful req/s
+results: results/noise-hono-2026-09-24.json (passed)
+health/c=100: n=5, population CV=0.01819591727574166, observed range/min %=5.153518585422791
+user/c=100: n=5, population CV=0.012379419771775018, observed range/min %=3.3569506922922185
+Observed variability only; not a universal noise floor, confidence interval, or significance threshold.
+--- full matrix E,H 09:07:32
+parity E: 38 cases passed
+parity H: 38 cases passed
+preflight round 1 E/health/c=10
+  97534.7 successful req/s
+preflight round 1 E/echo/c=10
+  88972.6 successful req/s
+preflight round 1 E/me/c=10
+  22940.6 successful req/s
+preflight round 1 E/user/c=10
+  26315.6 successful req/s
+preflight round 1 E/list/c=10
+  19287.1 successful req/s
+preflight round 1 E/order/c=10
+  20996.0 successful req/s
+preflight round 1 E/cpu/c=10
+  214.5 successful req/s
+preflight round 1 H/health/c=10
+  66896.6 successful req/s
+preflight round 1 H/echo/c=10
+  78102.4 successful req/s
+preflight round 1 H/me/c=10
+  21671.7 successful req/s
+preflight round 1 H/user/c=10
+  26033.7 successful req/s
+preflight round 1 H/list/c=10
+  21745.2 successful req/s
+preflight round 1 H/order/c=10
+  23141.2 successful req/s
+preflight round 1 H/cpu/c=10
+  208.4 successful req/s
+round 1 E/health/c=10
+  96398.5 successful req/s
+round 1 E/health/c=100
+  109304.4 successful req/s
+round 1 E/health/c=500
+  104435.3 successful req/s
+round 1 E/echo/c=10
+  81987.4 successful req/s
+round 1 E/echo/c=100
+  86061.1 successful req/s
+round 1 E/echo/c=500
+  86064.9 successful req/s
+round 1 E/me/c=10
+  21388.8 successful req/s
+round 1 E/me/c=100
+  23007.5 successful req/s
+round 1 E/me/c=500
+  21468.7 successful req/s
+round 1 E/user/c=10
+  27682.8 successful req/s
+round 1 E/user/c=100
+  28300.6 successful req/s
+round 1 E/user/c=500
+  27536.6 successful req/s
+round 1 E/list/c=10
+  19767.0 successful req/s
+round 1 E/list/c=100
+  20464.5 successful req/s
+round 1 E/list/c=500
+  20040.7 successful req/s
+round 1 E/order/c=10
+  20360.1 successful req/s
+round 1 E/order/c=100
+  24332.3 successful req/s
+round 1 E/order/c=500
+  24488.9 successful req/s
+round 1 E/cpu/c=10
+  190.0 successful req/s
+round 1 E/cpu/c=100
+  189.8 successful req/s
+round 1 E/cpu/c=500
+  185.8 successful req/s
+round 1 H/health/c=10
+  92899.4 successful req/s
+round 1 H/health/c=100
+  96027.2 successful req/s
+round 1 H/health/c=500
+  [idle-gate] H/health/c=500: foreign CPU 635% ≥ 450%, waiting 30 s
+  94195.8 successful req/s
+round 1 H/echo/c=10
+  72978.1 successful req/s
+round 1 H/echo/c=100
+  79655.3 successful req/s
+round 1 H/echo/c=500
+  80122.3 successful req/s
+round 1 H/me/c=10
+  22630.0 successful req/s
+round 1 H/me/c=100
+  23329.2 successful req/s
+round 1 H/me/c=500
+  22397.4 successful req/s
+round 1 H/user/c=10
+  27987.4 successful req/s
+round 1 H/user/c=100
+  30404.5 successful req/s
+round 1 H/user/c=500
+  28080.3 successful req/s
+round 1 H/list/c=10
+  21471.2 successful req/s
+round 1 H/list/c=100
+  22120.0 successful req/s
+round 1 H/list/c=500
+  21619.4 successful req/s
+round 1 H/order/c=10
+  23073.0 successful req/s
+round 1 H/order/c=100
+  27399.9 successful req/s
+round 1 H/order/c=500
+  INVALID: Error: warmup failed: 16 non-2xx responses; 16 transport errors
+round 1 H/cpu/c=10
+  208.7 successful req/s
+round 1 H/cpu/c=100
+  208.0 successful req/s
+round 1 H/cpu/c=500
+  207.9 successful req/s
+round 2 H/health/c=10
+  123368.7 successful req/s
+round 2 H/health/c=100
+  133039.6 successful req/s
+round 2 H/health/c=500
+  132041.8 successful req/s
+round 2 H/echo/c=10
+  97451.3 successful req/s
+round 2 H/echo/c=100
+  101408.2 successful req/s
+round 2 H/echo/c=500
+  98710.6 successful req/s
+round 2 H/me/c=10
+  25137.1 successful req/s
+round 2 H/me/c=100
+  25870.9 successful req/s
+round 2 H/me/c=500
+  24923.3 successful req/s
+round 2 H/user/c=10
+  31378.2 successful req/s
+round 2 H/user/c=100
+  32587.2 successful req/s
+round 2 H/user/c=500
+  31373.5 successful req/s
+round 2 H/list/c=10
+  23654.1 successful req/s
+round 2 H/list/c=100
+  23956.8 successful req/s
+round 2 H/list/c=500
+  23106.8 successful req/s
+round 2 H/order/c=10
+  24842.2 successful req/s
+round 2 H/order/c=100
+  16784.8 successful req/s
+round 2 H/order/c=500
+  14171.5 successful req/s
+round 2 H/cpu/c=10
+  208.6 successful req/s
+round 2 H/cpu/c=100
+  211.7 successful req/s
+round 2 H/cpu/c=500
+  201.2 successful req/s
+round 2 E/health/c=10
+  122668.2 successful req/s
+round 2 E/health/c=100
+  135159.4 successful req/s
+round 2 E/health/c=500
+  132481.7 successful req/s
+round 2 E/echo/c=10
+  104394.1 successful req/s
+round 2 E/echo/c=100
+  107955.7 successful req/s
+round 2 E/echo/c=500
+  104306.2 successful req/s
+round 2 E/me/c=10
+  22482.9 successful req/s
+round 2 E/me/c=100
+  24424.7 successful req/s
+round 2 E/me/c=500
+  22619.1 successful req/s
+round 2 E/user/c=10
+  28835.6 successful req/s
+round 2 E/user/c=100
+  30377.7 successful req/s
+round 2 E/user/c=500
+  27581.8 successful req/s
+round 2 E/list/c=10
+  21062.9 successful req/s
+round 2 E/list/c=100
+  20586.9 successful req/s
+round 2 E/list/c=500
+  20670.6 successful req/s
+round 2 E/order/c=10
+  23707.8 successful req/s
+round 2 E/order/c=100
+  27483.4 successful req/s
+round 2 E/order/c=500
+  25303.2 successful req/s
+round 2 E/cpu/c=10
+  183.8 successful req/s
+round 2 E/cpu/c=100
+  182.7 successful req/s
+round 2 E/cpu/c=500
+  177.8 successful req/s
+round 3 E/health/c=10
+  117938.5 successful req/s
+round 3 E/health/c=100
+  128419.2 successful req/s
+round 3 E/health/c=500
+  124088.8 successful req/s
+round 3 E/echo/c=10
+  100172.9 successful req/s
+round 3 E/echo/c=100
+  114127.7 successful req/s
+round 3 E/echo/c=500
+  111735.9 successful req/s
+round 3 E/me/c=10
+  24589.9 successful req/s
+round 3 E/me/c=100
+  25543.2 successful req/s
+round 3 E/me/c=500
+  23383.8 successful req/s
+round 3 E/user/c=10
+  31551.2 successful req/s
+round 3 E/user/c=100
+  33341.0 successful req/s
+round 3 E/user/c=500
+  31228.8 successful req/s
+round 3 E/list/c=10
+  23413.1 successful req/s
+round 3 E/list/c=100
+  23857.9 successful req/s
+round 3 E/list/c=500
+  22532.9 successful req/s
+round 3 E/order/c=10
+  24244.1 successful req/s
+round 3 E/order/c=100
+  27922.5 successful req/s
+round 3 E/order/c=500
+  13948.2 successful req/s
+round 3 E/cpu/c=10
+  183.3 successful req/s
+round 3 E/cpu/c=100
+  185.9 successful req/s
+round 3 E/cpu/c=500
+  190.2 successful req/s
+round 3 H/health/c=10
+  [idle-gate] H/health/c=10: foreign CPU 479% ≥ 450%, waiting 30 s
+  121367.1 successful req/s
+round 3 H/health/c=100
+  130246.4 successful req/s
+round 3 H/health/c=500
+  125610.6 successful req/s
+round 3 H/echo/c=10
+  91938.4 successful req/s
+round 3 H/echo/c=100
+  96764.3 successful req/s
+round 3 H/echo/c=500
+  94663.6 successful req/s
+round 3 H/me/c=10
+  23073.1 successful req/s
+round 3 H/me/c=100
+  24814.3 successful req/s
+round 3 H/me/c=500
+  24242.7 successful req/s
+round 3 H/user/c=10
+  29396.1 successful req/s
+round 3 H/user/c=100
+  30967.2 successful req/s
+round 3 H/user/c=500
+  29448.2 successful req/s
+round 3 H/list/c=10
+  22411.0 successful req/s
+round 3 H/list/c=100
+  22964.6 successful req/s
+round 3 H/list/c=500
+  [idle-gate] H/list/c=500: foreign CPU 456% ≥ 450%, waiting 30 s
+  22812.2 successful req/s
+round 3 H/order/c=10
+  23615.9 successful req/s
+round 3 H/order/c=100
+  27396.9 successful req/s
+round 3 H/order/c=500
+  26395.4 successful req/s
+round 3 H/cpu/c=10
+  203.4 successful req/s
+round 3 H/cpu/c=100
+  199.3 successful req/s
+round 3 H/cpu/c=500
+  194.8 successful req/s
+results: results/full-hono-2026-09-24.json (failed)
+209 |     }
+210 |     for (let round = 0; round < repeats; round++) {
+211 |       result.methodology.roundOrders.push(rotate(configs, round).map((c) => c.id));
+212 |       await runRound(round, result.runs, warmup, duration, concurrencies);
+213 |     }
+214 |     if (result.runs.some((r) => !r.valid)) throw new Error("one or more benchmark windows failed; see recorded issues");
+                                                           ^
+error: one or more benchmark windows failed; see recorded issues
+      at runBenchmark (/Users/macbookpro/development/elysia_vs_django/bench/bench.ts:214:54)
+
+Bun v1.4.2 (macOS arm64)
+=== overnight-hono end rc=1 2026-09-24 10:38:07 +05
