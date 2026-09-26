@@ -103,3 +103,30 @@ seen at 7% in the throttled night run, and NOT explained by RSS (98-132 MiB on
 both). `/health`, `/me`, `/users/:id`, `/orders` at c=10/100: tied. `/users`
 list: H ahead in the medians but rounds overlap. None of this is quotable until
 a quiet run agrees.
+
+## 2026-09-27 — run of record for E vs H: `results/full-hono-2026-09-27.json`
+
+00:21-01:57 local, hand-started with `ANY_HOUR=1` after a reboot. 126/126
+windows valid, noise 10/10. Foreign CPU median **11%**, max 50% — the quietest
+run this repo has produced; the Django run of record sat at 97-238%. What it
+took, in order: Raycast quit (it held ~95% of a core for five hours before
+the reboot and again after it); a reboot (fseventsd at 100% and dasd at 86%
+would not settle); `sudo killall dasd` after the reboot, because dasd came back
+at ~90% — the restarted dasd read 0.0% twenty seconds later. OrbStack stopped,
+no parallel Claude session running tests. Conditions recorded in `env`:
+`ordersAutovacuum: off`, `contentionGatePct: 200`; autovacuum on `orders` was
+restored afterwards (`reloptions` back to default, checked).
+
+Noise floor on H, c=100, five windows: `/health` 0.97%, `/users/:id` 3.88% —
+the latter is one low first window (33,896) against 34,894-35,210 for the other
+four, so treat ~1% as the floor and the first window as warm-up residue.
+
+**Correction to the 2026-09-24 daytime entry.** It said `/cpu` H ran 8-15% ahead
+of E on identical hashing code in every round and called that unexplained. In a
+quiet run it is gone: E/H on `/cpu` is 1.025, 1.014 and 1.000 at c=10/100/500.
+It was an artifact of the throttled, contended morning after all — which is
+exactly why that run was filed as PREVIEW and never quoted.
+
+One unexplained dip, same shape as Django v3's: H `/orders` c=500 round 2 read
+24,319 against 30,093 and 29,849, with zero checkpoints, 13% foreign CPU and
+autovacuum off. The median is unaffected. Not explained; reported as is.

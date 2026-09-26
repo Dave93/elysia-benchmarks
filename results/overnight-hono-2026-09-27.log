@@ -1,0 +1,316 @@
+=== overnight-hono start 2026-09-27 00:21:02 +05
+preflight OK: somaxconn=4096, spotlight off, postgres up, :3100 free, self-test 73 ms
+$ bun build.ts
+$ bun build.ts
+--- noise floor on H 00:21:02
+parity E: 38 cases passed
+parity H: 38 cases passed
+round 1 H/health/c=100
+  139221.0 successful req/s
+round 1 H/user/c=100
+  33895.6 successful req/s
+round 2 H/health/c=100
+  140569.0 successful req/s
+round 2 H/user/c=100
+  34894.0 successful req/s
+round 3 H/health/c=100
+  140215.2 successful req/s
+round 3 H/user/c=100
+  35016.6 successful req/s
+round 4 H/health/c=100
+  140182.2 successful req/s
+round 4 H/user/c=100
+  35020.8 successful req/s
+round 5 H/health/c=100
+  140471.2 successful req/s
+round 5 H/user/c=100
+  35209.8 successful req/s
+results: results/noise-hono-2026-09-27.json (passed)
+health/c=100: n=5, population CV=0.003415529476494146, observed range/min %=0.9682375828511176
+user/c=100: n=5, population CV=0.013414441545194854, observed range/min %=3.8770923746549095
+Observed variability only; not a universal noise floor, confidence interval, or significance threshold.
+--- full matrix E,H 00:27:58
+parity E: 38 cases passed
+parity H: 38 cases passed
+preflight round 1 E/health/c=10
+  132173.3 successful req/s
+preflight round 1 E/echo/c=10
+  123367.5 successful req/s
+preflight round 1 E/me/c=10
+  28587.9 successful req/s
+preflight round 1 E/user/c=10
+  35937.4 successful req/s
+preflight round 1 E/list/c=10
+  26753.4 successful req/s
+preflight round 1 E/order/c=10
+  27349.9 successful req/s
+preflight round 1 E/cpu/c=10
+  253.3 successful req/s
+preflight round 1 H/health/c=10
+  131533.2 successful req/s
+preflight round 1 H/echo/c=10
+  114245.5 successful req/s
+preflight round 1 H/me/c=10
+  28129.5 successful req/s
+preflight round 1 H/user/c=10
+  34751.8 successful req/s
+preflight round 1 H/list/c=10
+  25931.5 successful req/s
+preflight round 1 H/order/c=10
+  26761.9 successful req/s
+preflight round 1 H/cpu/c=10
+  250.2 successful req/s
+round 1 E/health/c=10
+  132284.2 successful req/s
+round 1 E/health/c=100
+  143800.4 successful req/s
+round 1 E/health/c=500
+  143822.0 successful req/s
+round 1 E/echo/c=10
+  123632.7 successful req/s
+round 1 E/echo/c=100
+  129237.6 successful req/s
+round 1 E/echo/c=500
+  127674.2 successful req/s
+round 1 E/me/c=10
+  28388.0 successful req/s
+round 1 E/me/c=100
+  28362.5 successful req/s
+round 1 E/me/c=500
+  27675.8 successful req/s
+round 1 E/user/c=10
+  36231.1 successful req/s
+round 1 E/user/c=100
+  36168.3 successful req/s
+round 1 E/user/c=500
+  35663.2 successful req/s
+round 1 E/list/c=10
+  26406.0 successful req/s
+round 1 E/list/c=100
+  25936.1 successful req/s
+round 1 E/list/c=500
+  25916.2 successful req/s
+round 1 E/order/c=10
+  27286.9 successful req/s
+round 1 E/order/c=100
+  30843.6 successful req/s
+round 1 E/order/c=500
+  30162.8 successful req/s
+round 1 E/cpu/c=10
+  241.0 successful req/s
+round 1 E/cpu/c=100
+  241.9 successful req/s
+round 1 E/cpu/c=500
+  239.0 successful req/s
+round 1 H/health/c=10
+  130247.5 successful req/s
+round 1 H/health/c=100
+  140244.4 successful req/s
+round 1 H/health/c=500
+  139610.6 successful req/s
+round 1 H/echo/c=10
+  114485.3 successful req/s
+round 1 H/echo/c=100
+  118969.1 successful req/s
+round 1 H/echo/c=500
+  116986.0 successful req/s
+round 1 H/me/c=10
+  28162.7 successful req/s
+round 1 H/me/c=100
+  28101.0 successful req/s
+round 1 H/me/c=500
+  27718.3 successful req/s
+round 1 H/user/c=10
+  34637.3 successful req/s
+round 1 H/user/c=100
+  34919.8 successful req/s
+round 1 H/user/c=500
+  34645.7 successful req/s
+round 1 H/list/c=10
+  25938.8 successful req/s
+round 1 H/list/c=100
+  25528.0 successful req/s
+round 1 H/list/c=500
+  25533.2 successful req/s
+round 1 H/order/c=10
+  28688.6 successful req/s
+round 1 H/order/c=100
+  30783.8 successful req/s
+round 1 H/order/c=500
+  30093.3 successful req/s
+round 1 H/cpu/c=10
+  234.9 successful req/s
+round 1 H/cpu/c=100
+  236.1 successful req/s
+round 1 H/cpu/c=500
+  236.8 successful req/s
+round 2 H/health/c=10
+  130052.6 successful req/s
+round 2 H/health/c=100
+  140701.1 successful req/s
+round 2 H/health/c=500
+  139973.1 successful req/s
+round 2 H/echo/c=10
+  113892.5 successful req/s
+round 2 H/echo/c=100
+  119521.8 successful req/s
+round 2 H/echo/c=500
+  116966.0 successful req/s
+round 2 H/me/c=10
+  28217.3 successful req/s
+round 2 H/me/c=100
+  28274.6 successful req/s
+round 2 H/me/c=500
+  27655.4 successful req/s
+round 2 H/user/c=10
+  34739.2 successful req/s
+round 2 H/user/c=100
+  35161.6 successful req/s
+round 2 H/user/c=500
+  34823.8 successful req/s
+round 2 H/list/c=10
+  25865.4 successful req/s
+round 2 H/list/c=100
+  25667.2 successful req/s
+round 2 H/list/c=500
+  25620.4 successful req/s
+round 2 H/order/c=10
+  28560.7 successful req/s
+round 2 H/order/c=100
+  30549.9 successful req/s
+round 2 H/order/c=500
+  24319.2 successful req/s
+round 2 H/cpu/c=10
+  234.8 successful req/s
+round 2 H/cpu/c=100
+  237.8 successful req/s
+round 2 H/cpu/c=500
+  238.9 successful req/s
+round 2 E/health/c=10
+  132276.6 successful req/s
+round 2 E/health/c=100
+  143512.2 successful req/s
+round 2 E/health/c=500
+  142771.7 successful req/s
+round 2 E/echo/c=10
+  122812.7 successful req/s
+round 2 E/echo/c=100
+  128915.5 successful req/s
+round 2 E/echo/c=500
+  127376.9 successful req/s
+round 2 E/me/c=10
+  28427.1 successful req/s
+round 2 E/me/c=100
+  28391.5 successful req/s
+round 2 E/me/c=500
+  27582.7 successful req/s
+round 2 E/user/c=10
+  36132.6 successful req/s
+round 2 E/user/c=100
+  36141.0 successful req/s
+round 2 E/user/c=500
+  35725.1 successful req/s
+round 2 E/list/c=10
+  26340.2 successful req/s
+round 2 E/list/c=100
+  25930.3 successful req/s
+round 2 E/list/c=500
+  25871.6 successful req/s
+round 2 E/order/c=10
+  29132.0 successful req/s
+round 2 E/order/c=100
+  31173.6 successful req/s
+round 2 E/order/c=500
+  30187.6 successful req/s
+round 2 E/cpu/c=10
+  240.7 successful req/s
+round 2 E/cpu/c=100
+  240.4 successful req/s
+round 2 E/cpu/c=500
+  239.5 successful req/s
+round 3 E/health/c=10
+  131878.3 successful req/s
+round 3 E/health/c=100
+  143248.7 successful req/s
+round 3 E/health/c=500
+  143103.1 successful req/s
+round 3 E/echo/c=10
+  123484.6 successful req/s
+round 3 E/echo/c=100
+  129020.4 successful req/s
+round 3 E/echo/c=500
+  127801.7 successful req/s
+round 3 E/me/c=10
+  28506.6 successful req/s
+round 3 E/me/c=100
+  28650.9 successful req/s
+round 3 E/me/c=500
+  27754.2 successful req/s
+round 3 E/user/c=10
+  36626.0 successful req/s
+round 3 E/user/c=100
+  36612.9 successful req/s
+round 3 E/user/c=500
+  36139.9 successful req/s
+round 3 E/list/c=10
+  26338.2 successful req/s
+round 3 E/list/c=100
+  26189.0 successful req/s
+round 3 E/list/c=500
+  26237.4 successful req/s
+round 3 E/order/c=10
+  28704.5 successful req/s
+round 3 E/order/c=100
+  30667.3 successful req/s
+round 3 E/order/c=500
+  29942.9 successful req/s
+round 3 E/cpu/c=10
+  238.9 successful req/s
+round 3 E/cpu/c=100
+  241.0 successful req/s
+round 3 E/cpu/c=500
+  237.7 successful req/s
+round 3 H/health/c=10
+  130108.2 successful req/s
+round 3 H/health/c=100
+  140210.1 successful req/s
+round 3 H/health/c=500
+  139229.7 successful req/s
+round 3 H/echo/c=10
+  114093.6 successful req/s
+round 3 H/echo/c=100
+  119222.7 successful req/s
+round 3 H/echo/c=500
+  116368.4 successful req/s
+round 3 H/me/c=10
+  27905.1 successful req/s
+round 3 H/me/c=100
+  27934.9 successful req/s
+round 3 H/me/c=500
+  27316.3 successful req/s
+round 3 H/user/c=10
+  34261.4 successful req/s
+round 3 H/user/c=100
+  34639.0 successful req/s
+round 3 H/user/c=500
+  34452.0 successful req/s
+round 3 H/list/c=10
+  25705.8 successful req/s
+round 3 H/list/c=100
+  25400.8 successful req/s
+round 3 H/list/c=500
+  25357.6 successful req/s
+round 3 H/order/c=10
+  28455.9 successful req/s
+round 3 H/order/c=100
+  30628.4 successful req/s
+round 3 H/order/c=500
+  29849.3 successful req/s
+round 3 H/cpu/c=10
+  235.8 successful req/s
+round 3 H/cpu/c=100
+  238.2 successful req/s
+round 3 H/cpu/c=500
+  239.5 successful req/s
+results: results/full-hono-2026-09-27.json (passed)
+=== overnight-hono end rc=0 2026-09-27 01:57:37 +05
