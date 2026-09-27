@@ -178,3 +178,31 @@ So on a validated route the difference is which cleaner runs, and
 H configurations follow from that: Hono with TypeBox's own `Clean` (what
 `tbValidator(..., useClean)` does), and Hono with `exact-mirror` (the
 framework with the cleaner held constant).
+
+## 2026-09-27 afternoon — run of record for E vs H vs H-mirror: `results/full-hono3-2026-09-27.json`
+
+11:13-13:55, hand-started, AC power, `ordersAutovacuum: off`, gate 200%.
+189/189 windows valid, noise 10/10. Foreign CPU median 17%, max 200%. Noise
+floor on H: `/health` 0.41%, `/users/:id` 1.32%. dasd sat at ~90% for the
+first 40 minutes and was restarted twice (it came straight back after the
+second restart), which held some windows at the idle gate for 30-90 s; it
+settled later on its own. Autovacuum on `orders` restored afterwards.
+
+What the three configurations separate, c=100, medians:
+
+- **Framework, cleaner held constant (E vs H-mirror):** `/health` E +2.4%,
+  `/me` +0.6%, `/orders` -0.4%, `/cpu` +2.1%, `/echo` +5.8%. `/me` and `/orders`
+  split their rounds; the rest go E 3/3.
+- **Cleaner (H vs H-mirror, same framework):** TypeBox 1.3 `Clean` costs
+  **15.7%** on `/echo` and **17.2%** on `/orders`, 3.0-3.5% on the param/query
+  routes, nothing where no body is cleaned.
+- **Caveat that must travel with `/users/:id` (E +5.8% vs H-mirror) and the
+  list (+5.7%):** those inputs arrive as strings, fail the compiled Check, and
+  take H's slow path — the Elysia-parity guard plus TypeBox's interpreted
+  `Default` / `Convert`. Elysia compiles coercion into its validator. So part
+  of that gap is how our H coerces, not Hono's router; an idiomatic Hono app
+  would more likely `Number(c.req.param("id"))` by hand. Do not present those
+  two rows as a pure framework number.
+
+One more unexplained `/orders` dip, again on H (c=500, spread 30%) with
+autovacuum off and no checkpoint in the window. Median unaffected.

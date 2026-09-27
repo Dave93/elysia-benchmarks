@@ -1,0 +1,493 @@
+=== overnight-hono start 2026-09-27 11:13:06 +05
+preflight OK: somaxconn=4096, spotlight off, postgres up, :3100 free, self-test 75 ms
+$ bun build.ts
+$ bun build.ts
+--- noise floor on H 11:13:06
+parity E: 38 cases passed
+parity H: 38 cases passed
+round 1 H/health/c=100
+  [idle-gate] H/health/c=100: foreign CPU 418% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 287% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 259% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 234% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 235% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 227% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 229% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 226% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 226% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 220% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=100: foreign CPU 205% ≥ 200%, waiting 30 s
+  140428.6 successful req/s
+round 1 H/user/c=100
+  [idle-gate] H/user/c=100: foreign CPU 215% ≥ 200%, waiting 30 s
+  [idle-gate] H/user/c=100: foreign CPU 230% ≥ 200%, waiting 30 s
+  32299.3 successful req/s
+round 2 H/health/c=100
+  [idle-gate] H/health/c=100: foreign CPU 208% ≥ 200%, waiting 30 s
+  140277.5 successful req/s
+round 2 H/user/c=100
+  31937.7 successful req/s
+round 3 H/health/c=100
+  139970.7 successful req/s
+round 3 H/user/c=100
+  32360.8 successful req/s
+round 4 H/health/c=100
+  139857.3 successful req/s
+round 4 H/user/c=100
+  [idle-gate] H/user/c=100: foreign CPU 237% ≥ 200%, waiting 30 s
+  32136.5 successful req/s
+round 5 H/health/c=100
+  140404.0 successful req/s
+round 5 H/user/c=100
+  32277.7 successful req/s
+results: results/noise-hono3-2026-09-27.json (passed)
+health/c=100: n=5, population CV=0.0016551778579473203, observed range/min %=0.4085345368464752
+user/c=100: n=5, population CV=0.004701023244295333, observed range/min %=1.3248784954218844
+Observed variability only; not a universal noise floor, confidence interval, or significance threshold.
+--- full matrix E,H,H-mirror 11:28:49
+parity E: 38 cases passed
+parity H: 38 cases passed
+parity H-mirror: 38 cases passed
+preflight round 1 E/health/c=10
+  130805.5 successful req/s
+preflight round 1 E/echo/c=10
+  122354.9 successful req/s
+preflight round 1 E/me/c=10
+  27865.0 successful req/s
+preflight round 1 E/user/c=10
+  35341.3 successful req/s
+preflight round 1 E/list/c=10
+  26299.6 successful req/s
+preflight round 1 E/order/c=10
+  27775.9 successful req/s
+preflight round 1 E/cpu/c=10
+  249.0 successful req/s
+preflight round 1 H/health/c=10
+  130669.7 successful req/s
+preflight round 1 H/echo/c=10
+  96228.6 successful req/s
+preflight round 1 H/me/c=10
+  27648.0 successful req/s
+preflight round 1 H/user/c=10
+  [idle-gate] H/user/c=10: foreign CPU 207% ≥ 200%, waiting 30 s
+  31845.7 successful req/s
+preflight round 1 H/list/c=10
+  23844.6 successful req/s
+preflight round 1 H/order/c=10
+  24569.8 successful req/s
+preflight round 1 H/cpu/c=10
+  253.9 successful req/s
+preflight round 1 H-mirror/health/c=10
+  130015.8 successful req/s
+preflight round 1 H-mirror/echo/c=10
+  116674.7 successful req/s
+preflight round 1 H-mirror/me/c=10
+  27559.7 successful req/s
+preflight round 1 H-mirror/user/c=10
+  33038.8 successful req/s
+preflight round 1 H-mirror/list/c=10
+  [idle-gate] H-mirror/list/c=10: foreign CPU 202% ≥ 200%, waiting 30 s
+  [idle-gate] H-mirror/list/c=10: foreign CPU 328% ≥ 200%, waiting 30 s
+  [idle-gate] H-mirror/list/c=10: foreign CPU 206% ≥ 200%, waiting 30 s
+  24548.1 successful req/s
+preflight round 1 H-mirror/order/c=10
+  27446.4 successful req/s
+preflight round 1 H-mirror/cpu/c=10
+  255.8 successful req/s
+round 1 E/health/c=10
+  131733.7 successful req/s
+round 1 E/health/c=100
+  143011.7 successful req/s
+round 1 E/health/c=500
+  141873.0 successful req/s
+round 1 E/echo/c=10
+  120343.6 successful req/s
+round 1 E/echo/c=100
+  126055.7 successful req/s
+round 1 E/echo/c=500
+  [idle-gate] E/echo/c=500: foreign CPU 201% ≥ 200%, waiting 30 s
+  [idle-gate] E/echo/c=500: foreign CPU 203% ≥ 200%, waiting 30 s
+  [idle-gate] E/echo/c=500: foreign CPU 223% ≥ 200%, waiting 30 s
+  125072.5 successful req/s
+round 1 E/me/c=10
+  27676.4 successful req/s
+round 1 E/me/c=100
+  [idle-gate] E/me/c=100: foreign CPU 204% ≥ 200%, waiting 30 s
+  28349.9 successful req/s
+round 1 E/me/c=500
+  27382.9 successful req/s
+round 1 E/user/c=10
+  35522.1 successful req/s
+round 1 E/user/c=100
+  35747.1 successful req/s
+round 1 E/user/c=500
+  [idle-gate] E/user/c=500: foreign CPU 200% ≥ 200%, waiting 30 s
+  34775.7 successful req/s
+round 1 E/list/c=10
+  26088.5 successful req/s
+round 1 E/list/c=100
+  [idle-gate] E/list/c=100: foreign CPU 206% ≥ 200%, waiting 30 s
+  25631.9 successful req/s
+round 1 E/list/c=500
+  25494.8 successful req/s
+round 1 E/order/c=10
+  28928.0 successful req/s
+round 1 E/order/c=100
+  31460.4 successful req/s
+round 1 E/order/c=500
+  30338.1 successful req/s
+round 1 E/cpu/c=10
+  [idle-gate] E/cpu/c=10: foreign CPU 223% ≥ 200%, waiting 30 s
+  230.6 successful req/s
+round 1 E/cpu/c=100
+  233.1 successful req/s
+round 1 E/cpu/c=500
+  234.7 successful req/s
+round 1 H/health/c=10
+  129481.6 successful req/s
+round 1 H/health/c=100
+  [idle-gate] H/health/c=100: foreign CPU 209% ≥ 200%, waiting 30 s
+  139201.6 successful req/s
+round 1 H/health/c=500
+  [idle-gate] H/health/c=500: foreign CPU 202% ≥ 200%, waiting 30 s
+  [idle-gate] H/health/c=500: foreign CPU 215% ≥ 200%, waiting 30 s
+  139287.6 successful req/s
+round 1 H/echo/c=10
+  100235.1 successful req/s
+round 1 H/echo/c=100
+  103350.4 successful req/s
+round 1 H/echo/c=500
+  [idle-gate] H/echo/c=500: foreign CPU 201% ≥ 200%, waiting 30 s
+  [idle-gate] H/echo/c=500: foreign CPU 204% ≥ 200%, waiting 30 s
+  [idle-gate] H/echo/c=500: foreign CPU 201% ≥ 200%, waiting 30 s
+  100726.0 successful req/s
+round 1 H/me/c=10
+  27792.7 successful req/s
+round 1 H/me/c=100
+  28130.9 successful req/s
+round 1 H/me/c=500
+  27472.0 successful req/s
+round 1 H/user/c=10
+  32130.4 successful req/s
+round 1 H/user/c=100
+  32966.5 successful req/s
+round 1 H/user/c=500
+  32542.4 successful req/s
+round 1 H/list/c=10
+  23836.5 successful req/s
+round 1 H/list/c=100
+  23717.1 successful req/s
+round 1 H/list/c=500
+  23541.6 successful req/s
+round 1 H/order/c=10
+  24608.4 successful req/s
+round 1 H/order/c=100
+  26501.4 successful req/s
+round 1 H/order/c=500
+  25134.4 successful req/s
+round 1 H/cpu/c=10
+  233.9 successful req/s
+round 1 H/cpu/c=100
+  234.7 successful req/s
+round 1 H/cpu/c=500
+  232.3 successful req/s
+round 1 H-mirror/health/c=10
+  [contended] foreign CPU 249% ≥ 200% — re-measuring (1/50)
+  [idle-gate] H-mirror/health/c=10: foreign CPU 373% ≥ 200%, waiting 30 s
+  [contended] foreign CPU 219% ≥ 200% — re-measuring (2/50)
+  [idle-gate] H-mirror/health/c=10: foreign CPU 229% ≥ 200%, waiting 30 s
+  129112.9 successful req/s
+round 1 H-mirror/health/c=100
+  138569.1 successful req/s
+round 1 H-mirror/health/c=500
+  137588.9 successful req/s
+round 1 H-mirror/echo/c=10
+  114626.7 successful req/s
+round 1 H-mirror/echo/c=100
+  119609.9 successful req/s
+round 1 H-mirror/echo/c=500
+  118711.7 successful req/s
+round 1 H-mirror/me/c=10
+  27745.8 successful req/s
+round 1 H-mirror/me/c=100
+  27813.5 successful req/s
+round 1 H-mirror/me/c=500
+  26874.9 successful req/s
+round 1 H-mirror/user/c=10
+  32665.9 successful req/s
+round 1 H-mirror/user/c=100
+  33964.1 successful req/s
+round 1 H-mirror/user/c=500
+  33226.9 successful req/s
+round 1 H-mirror/list/c=10
+  24542.5 successful req/s
+round 1 H-mirror/list/c=100
+  24544.5 successful req/s
+round 1 H-mirror/list/c=500
+  24271.1 successful req/s
+round 1 H-mirror/order/c=10
+  28483.9 successful req/s
+round 1 H-mirror/order/c=100
+  30705.3 successful req/s
+round 1 H-mirror/order/c=500
+  29919.1 successful req/s
+round 1 H-mirror/cpu/c=10
+  231.9 successful req/s
+round 1 H-mirror/cpu/c=100
+  230.0 successful req/s
+round 1 H-mirror/cpu/c=500
+  231.5 successful req/s
+round 2 H/health/c=10
+  129278.9 successful req/s
+round 2 H/health/c=100
+  139374.0 successful req/s
+round 2 H/health/c=500
+  138563.3 successful req/s
+round 2 H/echo/c=10
+  99906.8 successful req/s
+round 2 H/echo/c=100
+  103705.8 successful req/s
+round 2 H/echo/c=500
+  100776.5 successful req/s
+round 2 H/me/c=10
+  27788.8 successful req/s
+round 2 H/me/c=100
+  27806.8 successful req/s
+round 2 H/me/c=500
+  27227.7 successful req/s
+round 2 H/user/c=10
+  31735.0 successful req/s
+round 2 H/user/c=100
+  32727.3 successful req/s
+round 2 H/user/c=500
+  32244.9 successful req/s
+round 2 H/list/c=10
+  23757.8 successful req/s
+round 2 H/list/c=100
+  23713.1 successful req/s
+round 2 H/list/c=500
+  23537.8 successful req/s
+round 2 H/order/c=10
+  24621.2 successful req/s
+round 2 H/order/c=100
+  26373.1 successful req/s
+round 2 H/order/c=500
+  25141.4 successful req/s
+round 2 H/cpu/c=10
+  230.2 successful req/s
+round 2 H/cpu/c=100
+  232.7 successful req/s
+round 2 H/cpu/c=500
+  231.1 successful req/s
+round 2 H-mirror/health/c=10
+  129425.4 successful req/s
+round 2 H-mirror/health/c=100
+  139330.9 successful req/s
+round 2 H-mirror/health/c=500
+  138410.1 successful req/s
+round 2 H-mirror/echo/c=10
+  114235.6 successful req/s
+round 2 H-mirror/echo/c=100
+  118701.6 successful req/s
+round 2 H-mirror/echo/c=500
+  117714.4 successful req/s
+round 2 H-mirror/me/c=10
+  27701.1 successful req/s
+round 2 H-mirror/me/c=100
+  28117.8 successful req/s
+round 2 H-mirror/me/c=500
+  27682.1 successful req/s
+round 2 H-mirror/user/c=10
+  33707.1 successful req/s
+round 2 H-mirror/user/c=100
+  34421.1 successful req/s
+round 2 H-mirror/user/c=500
+  33937.0 successful req/s
+round 2 H-mirror/list/c=10
+  24830.5 successful req/s
+round 2 H-mirror/list/c=100
+  24811.4 successful req/s
+round 2 H-mirror/list/c=500
+  24571.6 successful req/s
+round 2 H-mirror/order/c=10
+  28697.1 successful req/s
+round 2 H-mirror/order/c=100
+  31435.9 successful req/s
+round 2 H-mirror/order/c=500
+  30477.0 successful req/s
+round 2 H-mirror/cpu/c=10
+  228.7 successful req/s
+round 2 H-mirror/cpu/c=100
+  231.4 successful req/s
+round 2 H-mirror/cpu/c=500
+  230.0 successful req/s
+round 2 E/health/c=10
+  130910.7 successful req/s
+round 2 E/health/c=100
+  142333.8 successful req/s
+round 2 E/health/c=500
+  141963.8 successful req/s
+round 2 E/echo/c=10
+  120942.5 successful req/s
+round 2 E/echo/c=100
+  126490.4 successful req/s
+round 2 E/echo/c=500
+  125121.4 successful req/s
+round 2 E/me/c=10
+  28014.8 successful req/s
+round 2 E/me/c=100
+  27862.0 successful req/s
+round 2 E/me/c=500
+  27295.5 successful req/s
+round 2 E/user/c=10
+  35550.3 successful req/s
+round 2 E/user/c=100
+  36057.7 successful req/s
+round 2 E/user/c=500
+  35364.2 successful req/s
+round 2 E/list/c=10
+  26102.5 successful req/s
+round 2 E/list/c=100
+  25972.3 successful req/s
+round 2 E/list/c=500
+  25558.0 successful req/s
+round 2 E/order/c=10
+  28558.2 successful req/s
+round 2 E/order/c=100
+  30666.9 successful req/s
+round 2 E/order/c=500
+  29880.9 successful req/s
+round 2 E/cpu/c=10
+  236.7 successful req/s
+round 2 E/cpu/c=100
+  235.3 successful req/s
+round 2 E/cpu/c=500
+  233.4 successful req/s
+round 3 H-mirror/health/c=10
+  129433.2 successful req/s
+round 3 H-mirror/health/c=100
+  139159.2 successful req/s
+round 3 H-mirror/health/c=500
+  137652.9 successful req/s
+round 3 H-mirror/echo/c=10
+  114608.0 successful req/s
+round 3 H-mirror/echo/c=100
+  119575.7 successful req/s
+round 3 H-mirror/echo/c=500
+  117940.8 successful req/s
+round 3 H-mirror/me/c=10
+  27678.1 successful req/s
+round 3 H-mirror/me/c=100
+  27657.5 successful req/s
+round 3 H-mirror/me/c=500
+  27318.4 successful req/s
+round 3 H-mirror/user/c=10
+  32994.8 successful req/s
+round 3 H-mirror/user/c=100
+  33819.4 successful req/s
+round 3 H-mirror/user/c=500
+  33589.2 successful req/s
+round 3 H-mirror/list/c=10
+  24457.2 successful req/s
+round 3 H-mirror/list/c=100
+  24444.9 successful req/s
+round 3 H-mirror/list/c=500
+  24218.7 successful req/s
+round 3 H-mirror/order/c=10
+  28508.0 successful req/s
+round 3 H-mirror/order/c=100
+  30907.2 successful req/s
+round 3 H-mirror/order/c=500
+  30071.9 successful req/s
+round 3 H-mirror/cpu/c=10
+  230.8 successful req/s
+round 3 H-mirror/cpu/c=100
+  228.8 successful req/s
+round 3 H-mirror/cpu/c=500
+  231.9 successful req/s
+round 3 E/health/c=10
+  131056.2 successful req/s
+round 3 E/health/c=100
+  142488.9 successful req/s
+round 3 E/health/c=500
+  142301.4 successful req/s
+round 3 E/echo/c=10
+  120983.3 successful req/s
+round 3 E/echo/c=100
+  126512.8 successful req/s
+round 3 E/echo/c=500
+  125272.5 successful req/s
+round 3 E/me/c=10
+  28020.1 successful req/s
+round 3 E/me/c=100
+  27984.5 successful req/s
+round 3 E/me/c=500
+  27131.6 successful req/s
+round 3 E/user/c=10
+  35488.2 successful req/s
+round 3 E/user/c=100
+  35934.9 successful req/s
+round 3 E/user/c=500
+  35261.5 successful req/s
+round 3 E/list/c=10
+  26033.4 successful req/s
+round 3 E/list/c=100
+  25938.6 successful req/s
+round 3 E/list/c=500
+  25689.2 successful req/s
+round 3 E/order/c=10
+  28711.4 successful req/s
+round 3 E/order/c=100
+  30789.1 successful req/s
+round 3 E/order/c=500
+  29825.2 successful req/s
+round 3 E/cpu/c=10
+  236.6 successful req/s
+round 3 E/cpu/c=100
+  234.9 successful req/s
+round 3 E/cpu/c=500
+  234.3 successful req/s
+round 3 H/health/c=10
+  129557.4 successful req/s
+round 3 H/health/c=100
+  138650.6 successful req/s
+round 3 H/health/c=500
+  137868.3 successful req/s
+round 3 H/echo/c=10
+  99543.2 successful req/s
+round 3 H/echo/c=100
+  103202.0 successful req/s
+round 3 H/echo/c=500
+  101139.9 successful req/s
+round 3 H/me/c=10
+  27806.0 successful req/s
+round 3 H/me/c=100
+  27835.7 successful req/s
+round 3 H/me/c=500
+  27115.8 successful req/s
+round 3 H/user/c=10
+  32078.4 successful req/s
+round 3 H/user/c=100
+  33026.8 successful req/s
+round 3 H/user/c=500
+  32409.8 successful req/s
+round 3 H/list/c=10
+  23439.9 successful req/s
+round 3 H/list/c=100
+  23448.3 successful req/s
+round 3 H/list/c=500
+  23296.8 successful req/s
+round 3 H/order/c=10
+  24479.6 successful req/s
+round 3 H/order/c=100
+  26273.2 successful req/s
+round 3 H/order/c=500
+  19333.5 successful req/s
+round 3 H/cpu/c=10
+  231.3 successful req/s
+round 3 H/cpu/c=100
+  232.9 successful req/s
+round 3 H/cpu/c=500
+  232.9 successful req/s
+results: results/full-hono3-2026-09-27.json (passed)
+=== overnight-hono end rc=0 2026-09-27 13:55:43 +05
