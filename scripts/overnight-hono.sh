@@ -41,6 +41,8 @@ preflight() {
   pg_isready -q || fail "Postgres is not accepting connections"
   psql -U postgres -lqt | cut -d'|' -f1 | grep -qw bench_elysia_django || fail "database bench_elysia_django missing"
   lsof -ti tcp:3100 >/dev/null && fail "something already listens on :3100"
+  # On battery macOS lowers performance and a 2 h run can drain it mid-matrix.
+  pmset -g batt | head -1 | grep -q "AC Power" || fail "running on battery; plug in the charger"
   [ -f apps/hono-api/dist/index.js ] || fail "apps/hono-api is not built"
   # The throttle check. A 300k-iteration SHA-256 loop runs in ~85 ms at full
   # speed and 230-440 ms when the process is scheduled as background work.
