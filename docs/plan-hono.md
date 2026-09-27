@@ -1,12 +1,12 @@
 # Plan — add Hono as a fourth configuration, and publish Elysia vs Hono
 
-Approved by Davron 2026-09-22. This is the first article subject this project
+Agreed 2026-09-22. This is the first article subject this project
 has chosen from measured demand rather than from what was already built.
 
 ## Why Hono, and why now
 
 Google Suggest, 81 alphabet-expanded probes, 2026-09-21
-(`~/.claude/skills/conversion-daily/state/keywords/2026-09-21-suggest.json`):
+(saved outside this repo):
 
 - `elysia vs ` → **`elysia vs hono` first**.
 - `elysia js vs ` → **`elysia js vs hono` first**, from an independent probe.

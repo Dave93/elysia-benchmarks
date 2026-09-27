@@ -4,7 +4,7 @@
   One-shot LaunchAgent for scripts/overnight-hono.sh.
   ProcessType=Interactive is the whole point: cron schedules its children as
   background work and they ran ~3x slow (see results/friction-log.md, 2026-09-24).
-  Install:  cp scripts/dev.davr.hono-overnight.plist ~/Library/LaunchAgents/
+  Replace /ABSOLUTE/PATH/TO below with your checkout, then install:  cp scripts/dev.davr.hono-overnight.plist ~/Library/LaunchAgents/
             launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/dev.davr.hono-overnight.plist
   The script unloads and deletes the agent itself when it exits.
   Edit Month/Day before installing; with neither set it would fire every night.
@@ -12,7 +12,7 @@
 <plist version="1.0"><dict>
   <key>Label</key><string>dev.davr.hono-overnight</string>
   <key>ProgramArguments</key>
-  <array><string>/bin/zsh</string><string>/Users/macbookpro/development/elysia_benchmarks/scripts/overnight-hono.sh</string></array>
+  <array><string>/bin/zsh</string><string>/ABSOLUTE/PATH/TO/elysia_benchmarks/scripts/overnight-hono.sh</string></array>
   <key>ProcessType</key><string>Interactive</string>
   <key>StartCalendarInterval</key>
   <dict>

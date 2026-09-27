@@ -21,10 +21,9 @@
 
 set -uo pipefail
 
-export HOME=/Users/macbookpro
-export PATH=/Users/macbookpro/.bun/bin:/Users/macbookpro/.local/bin:/opt/homebrew/opt/postgresql@17/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH="$HOME/.bun/bin:$HOME/.local/bin:/opt/homebrew/opt/postgresql@17/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-REPO=/Users/macbookpro/development/elysia_benchmarks
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
 STAMP=$(date +%Y-%m-%d)
 LOG=$REPO/results/overnight-hono3-$STAMP.log
 cd "$REPO" || exit 1
@@ -57,7 +56,7 @@ if [ "${1:-}" = "--check" ]; then
 fi
 
 # A LaunchAgent with a calendar interval that missed its time (lid closed)
-# fires on wake, which would put the run in the middle of Davron's morning.
+# fires on wake, which would put the run in the middle of a working morning.
 # Only the small hours are quiet enough.
 hour=$(date +%H)
 # ANY_HOUR=1 is the manual override for a run started by hand from a terminal.
