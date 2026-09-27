@@ -1,11 +1,10 @@
 {
   "passed": true,
-  "date": "2026-09-16T19:15:00.779Z",
+  "date": "2026-09-27T06:03:51.258Z",
   "configs": [
     "E",
-    "E-aot",
-    "N-sync",
-    "N-async"
+    "H",
+    "H-mirror"
   ],
   "checks": 38,
   "evidence": [
@@ -200,572 +199,382 @@
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "health",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "echo",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "me",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "user",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "list",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "order",
       "status": 201
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "cpu",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "defaults",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "missing-user",
       "status": 404
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "unauthorized",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "bad-token",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "bad-signature",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "expired",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "future-nbf",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "wrong-alg",
       "status": 401
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/users/0",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/users/nope",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/users?page=0",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/users?limit=101",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/cpu?n=0",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/cpu?n=1.5",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "/cpu",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "empty-name",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "long-name",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "bad-email",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "bool-age",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "fraction-age",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "high-age",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "many-tags",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "number-tag",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "missing-age",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "coerced-age",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "extras",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "boundary",
       "status": 200
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "invalid-order-0",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "invalid-order-1",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "invalid-order-2",
       "status": 422
     },
     {
-      "config": "E-aot",
+      "config": "H",
       "case": "invalid-order-3",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "health",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "echo",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "me",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "user",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "list",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "order",
       "status": 201
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "cpu",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "defaults",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "missing-user",
       "status": 404
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "unauthorized",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "bad-token",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "bad-signature",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "expired",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "future-nbf",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "wrong-alg",
       "status": 401
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/users/0",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/users/nope",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/users?page=0",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/users?limit=101",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/cpu?n=0",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/cpu?n=1.5",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "/cpu",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "empty-name",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "long-name",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "bad-email",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "bool-age",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "fraction-age",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "high-age",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "many-tags",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "number-tag",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "missing-age",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "coerced-age",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "extras",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "boundary",
       "status": 200
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "invalid-order-0",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "invalid-order-1",
       "status": 422
     },
     {
-      "config": "N-sync",
+      "config": "H-mirror",
       "case": "invalid-order-2",
       "status": 422
     },
     {
-      "config": "N-sync",
-      "case": "invalid-order-3",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "health",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "echo",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "me",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "user",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "list",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "order",
-      "status": 201
-    },
-    {
-      "config": "N-async",
-      "case": "cpu",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "defaults",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "missing-user",
-      "status": 404
-    },
-    {
-      "config": "N-async",
-      "case": "unauthorized",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "bad-token",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "bad-signature",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "expired",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "future-nbf",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "wrong-alg",
-      "status": 401
-    },
-    {
-      "config": "N-async",
-      "case": "/users/0",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/users/nope",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/users?page=0",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/users?limit=101",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/cpu?n=0",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/cpu?n=1.5",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "/cpu",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "empty-name",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "long-name",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "bad-email",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "bool-age",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "fraction-age",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "high-age",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "many-tags",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "number-tag",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "missing-age",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "coerced-age",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "extras",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "boundary",
-      "status": 200
-    },
-    {
-      "config": "N-async",
-      "case": "invalid-order-0",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "invalid-order-1",
-      "status": 422
-    },
-    {
-      "config": "N-async",
-      "case": "invalid-order-2",
-      "status": 422
-    },
-    {
-      "config": "N-async",
+      "config": "H-mirror",
       "case": "invalid-order-3",
       "status": 422
     }

@@ -1,4 +1,4 @@
-# Elysia vs Django — recorded observations
+# Elysia benchmarks — recorded observations (E, H, H-mirror)
 
 ## bench — results/full-hono3-2026-09-27.json
 

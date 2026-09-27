@@ -90,7 +90,7 @@ const ATTEMPTS = [
   { id: "cron", file: "THROTTLED-full-hono-2026-09-24.json", label: "Started by cron", when: "2026-09-24 02:00",
     kept: false, cause: "cron scheduled the whole run as background work; every route ran about 3x slow" },
   { id: "day", file: "PREVIEW-full-hono-2026-09-24.json", label: "Daytime, by hand", when: "2026-09-24 09:00",
-    kept: false, cause: "thermal throttling in round 1, 95-400% foreign CPU, spreads up to 40%" },
+    kept: false, cause: "thermal throttling in round 1, 95-400% foreign CPU, spreads 7-40% on most cells, up to 86%" },
   { id: "validator", file: "full-hono-2026-09-27.json", label: "Quiet night", when: "2026-09-27 00:21",
     kept: false, cause: "machine clean, but our Hono app validated with interpreted TypeBox 0.34 while Elysia compiled 1.3" },
   { id: "record", file: "full-hono3-2026-09-27.json", label: "Run of record", when: "2026-09-27 11:13",

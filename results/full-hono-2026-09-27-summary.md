@@ -1,4 +1,4 @@
-# Elysia vs Django — recorded observations
+# Elysia benchmarks — recorded observations (E, H; confounded run, see friction-log)
 
 ## bench — results/full-hono-2026-09-27.json
 

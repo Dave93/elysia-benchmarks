@@ -1,6 +1,6 @@
 # Elysia benchmarks — data pack
 
-> Renamed 2026-09-27 from `elysia-vs-django`: the repo now holds a second comparison (Hono 4.13 on Bun, configuration `H`). The Django run of record below is unchanged.
+> Renamed 2026-09-27 from `elysia-vs-django`. The repo now holds two comparisons against Elysia 2 on Bun: **Django 6.1** (run of record `results/full-2026-09-18b.json`, below) and **Hono 4.13** (run of record `results/full-hono3-2026-09-27.json`, see "Elysia vs Hono" at the end). Files prefixed `THROTTLED-` and `PREVIEW-`, and `full-hono-2026-09-27.json`, are runs we threw away; `results/friction-log.md` says why for each.
 
 Seven equivalent SaaS-slice routes, adapted from `../elysia_vs_nest`, with an explicitly named Python stack rather than an intentionally weak `runserver` baseline. The run of record is `results/full-2026-09-18b.json` (harness v3, 2026-09-18): 3 configurations × 7 routes × c=10/100/500 × 3 rounds, 189/189 windows valid. Quick and smoke artifacts below are plumbing checks only.
 
@@ -95,3 +95,29 @@ Inspect each command's recorded metadata, raw errors and samples before reportin
 `/health`, `/echo`, `/users/:id`, `/users`, `/orders`, `/me`, `/cpu` listen on **127.0.0.1:3100** during tests. The apps deliberately omit production security features, use a public fixture JWT key, expose unauthenticated writes/CPU work, and must **never be deployed**.
 
 No DX or monetary-cost claims are copied from the Nest benchmark. Comparing a mandatory JS build with Python's optional compilation, or projecting laptop single-worker numbers into server bills, would require a separate justified protocol.
+
+## Elysia vs Hono (2026-09-27)
+
+Configurations, all on Bun 1.4.2, one process each, same routes, schema, seed and parity gate (38 checks) as above:
+
+- `E`: Elysia 2.0.0-beta.12.
+- `H`: Hono 4.13.8, `apps/hono-api`. Validates with compiled `typebox` 1.3.26 (Elysia's resolved version) through `hono/validator`, and strips unknown keys with TypeBox's `Clean`, as `@hono/typebox-validator` does with `useClean`. `db.ts`, `auth.ts` and `cpu.ts` are imported from `apps/elysia-api`, so both share one driver and one JWT path.
+- `H-mirror`: the same Hono build with `HONO_CLEANER=mirror`, which swaps `Clean` for `exact-mirror` 1.2.4, the cleaner Elysia uses. E against H-mirror is the framework with the cleaner held constant; H against H-mirror is the price of the cleaner.
+
+H coerces path and query strings through an Elysia-parity guard plus TypeBox's interpreted `Default`/`Convert`, where Elysia compiles coercion. Read the `/users/:id`, list and `/cpu` rows with that in mind.
+
+Run of record: `results/full-hono3-2026-09-27.json` (189/189 valid, foreign CPU median 17%), summary `results/full-hono3-2026-09-27-summary.md`, noise `results/noise-hono3-2026-09-27.json`. It ran with `ORDERS_AUTOVACUUM=off` and `CONTENTION=200`, both recorded in its `env` block.
+
+```sh
+bun install --cwd apps/hono-api --frozen-lockfile
+(cd apps/hono-api && bun run build)
+CONFIGS=E,H,H-mirror bun bench/parity.ts
+# Preflight only (somaxconn, Spotlight, Postgres, :3100, AC power, a throttle self-test):
+scripts/overnight-hono.sh --check
+# The full run. It refuses to start outside 01:00-05:00 unless ANY_HOUR=1, and on battery.
+ANY_HOUR=1 scripts/overnight-hono.sh
+bun bench/article-blocks-hono.ts   # payloads for the article's interactive blocks
+```
+
+Start it from a terminal or the LaunchAgent in `scripts/`, not from cron: cron's children ran about 3x slow on this Mac (`results/friction-log.md`, 2026-09-24).
+

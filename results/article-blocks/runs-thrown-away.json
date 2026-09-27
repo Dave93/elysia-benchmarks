@@ -24,7 +24,7 @@
       "label": "Daytime, by hand",
       "when": "2026-09-24 09:00",
       "kept": false,
-      "cause": "thermal throttling in round 1, 95-400% foreign CPU, spreads up to 40%",
+      "cause": "thermal throttling in round 1, 95-400% foreign CPU, spreads 7-40% on most cells, up to 86%",
       "rps": 128419.15,
       "windows": [
         109304,
