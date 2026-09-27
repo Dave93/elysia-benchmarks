@@ -5,20 +5,24 @@
 // imported from the Elysia app rather than copied so they cannot drift. Only
 // the routing and validation layer differs.
 //
-// Elysia does three things to a request body for free that Hono does not:
-// coerces "30" to 30, strips unknown properties, and applies schema defaults.
-// Parity demands all three (see bench/parity.ts: "coerced-age", "extras",
-// "defaults"), so they are spelled out here with TypeBox's own Value helpers.
-// That keeps the validator identical on both sides; without it this benchmark
-// would be measuring TypeBox against something else and calling the result a
-// framework difference.
+// Validation is COMPILED, with the same library at the same version Elysia
+// resolves: `typebox` 1.3.26, `Compile` from `typebox/compile`. That is also
+// what Hono's own `@hono/typebox-validator` does. The 2026-09-27 run used the
+// interpreted `Value.*` path of `@sinclair/typebox` 0.34 instead, which made
+// every validated route a validator comparison rather than a framework one
+// (results/friction-log.md). Wiring goes through `hono/validator`, the same
+// middleware `tbValidator` is built on, so Hono's own validation overhead is
+// paid as a Hono user pays it.
 import { Hono } from "hono";
-import { Type as t, type TSchema } from "@sinclair/typebox";
-import { Value } from "@sinclair/typebox/value";
+import { validator } from "hono/validator";
+import Type, { type TSchema } from "typebox";
+import { Compile } from "typebox/compile";
 
 import { db, schema, eq } from "../../elysia-api/src/db";
 import { userIdFromAuthHeader } from "../../elysia-api/src/auth";
 import { sha256Loop } from "../../elysia-api/src/cpu";
+
+const t = Type;
 
 const EchoBody = t.Object({
   name: t.String({ minLength: 1, maxLength: 100 }),
@@ -41,71 +45,58 @@ const ListQuery = t.Object({
 const CpuQuery = t.Object({ n: t.Integer({ minimum: 1, maximum: 1_000_000 }) });
 
 /**
- * The coercion rule, in front of TypeBox's own.
+ * What Elysia accepts across types, and nothing more. Measured against the
+ * running Elysia app on 2026-09-22 and enforced by the parity gate:
  *
- * `Value.Convert` is permissive in ways Elysia is not: it truncates the string
- * "1.5" to 1, turns `true` into 1, and turns the number 1 into the string "1".
- * Each of those made Hono answer 200 where Elysia answers 422, and the parity
- * gate caught all three on consecutive runs (`/cpu?n=1.5`, "bool-age",
- * "number-tag").
+ * - a STRING may become an Integer only if it is an exact integer
+ *   ("30" → 30 passes "coerced-age"; "1.5" fails `/cpu?n=1.5`);
+ * - a STRING never becomes a Number (body `amount: "19.99"` → 422);
+ * - a boolean never becomes a number ("bool-age"), and a number never becomes
+ *   a string ("number-tag").
  *
- * What Elysia actually permits is narrow: a STRING may become a number, an
- * integer or a boolean, because that is what arrives in a query parameter or a
- * path segment. Nothing else crosses types. A number bound for a String stays
- * invalid, and a string bound for an Integer has to be an exact integer, so
- * "30" → 30 still works — parity's "coerced-age" case depends on it.
- *
- * This is written out rather than imported because it is the whole reason the
- * comparison is honest: both sides now run the same TypeBox schemas under the
- * same acceptance rule, so what the benchmark measures is the framework and
- * not a difference of validators.
+ * TypeBox's Convert is looser than all of that, so this walk runs first. It is
+ * only consulted on the slow path; a body that already has the right types
+ * goes straight through the compiled Check.
  */
-const kindOf = (s: any): string => s?.[Symbol.for("TypeBox.Kind")] ?? s?.type ?? "";
-
-function coercibleLikeElysia(s: TSchema, input: unknown): boolean {
+function coercibleLikeElysia(s: any, input: unknown): boolean {
   if (!s || typeof s !== "object" || input === undefined || input === null) return true;
-  const kind = kindOf(s);
-
-  if (kind === "Integer" || (s as any).type === "integer") {
-    if (typeof input === "number") return Number.isInteger(input);
-    if (typeof input === "string") return /^[+-]?\d+$/.test(input.trim());
-    return false;
+  switch (s.type) {
+    case "integer":
+      if (typeof input === "number") return Number.isInteger(input);
+      if (typeof input === "string") return /^[+-]?\d+$/.test(input.trim());
+      return false;
+    case "number":
+      return typeof input === "number";
+    case "string":
+      return typeof input === "string";
+    case "boolean":
+      return typeof input === "boolean" || input === "true" || input === "false";
   }
-  if (kind === "Number" || (s as any).type === "number") {
-    // Asymmetric on purpose, and measured rather than assumed. Probed against
-    // the running Elysia app on 2026-09-22: body `age: "30"` against t.Integer
-    // → 200, body `userId: "4242"` → 201, but body `amount: "19.99"` against
-    // t.Number → 422. So Elysia coerces a string to an Integer and refuses to
-    // coerce one to a Number. Parity's "coerced-age" and "invalid-order-1"
-    // cases are the two halves of that rule.
-    return typeof input === "number";
+  if (s.properties && typeof input === "object" && !Array.isArray(input)) {
+    return Object.keys(s.properties).every((k) => coercibleLikeElysia(s.properties[k], (input as any)[k]));
   }
-  if (kind === "String" || (s as any).type === "string") return typeof input === "string";
-  if (kind === "Boolean" || (s as any).type === "boolean") {
-    return typeof input === "boolean" || input === "true" || input === "false";
-  }
-
-  const props = (s as any).properties;
-  if (props && typeof input === "object" && !Array.isArray(input)) {
-    return Object.keys(props).every((k) => coercibleLikeElysia(props[k], (input as any)[k]));
-  }
-  const items = (s as any).items;
-  if (items && Array.isArray(input)) return input.every((x) => coercibleLikeElysia(items, x));
-  // Unions (currency) and anything else fall through to Value.Check.
+  if (s.items && Array.isArray(input)) return input.every((x) => coercibleLikeElysia(s.items, x));
   return true;
 }
 
-function parse<T extends TSchema>(s: T, input: unknown) {
-  if (!coercibleLikeElysia(s, input)) return { ok: false as const };
-  const v = Value.Clean(s, Value.Convert(s, Value.Default(s, input)));
-  return Value.Check(s, v) ? { ok: true as const, value: v as any } : { ok: false as const };
-}
-
-// email format is not registered in TypeBox by default; Elysia's TypeBox has it,
-// so parity on the "bad-email" case requires registering the same check here.
-import { FormatRegistry } from "@sinclair/typebox";
-if (!FormatRegistry.Has("email")) {
-  FormatRegistry.Set("email", (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s));
+/**
+ * A `hono/validator` middleware over a compiled schema — the shape of
+ * `tbValidator`, plus Elysia's defaults and coercion so parity holds.
+ * Fast path: already-valid input costs one compiled Check and a Clean (the
+ * Clean strips unknown keys, parity's "extras" case, as `tbValidator` does with
+ * `useClean`). Slow path, for strings from a query or a path: guard, Default,
+ * Convert, Clean, Check.
+ */
+function tb<T extends TSchema>(target: "json" | "query" | "param", s: T) {
+  const v = Compile(s);
+  return validator(target, (input, c) => {
+    if (v.Check(input)) return v.Clean(input) as any;
+    if (coercibleLikeElysia(s, input)) {
+      const x = v.Clean(v.Convert(v.Default(input)));
+      if (v.Check(x)) return x as any;
+    }
+    return c.json({ error: "validation" }, 422);
+  });
 }
 
 const serializeUser = (u: typeof schema.users.$inferSelect) => ({
@@ -119,39 +110,31 @@ export const app = new Hono();
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 
-app.post("/echo", async (c) => {
-  const r = parse(EchoBody, await c.req.json().catch(() => null));
-  return r.ok ? c.json(r.value) : c.json({ error: "validation" }, 422);
-});
+app.post("/echo", tb("json", EchoBody), (c) => c.json(c.req.valid("json")));
 
-app.get("/cpu", (c) => {
-  const r = parse(CpuQuery, c.req.query());
-  if (!r.ok) return c.json({ error: "validation" }, 422);
-  return c.json({ n: r.value.n, hash: sha256Loop(r.value.n) });
+app.get("/cpu", tb("query", CpuQuery), (c) => {
+  const { n } = c.req.valid("query") as { n: number };
+  return c.json({ n, hash: sha256Loop(n) });
 });
 
 // Registered before "/users" so the parameterised route is not shadowed.
-app.get("/users/:id", async (c) => {
-  const r = parse(UserParams, { id: c.req.param("id") });
-  if (!r.ok) return c.json({ error: "validation" }, 422);
-  const [u] = await db.select().from(schema.users).where(eq(schema.users.id, r.value.id)).limit(1);
+app.get("/users/:id", tb("param", UserParams), async (c) => {
+  const { id } = c.req.valid("param") as { id: number };
+  const [u] = await db.select().from(schema.users).where(eq(schema.users.id, id)).limit(1);
   return u ? c.json(serializeUser(u)) : c.json({ error: "not found" }, 404);
 });
 
-app.get("/users", async (c) => {
-  const r = parse(ListQuery, c.req.query());
-  if (!r.ok) return c.json({ error: "validation" }, 422);
-  const { page, limit } = r.value;
+app.get("/users", tb("query", ListQuery), async (c) => {
+  const { page, limit } = c.req.valid("query") as { page: number; limit: number };
   const rows = await db.select().from(schema.users).orderBy(schema.users.id)
     .limit(limit).offset((page - 1) * limit);
   return c.json({ page, limit, items: rows.map(serializeUser) });
 });
 
-app.post("/orders", async (c) => {
-  const r = parse(OrderBody, await c.req.json().catch(() => null));
-  if (!r.ok) return c.json({ error: "validation" }, 422);
+app.post("/orders", tb("json", OrderBody), async (c) => {
+  const b = c.req.valid("json") as { userId: number; amount: number; currency: string };
   const [o] = await db.insert(schema.orders)
-    .values({ userId: r.value.userId, amount: r.value.amount.toFixed(2), currency: r.value.currency, createdAt: new Date() })
+    .values({ userId: b.userId, amount: b.amount.toFixed(2), currency: b.currency, createdAt: new Date() })
     .returning();
   return c.json(serializeOrder(o), 201);
 });

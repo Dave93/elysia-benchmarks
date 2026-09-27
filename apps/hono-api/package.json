@@ -10,12 +10,11 @@
   },
   "dependencies": {
     "hono": "4.13.8",
-    "@hono/typebox-validator": "1.1.0",
-    "@sinclair/typebox": "^0.34.33"
+    "typebox": "1.3.26"
   },
   "devDependencies": {
     "@types/bun": "^1.3.14",
     "typescript": "^5.9.0"
   },
-  "_comment": "drizzle-orm, postgres and jose are deliberately absent: db.ts, auth.ts and cpu.ts are imported from apps/elysia-api so both configurations share one driver instance and one JWT implementation, not merely matching versions."
+  "_comment": "drizzle-orm, postgres and jose are deliberately absent: db.ts, auth.ts and cpu.ts are imported from apps/elysia-api so both configurations share one driver instance and one JWT implementation. typebox is pinned to 1.3.26, the exact version Elysia 2.0.0-beta.12 resolves, and validation is compiled \u2014 the 2026-09-27 run used interpreted @sinclair/typebox 0.34 and was confounded on every validated route (results/friction-log.md)."
 }

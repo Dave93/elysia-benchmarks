@@ -158,3 +158,23 @@ line as Elysia and as Hono's official validator), keeping the Elysia-parity
 coercion rule in front of it; parity 38/38 again; then a fresh E,H matrix.
 The 2026-09-27 files stay in the repo under their names as the record of this
 mistake, with this entry as their caveat.
+
+## 2026-09-27 — after the validator fix, the /echo gap is the cleaner, not the router
+
+H now validates with `typebox` 1.3.26 `Compile` through `hono/validator`, the
+shape of `@hono/typebox-validator`. Parity 38/38 first try. A quick,
+unquotable 10 s check on `/echo` c=100 then read **E 124k, H 100k** — wider than
+the confounded run's 119k, not narrower.
+
+Micro-benchmark of the pieces on the `/echo` body, 1M iterations each:
+compiled `Check` **30 ns**; TypeBox 1.3 `Clean` (strips unknown keys, which
+parity's "extras" case requires) **~1.6 µs** net of the 0.6-0.7 µs
+`structuredClone` it needs; `exact-mirror`, the compiled cleaner Elysia uses,
+**2 ns**. At ~100k req/s a request has ~10 µs, so `Clean` alone is ~16% — the
+whole gap.
+
+So on a validated route the difference is which cleaner runs, and
+`exact-mirror` is a standalone npm package a Hono app can use too. Two honest
+H configurations follow from that: Hono with TypeBox's own `Clean` (what
+`tbValidator(..., useClean)` does), and Hono with `exact-mirror` (the
+framework with the cleaner held constant).
