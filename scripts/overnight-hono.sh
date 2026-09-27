@@ -24,7 +24,7 @@ set -uo pipefail
 export HOME=/Users/macbookpro
 export PATH=/Users/macbookpro/.bun/bin:/Users/macbookpro/.local/bin:/opt/homebrew/opt/postgresql@17/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
-REPO=/Users/macbookpro/development/elysia_vs_django
+REPO=/Users/macbookpro/development/elysia_benchmarks
 STAMP=$(date +%Y-%m-%d)
 LOG=$REPO/results/overnight-hono-$STAMP.log
 cd "$REPO" || exit 1

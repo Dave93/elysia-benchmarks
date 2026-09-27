@@ -89,5 +89,6 @@ the Django article's `/cpu` row already documents in another form.
   (coercion differences on query parameters are the likely spot). Parity
   catches it; if it cannot be fixed without special-casing, the route leaves
   the matrix with the reason stated.
-- The repo is named `elysia_vs_django`. A third framework makes the name
-  wrong. Rename or move before publishing anything that links it.
+- ~~The repo is named `elysia_vs_django`.~~ Renamed 2026-09-27 to
+  `elysia_benchmarks` locally and `Dave93/elysia-benchmarks` on GitHub; the
+  old GitHub URL answers 301 to the new one, so published links still resolve.

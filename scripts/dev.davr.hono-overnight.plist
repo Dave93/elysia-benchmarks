@@ -12,7 +12,7 @@
 <plist version="1.0"><dict>
   <key>Label</key><string>dev.davr.hono-overnight</string>
   <key>ProgramArguments</key>
-  <array><string>/bin/zsh</string><string>/Users/macbookpro/development/elysia_vs_django/scripts/overnight-hono.sh</string></array>
+  <array><string>/bin/zsh</string><string>/Users/macbookpro/development/elysia_benchmarks/scripts/overnight-hono.sh</string></array>
   <key>ProcessType</key><string>Interactive</string>
   <key>StartCalendarInterval</key>
   <dict>

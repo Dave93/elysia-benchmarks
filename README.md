@@ -1,4 +1,6 @@
-# Elysia vs Django — benchmark data pack
+# Elysia benchmarks — data pack
+
+> Renamed 2026-09-27 from `elysia-vs-django`: the repo now holds a second comparison (Hono 4.13 on Bun, configuration `H`). The Django run of record below is unchanged.
 
 Seven equivalent SaaS-slice routes, adapted from `../elysia_vs_nest`, with an explicitly named Python stack rather than an intentionally weak `runserver` baseline. The run of record is `results/full-2026-09-18b.json` (harness v3, 2026-09-18): 3 configurations × 7 routes × c=10/100/500 × 3 rounds, 189/189 windows valid. Quick and smoke artifacts below are plumbing checks only.
 
