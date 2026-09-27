@@ -130,3 +130,31 @@ exactly why that run was filed as PREVIEW and never quoted.
 One unexplained dip, same shape as Django v3's: H `/orders` c=500 round 2 read
 24,319 against 30,093 and 29,849, with zero checkpoints, 13% foreign CPU and
 autovacuum off. The median is unaffected. Not explained; reported as is.
+
+## 2026-09-27, same morning — the run of record is confounded on every validated route
+
+Found while preparing the article, before a word of it was written. The two
+configurations do not validate the same way:
+
+- **E**: Elysia 2 compiles every schema (`validator/index.js` → `type_bridge.Compile`
+  over the `typebox` 1.3.26 package, with `exact-mirror` for cleaning).
+- **H**: `apps/hono-api/src/app.ts` validates with `@sinclair/typebox` **0.34**
+  `Value.Default / Convert / Clean / Check` — the interpreted path of an older
+  major version — plus a hand-written coercion walk in front of it.
+- Hono's own `@hono/typebox-validator` 1.1.0 does what E does: it imports
+  `Compile` from `typebox/compile` and checks with the compiled validator.
+  So H is not "Hono as Hono users run it" either; it is Hono with a slower
+  validator we chose.
+
+What survives: `/health` (no validation, E/H 1.023) and `/me` (header only,
+1.010) compare the frameworks cleanly. What does not: `/echo` (1.082),
+`/users/:id` (1.036), the list (1.016), `/orders` (1.007) and `/cpu` (1.014)
+all run the validator, and the gap on `/echo` — the only large one — is exactly
+where interpreted-vs-compiled validation would show. Nothing from those five
+routes may be quoted as a framework result.
+
+Fix before the article: H moves to `typebox` 1.3.x `Compile` (the same package
+line as Elysia and as Hono's official validator), keeping the Elysia-parity
+coercion rule in front of it; parity 38/38 again; then a fresh E,H matrix.
+The 2026-09-27 files stay in the repo under their names as the record of this
+mistake, with this entry as their caveat.
