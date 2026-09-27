@@ -17,6 +17,7 @@ import { Hono } from "hono";
 import { validator } from "hono/validator";
 import Type, { type TSchema } from "typebox";
 import { Compile } from "typebox/compile";
+import { createMirror } from "exact-mirror";
 
 import { db, schema, eq } from "../../elysia-api/src/db";
 import { userIdFromAuthHeader } from "../../elysia-api/src/auth";
@@ -87,12 +88,21 @@ function coercibleLikeElysia(s: any, input: unknown): boolean {
  * `useClean`). Slow path, for strings from a query or a path: guard, Default,
  * Convert, Clean, Check.
  */
+// HONO_CLEANER=mirror (configuration H-mirror) swaps TypeBox's Clean for
+// exact-mirror 1.2.4, the compiled cleaner Elysia 2 uses, at Elysia's version.
+// Measured on the /echo body: TypeBox 1.3 Clean ~1.6 us, exact-mirror 2 ns.
+// H keeps TypeBox's Clean (what `tbValidator(..., useClean)` does), so H
+// against H-mirror is the price of the cleaner and E against H-mirror is the
+// framework with the cleaner held constant.
+const MIRROR = process.env.HONO_CLEANER === "mirror";
+
 function tb<T extends TSchema>(target: "json" | "query" | "param", s: T) {
   const v = Compile(s);
+  const clean: (x: unknown) => unknown = MIRROR ? createMirror(s as any, { Compile } as any) : (x) => v.Clean(x);
   return validator(target, (input, c) => {
-    if (v.Check(input)) return v.Clean(input) as any;
+    if (v.Check(input)) return clean(input) as any;
     if (coercibleLikeElysia(s, input)) {
-      const x = v.Clean(v.Convert(v.Default(input)));
+      const x = clean(v.Convert(v.Default(input)));
       if (v.Check(x)) return x as any;
     }
     return c.json({ error: "validation" }, 422);

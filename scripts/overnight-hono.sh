@@ -26,7 +26,7 @@ export PATH=/Users/macbookpro/.bun/bin:/Users/macbookpro/.local/bin:/opt/homebre
 
 REPO=/Users/macbookpro/development/elysia_benchmarks
 STAMP=$(date +%Y-%m-%d)
-LOG=$REPO/results/overnight-hono-$STAMP.log
+LOG=$REPO/results/overnight-hono3-$STAMP.log
 cd "$REPO" || exit 1
 
 fail() { echo "REFUSED: $*"; exit 2; }
@@ -79,14 +79,14 @@ preflight
 (cd apps/hono-api && bun run build) || fail "hono build"
 
 echo "--- noise floor on H $(date '+%H:%M:%S')"
-caffeinate -dimsu env CONFIGS=H CONTENTION=200 OUT="results/noise-hono-$STAMP.json" bun bench/noise.ts \
+caffeinate -dimsu env CONFIGS=H CONTENTION=200 OUT="results/noise-hono3-$STAMP.json" bun bench/noise.ts \
   || echo "noise run exited non-zero; continuing to the matrix, the report will say so"
 
-echo "--- full matrix E,H $(date '+%H:%M:%S')"
+echo "--- full matrix E,H,H-mirror $(date '+%H:%M:%S')"
 # ORDERS_AUTOVACUUM=off and CONTENTION=200: see bench/db-reset.ts and the
 # 2026-09-24 daytime entry in results/friction-log.md. Both are recorded in
 # the result's env block; autovacuum is restored whatever the run's outcome.
-caffeinate -dimsu env CONFIGS=E,H ORDERS_AUTOVACUUM=off CONTENTION=200 OUT="results/full-hono-$STAMP.json" bun bench/bench.ts
+caffeinate -dimsu env CONFIGS=E,H,H-mirror ORDERS_AUTOVACUUM=off CONTENTION=200 OUT="results/full-hono3-$STAMP.json" bun bench/bench.ts
 rc=$?
 psql -U postgres -d bench_elysia_django -qc "ALTER TABLE orders RESET (autovacuum_enabled)" || echo "WARNING: could not restore autovacuum on orders"
 echo "=== overnight-hono end rc=$rc $(date '+%Y-%m-%d %H:%M:%S %Z')"
