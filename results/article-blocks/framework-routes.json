@@ -1,0 +1,226 @@
+{
+  "concurrencies": [
+    10,
+    100,
+    500
+  ],
+  "routes": [
+    {
+      "id": "health",
+      "label": "GET /health",
+      "caveat": false,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 131056.2,
+          "hm": 129425.37,
+          "ratio": 1.013,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 142488.89,
+          "hm": 139159.23,
+          "ratio": 1.024,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 141963.8,
+          "hm": 137652.94,
+          "ratio": 1.031,
+          "eWins": 3,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "echo",
+      "label": "POST /echo",
+      "caveat": false,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 120942.54,
+          "hm": 114607.96,
+          "ratio": 1.055,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 126490.43,
+          "hm": 119575.75,
+          "ratio": 1.058,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 125121.37,
+          "hm": 117940.84,
+          "ratio": 1.061,
+          "eWins": 3,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "me",
+      "label": "GET /me",
+      "caveat": false,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 28014.83,
+          "hm": 27701.1,
+          "ratio": 1.011,
+          "eWins": 2,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 27984.46,
+          "hm": 27813.52,
+          "ratio": 1.006,
+          "eWins": 2,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 27295.52,
+          "hm": 27318.43,
+          "ratio": 0.999,
+          "eWins": 1,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "user",
+      "label": "GET /users/:id",
+      "caveat": true,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 35522.1,
+          "hm": 32994.85,
+          "ratio": 1.077,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 35934.91,
+          "hm": 33964.12,
+          "ratio": 1.058,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 35261.55,
+          "hm": 33589.16,
+          "ratio": 1.05,
+          "eWins": 3,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "list",
+      "label": "GET /users (list)",
+      "caveat": true,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 26088.47,
+          "hm": 24542.51,
+          "ratio": 1.063,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 25938.56,
+          "hm": 24544.46,
+          "ratio": 1.057,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 25558.04,
+          "hm": 24271.12,
+          "ratio": 1.053,
+          "eWins": 3,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "label": "POST /orders",
+      "caveat": false,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 28711.45,
+          "hm": 28508.01,
+          "ratio": 1.007,
+          "eWins": 2,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 30789.07,
+          "hm": 30907.16,
+          "ratio": 0.996,
+          "eWins": 1,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 29880.86,
+          "hm": 30071.94,
+          "ratio": 0.994,
+          "eWins": 1,
+          "rounds": 3
+        }
+      ]
+    },
+    {
+      "id": "cpu",
+      "label": "GET /cpu",
+      "caveat": false,
+      "cells": [
+        {
+          "concurrency": 10,
+          "e": 236.59,
+          "hm": 230.79,
+          "ratio": 1.025,
+          "eWins": 2,
+          "rounds": 3
+        },
+        {
+          "concurrency": 100,
+          "e": 234.89,
+          "hm": 229.96,
+          "ratio": 1.021,
+          "eWins": 3,
+          "rounds": 3
+        },
+        {
+          "concurrency": 500,
+          "e": 234.28,
+          "hm": 231.5,
+          "ratio": 1.012,
+          "eWins": 3,
+          "rounds": 3
+        }
+      ]
+    }
+  ]
+}
