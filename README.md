@@ -4,6 +4,10 @@
 
 Seven equivalent SaaS-slice routes, adapted from `../elysia_vs_nest`, with an explicitly named Python stack rather than an intentionally weak `runserver` baseline. The run of record is `results/full-2026-09-18b.json` (harness v3, 2026-09-18): 3 configurations × 7 routes × c=10/100/500 × 3 rounds, 189/189 windows valid. Quick and smoke artifacts below are plumbing checks only.
 
+## Disclosure
+
+Our team sells a paid product, [ShipKit](https://shipkit.davrapps.dev/en?utm_source=github-readme&utm_medium=repo&utm_campaign=elysia-benchmarks) ($149 one-time), built on Next.js and Elysia on Bun. It is not benchmarked here and plays no part in these runs. ShipKit uses Elysia 1.4.16, not the Elysia 2 beta measured here.
+
 ## Configurations
 
 - `E`: Elysia **2.0.0-beta.12**, Bun **1.4.2**, Drizzle + Bun SQL.
