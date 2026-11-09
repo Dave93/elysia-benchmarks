@@ -206,3 +206,59 @@ What the three configurations separate, c=100, medians:
 
 One more unexplained `/orders` dip, again on H (c=500, spread 30%) with
 autovacuum off and no checkpoint in the window. Median unaffected.
+
+## 2026-11-09 — Elysia vs Express on Linux: `results/full-express-2026-11-09-resumed.json`
+
+New host: an Intel Core i3-10100 desktop (4 cores / 8 threads, Ubuntu 26.04.1,
+kernel 7.0.0-42, governor powersave), not the M4 Pro laptop the Hono, Django
+and Nest runs used. Absolute numbers do not carry across hosts. Postgres 17.11
+runs in Docker (`postgres:17-alpine`, host networking, port 5433) because the
+host already runs its own Postgres on 5432 and the fixture must not share it.
+
+Three harness problems surfaced before the first full window:
+
+- **procps `%CPU` is a lifetime average on Linux.** The foreign-CPU gate read
+  it as current load, so it would have counted a browser that was busy an hour
+  ago and missed a burst that began a second ago. `bench/procfs.ts` now reads
+  utime+stime ticks from /proc and differences them; the server-tree sampler
+  uses the same source because procps prints CPU time in whole seconds here.
+- **The first launch was tied to a two-hour tool limit** and the matrix needs
+  about three; it was stopped during the preflight and relaunched detached
+  (`setsid nohup`). Nothing it measured was kept.
+- **Elysia's npm `latest` moved to 2.0.0-rc.4 on 2026-11-08**, while the
+  harness still pinned 2.0.0-beta.12 from September. The second launch was
+  stopped during its preflight, the Elysia app moved to rc.4 with
+  typebox 1.4.6 and exact-mirror 1.2.7 (the newest versions its peer ranges
+  allow, what a fresh install resolves; bun kept the old 1.3.26 / 1.2.4 from
+  the lockfile until they were pinned), and the Express app got the same two
+  versions. Parity 38/38 on all four configurations before and after.
+
+The run: 11:14-14:20 (+05), gate 200%, `ordersAutovacuum: off`. 251/252 windows
+valid. Foreign CPU median 101%, max 147% in measured windows (the desktop
+session's own UI took about one core throughout); two contended attempts
+around 13:00 were re-measured by the gate. No Postgres checkpoint landed in a
+measured window. Noise floor on E, c=100, 5 windows: `/health` 1.0%,
+`/users/:id` 1.7%.
+
+The one failed window: X-bun `/cpu` c=500 round 1 — 2,000 responses and 36
+connections the server closed before the first response byte (bombardier's
+wording), p99 11.21 s, max 12.38 s. It was re-measured with RESUME into
+`full-express-2026-11-09-resumed.json` (52.0 req/s, clean); the failed attempt
+stays in `full-express-2026-11-09.json`. Rounds 2 and 3 of the same cell were
+clean. A 12-second timer-delayed response on Bun (node:http and Bun.serve) and
+on Node, one connection each, was NOT closed, so the cause is not a plain
+idle timeout on a pending response; it is not established.
+
+Read with these caveats:
+
+- `/users/:id`, the list and `/cpu` take strings from the path and query, so in
+  X-bun, X-bun-pg and X-node they go through our middleware's slow path (the
+  Elysia-parity guard plus TypeBox's interpreted `Default`/`Convert`), as H did
+  in the Hono run. Elysia compiles coercion. Part of the framework step on
+  those rows is our coercion, not Express's router. `/health`, `/echo`, `/me`
+  and `/orders` carry no such caveat: no validation, or a body that passes the
+  compiled Check on the fast path.
+- `/cpu` latency is shaped differently on Node at the same throughput: c=100
+  p50 0.76 s and p99 31.5 s on X-node in all three rounds, against p50 ≈ p99 ≈
+  1.9 s on all three Bun configurations; c=500 p90 35 s on X-node. Observed,
+  not explained.

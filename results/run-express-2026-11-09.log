@@ -1,0 +1,615 @@
+=== run-express start 2026-11-09 11:14:43 +05
+preflight OK: postgres 127.0.0.1:5433 up, :3100 free, somaxconn=4096, governor=powersave, 1.4.2 / node v26.10.0
+$ bun build.ts
+$ bun build.ts
+--- full matrix E,X-bun,X-bun-pg,X-node 11:14:43
+parity E: 38 cases passed
+parity X-bun: 38 cases passed
+parity X-bun-pg: 38 cases passed
+parity X-node: 38 cases passed
+preflight round 1 E/health/c=10
+  59061.0 successful req/s
+preflight round 1 E/echo/c=10
+  43868.6 successful req/s
+preflight round 1 E/me/c=10
+  7566.4 successful req/s
+preflight round 1 E/user/c=10
+  9603.8 successful req/s
+preflight round 1 E/list/c=10
+  7112.5 successful req/s
+preflight round 1 E/order/c=10
+  6969.6 successful req/s
+preflight round 1 E/cpu/c=10
+  56.1 successful req/s
+preflight round 1 X-bun/health/c=10
+  31181.6 successful req/s
+preflight round 1 X-bun/echo/c=10
+  18255.4 successful req/s
+preflight round 1 X-bun/me/c=10
+  5562.6 successful req/s
+preflight round 1 X-bun/user/c=10
+  6772.1 successful req/s
+preflight round 1 X-bun/list/c=10
+  4937.2 successful req/s
+preflight round 1 X-bun/order/c=10
+  4841.8 successful req/s
+preflight round 1 X-bun/cpu/c=10
+  51.7 successful req/s
+preflight round 1 X-bun-pg/health/c=10
+  31875.4 successful req/s
+preflight round 1 X-bun-pg/echo/c=10
+  18868.0 successful req/s
+preflight round 1 X-bun-pg/me/c=10
+  4840.0 successful req/s
+preflight round 1 X-bun-pg/user/c=10
+  5269.7 successful req/s
+preflight round 1 X-bun-pg/list/c=10
+  4095.3 successful req/s
+preflight round 1 X-bun-pg/order/c=10
+  4109.7 successful req/s
+preflight round 1 X-bun-pg/cpu/c=10
+  54.8 successful req/s
+preflight round 1 X-node/health/c=10
+  20476.4 successful req/s
+preflight round 1 X-node/echo/c=10
+  14671.3 successful req/s
+preflight round 1 X-node/me/c=10
+  3356.7 successful req/s
+preflight round 1 X-node/user/c=10
+  4196.1 successful req/s
+preflight round 1 X-node/list/c=10
+  3416.3 successful req/s
+preflight round 1 X-node/order/c=10
+  3463.7 successful req/s
+preflight round 1 X-node/cpu/c=10
+  55.8 successful req/s
+round 1 E/health/c=10
+  60940.8 successful req/s
+round 1 E/health/c=100
+  57871.8 successful req/s
+round 1 E/health/c=500
+  56764.5 successful req/s
+round 1 E/echo/c=10
+  43861.3 successful req/s
+round 1 E/echo/c=100
+  42712.5 successful req/s
+round 1 E/echo/c=500
+  42181.4 successful req/s
+round 1 E/me/c=10
+  7947.3 successful req/s
+round 1 E/me/c=100
+  9352.9 successful req/s
+round 1 E/me/c=500
+  8777.3 successful req/s
+round 1 E/user/c=10
+  9872.4 successful req/s
+round 1 E/user/c=100
+  10683.4 successful req/s
+round 1 E/user/c=500
+  10275.6 successful req/s
+round 1 E/list/c=10
+  7154.8 successful req/s
+round 1 E/list/c=100
+  7750.3 successful req/s
+round 1 E/list/c=500
+  7872.5 successful req/s
+round 1 E/order/c=10
+  7417.2 successful req/s
+round 1 E/order/c=100
+  8562.2 successful req/s
+round 1 E/order/c=500
+  8698.4 successful req/s
+round 1 E/cpu/c=10
+  55.2 successful req/s
+round 1 E/cpu/c=100
+  54.0 successful req/s
+round 1 E/cpu/c=500
+  54.0 successful req/s
+round 1 X-bun/health/c=10
+  32345.1 successful req/s
+round 1 X-bun/health/c=100
+  30134.0 successful req/s
+round 1 X-bun/health/c=500
+  29112.6 successful req/s
+round 1 X-bun/echo/c=10
+  19784.5 successful req/s
+round 1 X-bun/echo/c=100
+  19090.4 successful req/s
+round 1 X-bun/echo/c=500
+  19125.4 successful req/s
+round 1 X-bun/me/c=10
+  6005.4 successful req/s
+round 1 X-bun/me/c=100
+  7680.4 successful req/s
+round 1 X-bun/me/c=500
+  7573.2 successful req/s
+round 1 X-bun/user/c=10
+  7098.1 successful req/s
+round 1 X-bun/user/c=100
+  8041.6 successful req/s
+round 1 X-bun/user/c=500
+  8018.6 successful req/s
+round 1 X-bun/list/c=10
+  5448.3 successful req/s
+round 1 X-bun/list/c=100
+  6074.3 successful req/s
+round 1 X-bun/list/c=500
+  6134.7 successful req/s
+round 1 X-bun/order/c=10
+  5312.2 successful req/s
+round 1 X-bun/order/c=100
+  6295.8 successful req/s
+round 1 X-bun/order/c=500
+  6227.9 successful req/s
+round 1 X-bun/cpu/c=10
+  51.8 successful req/s
+round 1 X-bun/cpu/c=100
+  52.2 successful req/s
+round 1 X-bun/cpu/c=500
+  INVALID: 36 non-2xx responses; 36 transport errors
+round 1 X-bun-pg/health/c=10
+  30754.4 successful req/s
+round 1 X-bun-pg/health/c=100
+  28636.0 successful req/s
+round 1 X-bun-pg/health/c=500
+  28202.0 successful req/s
+round 1 X-bun-pg/echo/c=10
+  19461.3 successful req/s
+round 1 X-bun-pg/echo/c=100
+  19381.7 successful req/s
+round 1 X-bun-pg/echo/c=500
+  19257.8 successful req/s
+round 1 X-bun-pg/me/c=10
+  5439.3 successful req/s
+round 1 X-bun-pg/me/c=100
+  4947.0 successful req/s
+round 1 X-bun-pg/me/c=500
+  4542.2 successful req/s
+round 1 X-bun-pg/user/c=10
+  5787.4 successful req/s
+round 1 X-bun-pg/user/c=100
+  5562.3 successful req/s
+round 1 X-bun-pg/user/c=500
+  5161.2 successful req/s
+round 1 X-bun-pg/list/c=10
+  4294.6 successful req/s
+round 1 X-bun-pg/list/c=100
+  4069.2 successful req/s
+round 1 X-bun-pg/list/c=500
+  3853.1 successful req/s
+round 1 X-bun-pg/order/c=10
+  4471.1 successful req/s
+round 1 X-bun-pg/order/c=100
+  4184.5 successful req/s
+round 1 X-bun-pg/order/c=500
+  4074.4 successful req/s
+round 1 X-bun-pg/cpu/c=10
+  51.5 successful req/s
+round 1 X-bun-pg/cpu/c=100
+  52.6 successful req/s
+round 1 X-bun-pg/cpu/c=500
+  52.7 successful req/s
+round 1 X-node/health/c=10
+  21571.0 successful req/s
+round 1 X-node/health/c=100
+  21312.8 successful req/s
+round 1 X-node/health/c=500
+  21241.0 successful req/s
+round 1 X-node/echo/c=10
+  15759.2 successful req/s
+round 1 X-node/echo/c=100
+  15333.9 successful req/s
+round 1 X-node/echo/c=500
+  14085.2 successful req/s
+round 1 X-node/me/c=10
+  3698.2 successful req/s
+round 1 X-node/me/c=100
+  3609.5 successful req/s
+round 1 X-node/me/c=500
+  3421.8 successful req/s
+round 1 X-node/user/c=10
+  4116.1 successful req/s
+round 1 X-node/user/c=100
+  4120.9 successful req/s
+round 1 X-node/user/c=500
+  3902.4 successful req/s
+round 1 X-node/list/c=10
+  3369.8 successful req/s
+round 1 X-node/list/c=100
+  3411.1 successful req/s
+round 1 X-node/list/c=500
+  3191.2 successful req/s
+round 1 X-node/order/c=10
+  3552.2 successful req/s
+round 1 X-node/order/c=100
+  3529.4 successful req/s
+round 1 X-node/order/c=500
+  3280.6 successful req/s
+round 1 X-node/cpu/c=10
+  54.9 successful req/s
+round 1 X-node/cpu/c=100
+  54.9 successful req/s
+round 1 X-node/cpu/c=500
+  54.8 successful req/s
+round 2 X-bun/health/c=10
+  32048.5 successful req/s
+round 2 X-bun/health/c=100
+  29985.6 successful req/s
+round 2 X-bun/health/c=500
+  29120.7 successful req/s
+round 2 X-bun/echo/c=10
+  19347.3 successful req/s
+round 2 X-bun/echo/c=100
+  19218.5 successful req/s
+round 2 X-bun/echo/c=500
+  19151.1 successful req/s
+round 2 X-bun/me/c=10
+  6202.6 successful req/s
+round 2 X-bun/me/c=100
+  7768.7 successful req/s
+round 2 X-bun/me/c=500
+  7514.2 successful req/s
+round 2 X-bun/user/c=10
+  7077.0 successful req/s
+round 2 X-bun/user/c=100
+  7865.3 successful req/s
+round 2 X-bun/user/c=500
+  7993.8 successful req/s
+round 2 X-bun/list/c=10
+  5457.2 successful req/s
+round 2 X-bun/list/c=100
+  6097.0 successful req/s
+round 2 X-bun/list/c=500
+  6157.8 successful req/s
+round 2 X-bun/order/c=10
+  5308.4 successful req/s
+round 2 X-bun/order/c=100
+  6334.1 successful req/s
+round 2 X-bun/order/c=500
+  6359.5 successful req/s
+round 2 X-bun/cpu/c=10
+  50.5 successful req/s
+round 2 X-bun/cpu/c=100
+  51.7 successful req/s
+round 2 X-bun/cpu/c=500
+  53.1 successful req/s
+round 2 X-bun-pg/health/c=10
+  32368.3 successful req/s
+round 2 X-bun-pg/health/c=100
+  30055.8 successful req/s
+round 2 X-bun-pg/health/c=500
+  29184.1 successful req/s
+round 2 X-bun-pg/echo/c=10
+  19636.5 successful req/s
+round 2 X-bun-pg/echo/c=100
+  19474.3 successful req/s
+round 2 X-bun-pg/echo/c=500
+  19371.4 successful req/s
+round 2 X-bun-pg/me/c=10
+  5584.7 successful req/s
+round 2 X-bun-pg/me/c=100
+  5069.4 successful req/s
+round 2 X-bun-pg/me/c=500
+  4800.0 successful req/s
+round 2 X-bun-pg/user/c=10
+  5917.0 successful req/s
+round 2 X-bun-pg/user/c=100
+  5656.4 successful req/s
+round 2 X-bun-pg/user/c=500
+  5088.4 successful req/s
+round 2 X-bun-pg/list/c=10
+  4308.4 successful req/s
+round 2 X-bun-pg/list/c=100
+  4189.7 successful req/s
+round 2 X-bun-pg/list/c=500
+  3964.1 successful req/s
+round 2 X-bun-pg/order/c=10
+  4526.9 successful req/s
+round 2 X-bun-pg/order/c=100
+  4389.8 successful req/s
+round 2 X-bun-pg/order/c=500
+  4201.3 successful req/s
+round 2 X-bun-pg/cpu/c=10
+  52.1 successful req/s
+round 2 X-bun-pg/cpu/c=100
+  53.5 successful req/s
+round 2 X-bun-pg/cpu/c=500
+  52.4 successful req/s
+round 2 X-node/health/c=10
+  21580.2 successful req/s
+round 2 X-node/health/c=100
+  21050.7 successful req/s
+round 2 X-node/health/c=500
+  21411.6 successful req/s
+round 2 X-node/echo/c=10
+  15785.6 successful req/s
+round 2 X-node/echo/c=100
+  15044.6 successful req/s
+round 2 X-node/echo/c=500
+  14046.6 successful req/s
+round 2 X-node/me/c=10
+  3706.7 successful req/s
+round 2 X-node/me/c=100
+  3573.6 successful req/s
+round 2 X-node/me/c=500
+  3390.3 successful req/s
+round 2 X-node/user/c=10
+  4152.7 successful req/s
+round 2 X-node/user/c=100
+  4215.0 successful req/s
+round 2 X-node/user/c=500
+  3923.4 successful req/s
+round 2 X-node/list/c=10
+  3383.0 successful req/s
+round 2 X-node/list/c=100
+  3394.1 successful req/s
+round 2 X-node/list/c=500
+  3208.1 successful req/s
+round 2 X-node/order/c=10
+  3548.1 successful req/s
+round 2 X-node/order/c=100
+  3497.9 successful req/s
+round 2 X-node/order/c=500
+  3319.5 successful req/s
+round 2 X-node/cpu/c=10
+  [contended] foreign CPU 246% ≥ 200% — re-measuring (1/50)
+  [idle-gate] X-node/cpu/c=10: foreign CPU 278% ≥ 200%, waiting 30 s
+  [idle-gate] X-node/cpu/c=10: foreign CPU 361% ≥ 200%, waiting 30 s
+  [idle-gate] X-node/cpu/c=10: foreign CPU 346% ≥ 200%, waiting 30 s
+  [idle-gate] X-node/cpu/c=10: foreign CPU 323% ≥ 200%, waiting 30 s
+  [contended] foreign CPU 228% ≥ 200% — re-measuring (2/50)
+  [idle-gate] X-node/cpu/c=10: foreign CPU 264% ≥ 200%, waiting 30 s
+  51.6 successful req/s
+round 2 X-node/cpu/c=100
+  51.6 successful req/s
+round 2 X-node/cpu/c=500
+  53.3 successful req/s
+round 2 E/health/c=10
+  58007.8 successful req/s
+round 2 E/health/c=100
+  55292.6 successful req/s
+round 2 E/health/c=500
+  54786.8 successful req/s
+round 2 E/echo/c=10
+  44105.4 successful req/s
+round 2 E/echo/c=100
+  43136.9 successful req/s
+round 2 E/echo/c=500
+  42221.0 successful req/s
+round 2 E/me/c=10
+  7870.7 successful req/s
+round 2 E/me/c=100
+  9162.5 successful req/s
+round 2 E/me/c=500
+  8948.5 successful req/s
+round 2 E/user/c=10
+  9946.4 successful req/s
+round 2 E/user/c=100
+  10696.1 successful req/s
+round 2 E/user/c=500
+  10416.1 successful req/s
+round 2 E/list/c=10
+  7357.9 successful req/s
+round 2 E/list/c=100
+  7936.0 successful req/s
+round 2 E/list/c=500
+  7839.9 successful req/s
+round 2 E/order/c=10
+  7403.5 successful req/s
+round 2 E/order/c=100
+  8430.3 successful req/s
+round 2 E/order/c=500
+  8621.4 successful req/s
+round 2 E/cpu/c=10
+  54.6 successful req/s
+round 2 E/cpu/c=100
+  54.2 successful req/s
+round 2 E/cpu/c=500
+  52.3 successful req/s
+round 3 X-bun-pg/health/c=10
+  31766.1 successful req/s
+round 3 X-bun-pg/health/c=100
+  29410.1 successful req/s
+round 3 X-bun-pg/health/c=500
+  28667.4 successful req/s
+round 3 X-bun-pg/echo/c=10
+  19594.4 successful req/s
+round 3 X-bun-pg/echo/c=100
+  19560.3 successful req/s
+round 3 X-bun-pg/echo/c=500
+  19280.5 successful req/s
+round 3 X-bun-pg/me/c=10
+  5413.6 successful req/s
+round 3 X-bun-pg/me/c=100
+  5049.3 successful req/s
+round 3 X-bun-pg/me/c=500
+  4764.0 successful req/s
+round 3 X-bun-pg/user/c=10
+  5872.3 successful req/s
+round 3 X-bun-pg/user/c=100
+  5646.6 successful req/s
+round 3 X-bun-pg/user/c=500
+  5311.2 successful req/s
+round 3 X-bun-pg/list/c=10
+  4342.3 successful req/s
+round 3 X-bun-pg/list/c=100
+  4050.3 successful req/s
+round 3 X-bun-pg/list/c=500
+  3863.2 successful req/s
+round 3 X-bun-pg/order/c=10
+  4445.9 successful req/s
+round 3 X-bun-pg/order/c=100
+  4231.0 successful req/s
+round 3 X-bun-pg/order/c=500
+  4170.9 successful req/s
+round 3 X-bun-pg/cpu/c=10
+  52.7 successful req/s
+round 3 X-bun-pg/cpu/c=100
+  52.7 successful req/s
+round 3 X-bun-pg/cpu/c=500
+  52.0 successful req/s
+round 3 X-node/health/c=10
+  21257.3 successful req/s
+round 3 X-node/health/c=100
+  20743.3 successful req/s
+round 3 X-node/health/c=500
+  21017.9 successful req/s
+round 3 X-node/echo/c=10
+  15711.3 successful req/s
+round 3 X-node/echo/c=100
+  15321.6 successful req/s
+round 3 X-node/echo/c=500
+  14305.7 successful req/s
+round 3 X-node/me/c=10
+  3613.1 successful req/s
+round 3 X-node/me/c=100
+  3409.9 successful req/s
+round 3 X-node/me/c=500
+  3386.7 successful req/s
+round 3 X-node/user/c=10
+  4162.0 successful req/s
+round 3 X-node/user/c=100
+  4196.4 successful req/s
+round 3 X-node/user/c=500
+  3969.5 successful req/s
+round 3 X-node/list/c=10
+  3408.6 successful req/s
+round 3 X-node/list/c=100
+  3422.6 successful req/s
+round 3 X-node/list/c=500
+  3168.7 successful req/s
+round 3 X-node/order/c=10
+  3534.2 successful req/s
+round 3 X-node/order/c=100
+  3495.6 successful req/s
+round 3 X-node/order/c=500
+  3336.0 successful req/s
+round 3 X-node/cpu/c=10
+  55.0 successful req/s
+round 3 X-node/cpu/c=100
+  54.3 successful req/s
+round 3 X-node/cpu/c=500
+  52.8 successful req/s
+round 3 E/health/c=10
+  59967.8 successful req/s
+round 3 E/health/c=100
+  57545.8 successful req/s
+round 3 E/health/c=500
+  57166.3 successful req/s
+round 3 E/echo/c=10
+  44614.8 successful req/s
+round 3 E/echo/c=100
+  43752.9 successful req/s
+round 3 E/echo/c=500
+  42570.4 successful req/s
+round 3 E/me/c=10
+  8061.6 successful req/s
+round 3 E/me/c=100
+  9172.0 successful req/s
+round 3 E/me/c=500
+  8951.9 successful req/s
+round 3 E/user/c=10
+  9962.8 successful req/s
+round 3 E/user/c=100
+  10631.4 successful req/s
+round 3 E/user/c=500
+  10528.7 successful req/s
+round 3 E/list/c=10
+  7388.4 successful req/s
+round 3 E/list/c=100
+  7811.0 successful req/s
+round 3 E/list/c=500
+  7523.1 successful req/s
+round 3 E/order/c=10
+  7344.2 successful req/s
+round 3 E/order/c=100
+  8543.8 successful req/s
+round 3 E/order/c=500
+  8576.6 successful req/s
+round 3 E/cpu/c=10
+  54.6 successful req/s
+round 3 E/cpu/c=100
+  54.2 successful req/s
+round 3 E/cpu/c=500
+  53.4 successful req/s
+round 3 X-bun/health/c=10
+  31883.7 successful req/s
+round 3 X-bun/health/c=100
+  29487.3 successful req/s
+round 3 X-bun/health/c=500
+  29003.0 successful req/s
+round 3 X-bun/echo/c=10
+  19706.0 successful req/s
+round 3 X-bun/echo/c=100
+  19633.6 successful req/s
+round 3 X-bun/echo/c=500
+  18959.5 successful req/s
+round 3 X-bun/me/c=10
+  6074.6 successful req/s
+round 3 X-bun/me/c=100
+  7614.3 successful req/s
+round 3 X-bun/me/c=500
+  7528.1 successful req/s
+round 3 X-bun/user/c=10
+  7154.5 successful req/s
+round 3 X-bun/user/c=100
+  7975.4 successful req/s
+round 3 X-bun/user/c=500
+  8111.0 successful req/s
+round 3 X-bun/list/c=10
+  5448.0 successful req/s
+round 3 X-bun/list/c=100
+  6083.5 successful req/s
+round 3 X-bun/list/c=500
+  6132.4 successful req/s
+round 3 X-bun/order/c=10
+  5140.1 successful req/s
+round 3 X-bun/order/c=100
+  6234.5 successful req/s
+round 3 X-bun/order/c=500
+  6248.9 successful req/s
+round 3 X-bun/cpu/c=10
+  52.6 successful req/s
+round 3 X-bun/cpu/c=100
+  52.5 successful req/s
+round 3 X-bun/cpu/c=500
+  51.8 successful req/s
+results: results/full-express-2026-11-09.json (failed)
+209 |     }
+210 |     for (let round = 0; round < repeats; round++) {
+211 |       result.methodology.roundOrders.push(rotate(configs, round).map((c) => c.id));
+212 |       await runRound(round, result.runs, warmup, duration, concurrencies);
+213 |     }
+214 |     if (result.runs.some((r) => !r.valid)) throw new Error("one or more benchmark windows failed; see recorded issues");
+                                                           ^
+error: one or more benchmark windows failed; see recorded issues
+      at runBenchmark (./bench/bench.ts:214:54)
+
+Bun v1.4.2 (Linux x64)
+--- noise floor on E 14:20:31
+parity E: 38 cases passed
+round 1 E/health/c=100
+  56709.4 successful req/s
+round 1 E/user/c=100
+  10535.3 successful req/s
+round 2 E/health/c=100
+  57284.3 successful req/s
+round 2 E/user/c=100
+  10478.1 successful req/s
+round 3 E/health/c=100
+  56983.1 successful req/s
+round 3 E/user/c=100
+  10654.1 successful req/s
+round 4 E/health/c=100
+  56944.5 successful req/s
+round 4 E/user/c=100
+  10470.9 successful req/s
+round 5 E/health/c=100
+  57293.9 successful req/s
+round 5 E/user/c=100
+  10483.4 successful req/s
+results: results/noise-express-2026-11-09.json (passed)
+health/c=100: n=5, population CV=0.003886186330113957, observed range/min %=1.030623330897284
+user/c=100: n=5, population CV=0.00653102411020392, observed range/min %=1.749403216365305
+Observed variability only; not a universal noise floor, confidence interval, or significance threshold.
+=== run-express end rc=1 2026-11-09 14:27:23 +05
