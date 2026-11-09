@@ -16,5 +16,5 @@
     "@types/express": "5.0.6",
     "typescript": "^5.9.0"
   },
-  "_comment": "drizzle-orm, postgres and jose are deliberately absent: db.ts, auth.ts and cpu.ts are imported from apps/elysia-api, as apps/hono-api does, so all three frameworks share one driver module and one JWT implementation. typebox 1.4.6 and exact-mirror 1.2.7 are the exact versions apps/elysia-api installs for Elysia 2.0.0-rc.4 (npm latest on 2026-11-09; its peer ranges are typebox >= 1.3.35 and exact-mirror >= 1.2.7, and these are the newest of each): Express gets Elysia's own validator and cleaner, so the measured difference is Express itself."
+  "_comment": "drizzle-orm, postgres and jose are deliberately absent: db.ts, auth.ts and cpu.ts are imported from apps/elysia-api, as apps/hono-api does, so all three frameworks share one driver module and one JWT implementation. typebox 1.4.6 and exact-mirror 1.2.7 are the exact versions apps/elysia-api installs for Elysia 2.0.0-rc.4 (npm latest on 2026-11-09; its peer ranges are typebox >= 1.3.35 and exact-mirror >= 1.2.7, and these are the newest of each): Express gets Elysia's own validator and cleaner, so the validator is held constant: the measured difference is Express and the node:http layer under it, plus our coercion code on /users/:id, the list and /cpu."
 }

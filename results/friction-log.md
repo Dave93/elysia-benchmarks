@@ -215,39 +215,46 @@ and Nest runs used. Absolute numbers do not carry across hosts. Postgres 17.11
 runs in Docker (`postgres:17-alpine`, host networking, port 5433) because the
 host already runs its own Postgres on 5432 and the fixture must not share it.
 
-Three harness problems surfaced before the first full window:
+Three things changed before the first full window:
 
 - **procps `%CPU` is a lifetime average on Linux.** The foreign-CPU gate read
   it as current load, so it would have counted a browser that was busy an hour
   ago and missed a burst that began a second ago. `bench/procfs.ts` now reads
   utime+stime ticks from /proc and differences them; the server-tree sampler
   uses the same source because procps prints CPU time in whole seconds here.
-- **The first launch was tied to a two-hour tool limit** and the matrix needs
-  about three; it was stopped during the preflight and relaunched detached
-  (`setsid nohup`). Nothing it measured was kept.
+- **The first launch was tied to a session with a two-hour limit** and the
+  matrix needs about three; it was stopped during the preflight and relaunched
+  detached (`setsid nohup`). Nothing it measured was kept.
 - **Elysia's npm `latest` moved to 2.0.0-rc.4 on 2026-11-08**, while the
   harness still pinned 2.0.0-beta.12 from September. The second launch was
   stopped during its preflight, the Elysia app moved to rc.4 with
-  typebox 1.4.6 and exact-mirror 1.2.7 (the newest versions its peer ranges
-  allow, what a fresh install resolves; bun kept the old 1.3.26 / 1.2.4 from
-  the lockfile until they were pinned), and the Express app got the same two
-  versions. Parity 38/38 on all four configurations before and after.
+  typebox 1.4.6 and exact-mirror 1.2.7 (the newest published versions, both
+  inside its peer ranges typebox >= 1.3.35 and exact-mirror >= 1.2.7, and what
+  a fresh install resolves; bun kept the old 1.3.26 / 1.2.4 from the lockfile
+  until they were pinned), and the Express app got the same two versions.
+  Parity 38/38 on all four configurations before the move (that launch's log
+  was not kept) and after it (`results/run-express-2026-11-09.log`, lines 6-9).
 
 The run: 11:14-14:20 (+05), gate 200%, `ordersAutovacuum: off`. 251/252 windows
-valid. Foreign CPU median 101%, max 147% in measured windows (the desktop
-session's own UI took about one core throughout); two contended attempts
-around 13:00 were re-measured by the gate. No Postgres checkpoint landed in a
-measured window. Noise floor on E, c=100, 5 windows: `/health` 1.0%,
-`/users/:id` 1.7%.
+valid. Foreign CPU averaged per measured window: median 101%, max 147%;
+one-second samples reached 349% (by our observation the desktop session's own
+UI took about one core; the harness records no per-process breakdown). Two
+contended attempts on X-node `/cpu` c=10, round 2 (13:00 and 13:03, at 246%
+and 228%), were set aside and that window re-measured. No Postgres checkpoint
+landed in a measured window. Noise floor on E, c=100, 5 windows: `/health`
+1.0%, `/users/:id` 1.7%.
 
 The one failed window: X-bun `/cpu` c=500 round 1 — 2,000 responses and 36
 connections the server closed before the first response byte (bombardier's
 wording), p99 11.21 s, max 12.38 s. It was re-measured with RESUME into
-`full-express-2026-11-09-resumed.json` (52.0 req/s, clean); the failed attempt
+`full-express-2026-11-09-resumed.json` (52.0 req/s, clean) at 14:28, after
+the noise floor, in a fresh X-bun process that served only that cell, so its
+memory carries none of the history the other windows do; the failed attempt
 stays in `full-express-2026-11-09.json`. Rounds 2 and 3 of the same cell were
-clean. A 12-second timer-delayed response on Bun (node:http and Bun.serve) and
-on Node, one connection each, was NOT closed, so the cause is not a plain
-idle timeout on a pending response; it is not established.
+clean. An ad-hoc check outside the harness (not committed): a 12-second
+timer-delayed response on Bun (node:http and Bun.serve) and on Node, one
+connection each, was NOT closed. On that one connection it argues against a
+plain idle timeout on a pending response; the cause is not established.
 
 Read with these caveats:
 
@@ -259,6 +266,6 @@ Read with these caveats:
   and `/orders` carry no such caveat: no validation, or a body that passes the
   compiled Check on the fast path.
 - `/cpu` latency is shaped differently on Node at the same throughput: c=100
-  p50 0.76 s and p99 31.5 s on X-node in all three rounds, against p50 ≈ p99 ≈
-  1.9 s on all three Bun configurations; c=500 p90 35 s on X-node. Observed,
-  not explained.
+  p50 0.76-0.78 s and p99 31.5-31.8 s on X-node in each of the three rounds,
+  against p50 1.83-1.93 s and p99 1.93-2.28 s on the three Bun configurations;
+  c=500 p90 35.1-35.4 s on X-node. Observed, not explained.

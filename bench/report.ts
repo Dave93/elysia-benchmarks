@@ -90,7 +90,7 @@ export async function runReport(paths = process.argv.slice(2)) {
   const sections: string[] = [];
   for (const path of paths) sections.push(renderReport(await Bun.file(path).json(), path));
   const output = createOutput(process.env.OUT ?? uniqueOutPath("results", "report", "md"));
-  try { output.save("# Elysia vs Django — recorded observations\n\n" + sections.join("\n---\n\n")); }
+  try { output.save("# Benchmark run — recorded observations\n\n" + sections.join("\n---\n\n")); }
   finally { output.close(); }
   console.log(output.path);
   return output.path;

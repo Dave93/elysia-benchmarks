@@ -1,4 +1,4 @@
-# Elysia vs Django — recorded observations
+# Benchmark run — recorded observations
 
 ## bench — results/full-express-2026-11-09-resumed.json
 
