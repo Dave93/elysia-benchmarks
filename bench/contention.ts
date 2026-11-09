@@ -8,6 +8,8 @@
 // the fixture database. Excluding the whole server tree matters: Gunicorn and Uvicorn run a master plus workers,
 // and counting our own workers as foreign load would re-run every window (a bug the Linux run of a sibling
 // project hit and had to fix).
+import { CLK_TCK, LINUX, procAll } from "./procfs";
+
 export const CONTENTION = Number(process.env.CONTENTION ?? 450); // % of one core, summed
 export const MAX_CONTENDED_RETRIES = Number(process.env.MAX_CONTENDED_RETRIES ?? 50);
 const DB_NAME = process.env.BENCH_DB ?? "bench_elysia_django";
@@ -25,7 +27,7 @@ async function psAll(): Promise<PsLine[]> {
   return rows;
 }
 
-function descendants(rows: PsLine[], roots: number[]): Set<number> {
+function descendants(rows: { pid: number; ppid: number }[], roots: number[]): Set<number> {
   const set = new Set(roots.filter((r) => r > 0));
   let changed = true;
   while (changed) {
@@ -35,8 +37,32 @@ function descendants(rows: PsLine[], roots: number[]): Set<number> {
   return set;
 }
 
+const isOurs = (command: string) =>
+  /(^|\/)bombardier(\s|$)/.test(command) || (command.startsWith("postgres:") && command.includes(DB_NAME));
+
+// Linux: utime+stime ticks differenced between consecutive calls (bench/procfs.ts says why ps cannot be used).
+// A reading older than 2.5 s is not reused as the baseline, so a call after a pause measures a fresh 0.5 s
+// interval rather than averaging over the pause.
+let previous: { at: number; ticks: Map<number, number> } | undefined;
+async function foreignCpuLinux(serverPid: number): Promise<number> {
+  const snap = () => { const rows = procAll(); return { at: performance.now(), rows, ticks: new Map(rows.map((r) => [r.pid, r.ticks])) }; };
+  if (!previous || performance.now() - previous.at > 2500) { previous = snap(); await Bun.sleep(500); }
+  const before = previous, now = snap();
+  previous = now;
+  const ours = descendants(now.rows, [serverPid, process.pid]);
+  let ticks = 0;
+  for (const r of now.rows) {
+    if (ours.has(r.pid) || isOurs(r.command)) continue;
+    // A process born inside the interval spent all its ticks in it.
+    ticks += Math.max(0, r.ticks - (before.ticks.get(r.pid) ?? 0));
+  }
+  const seconds = (now.at - before.at) / 1000;
+  return seconds > 0 ? (100 * ticks) / CLK_TCK / seconds : 0;
+}
+
 // Summed %CPU of every process that is not part of this benchmark. 100 = one core.
 export async function foreignCpu(serverPid = 0): Promise<number> {
+  if (LINUX) return foreignCpuLinux(serverPid);
   const rows = await psAll();
   const ours = descendants(rows, [serverPid, process.pid]);
   let sum = 0;

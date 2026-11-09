@@ -3,6 +3,7 @@ import { loadavg } from "node:os";
 import { closeSync, ftruncateSync, fsyncSync, mkdirSync, openSync, writeSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
+import { CLK_TCK, LINUX, procAll } from "./procfs";
 
 export const mean = (xs: number[]) => xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0;
 export function median(xs: number[]): number {
@@ -165,11 +166,20 @@ export function summarizeTree(samples: TreeSample[]) {
     spanSeconds, valid, issues: [...new Set(issues)],
   };
 }
+// Linux reads /proc directly: procps prints CPU time in whole seconds there (bench/procfs.ts).
+function procTree(): Map<number, PsRow> {
+  return new Map(procAll(false).map((r) => [r.pid, { pid: r.pid, ppid: r.ppid, rssKb: r.rssKb, cpuSeconds: r.ticks / CLK_TCK }]));
+}
 async function sampleTree(pid: number, origin: number): Promise<TreeSample> {
-  const proc = Bun.spawn(["ps", "-axo", "pid=,ppid=,rss=,time="], { stdout: "pipe", stderr: "pipe" });
-  const [out, err, exit] = await Promise.all([new Response(proc.stdout).text(), new Response(proc.stderr).text(), proc.exited]);
-  if (exit !== 0) throw new Error(`ps exit ${exit}: ${err}`);
-  const processes = treeSnapshot(parsePsTree(out), pid);
+  let rows: Map<number, PsRow>;
+  if (LINUX) rows = procTree();
+  else {
+    const proc = Bun.spawn(["ps", "-axo", "pid=,ppid=,rss=,time="], { stdout: "pipe", stderr: "pipe" });
+    const [out, err, exit] = await Promise.all([new Response(proc.stdout).text(), new Response(proc.stderr).text(), proc.exited]);
+    if (exit !== 0) throw new Error(`ps exit ${exit}: ${err}`);
+    rows = parsePsTree(out);
+  }
+  const processes = treeSnapshot(rows, pid);
   return {
     atMs: Date.now(), elapsedMs: performance.now() - origin, processes,
     rssKb: processes.reduce((s, p) => s + p.rssKb, 0), cpuSeconds: processes.reduce((s, p) => s + p.cpuSeconds, 0),

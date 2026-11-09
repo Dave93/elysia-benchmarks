@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { renderReport } from "./report";
 import type { BenchmarkDocument } from "./bench";
@@ -131,7 +132,7 @@ test("report marks failed evidence without inventing performance numbers", () =>
 });
 
 test("exclusive output refuses overwrite while supporting checkpoints", () => {
-  const dir = mkdtempSync(join(process.env.TMPDIR ?? "/private/var/folders/y8/44f2gd512jj2d_46xj7xvvlr0000gp/T/opencode", "bench-metrics-"));
+  const dir = mkdtempSync(join(tmpdir(), "bench-metrics-"));
   try {
     const path = join(dir, "run.json"), out = createOutput(path);
     try {

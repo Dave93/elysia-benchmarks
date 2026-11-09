@@ -4,5 +4,6 @@ __pycache__/
 *.pyc
 apps/*/dist/
 apps/*/dist-aot/
+apps/*/dist-node/
 .env
 results/*.log

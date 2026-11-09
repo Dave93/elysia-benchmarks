@@ -12,6 +12,13 @@ export const CONFIGS: ConfigSpec[] = [
   { id: "N-async", label: "Django Ninja / Uvicorn uvloop httptools / Django async ORM interface", cmd: [py, "-m", "uvicorn", "config.asgi:application", "--host", "127.0.0.1", "--port", "3100", "--workers", "1", "--loop", "uvloop", "--http", "httptools", "--lifespan", "off", "--no-access-log", "--no-server-header", "--log-level", "warning"], env: { ...BASE_ENV, API_MODE: "async" } },
   { id: "H", label: "Hono / Bun / Drizzle + Bun SQL", cmd: ["bun", "apps/hono-api/dist/index.js"], env: BASE_ENV },
   { id: "H-mirror", label: "Hono / Bun / Drizzle + Bun SQL / exact-mirror cleaner", cmd: ["bun", "apps/hono-api/dist/index.js"], env: { ...BASE_ENV, HONO_CLEANER: "mirror" } },
+  // Express 5.3.0, apps/express-api. X-bun differs from E in the framework only: same runtime, same Bun SQL
+  // driver, same compiled TypeBox validator and exact-mirror cleaner.
+  { id: "X-bun", label: "Express / Bun / Drizzle + Bun SQL", cmd: ["bun", "apps/express-api/dist/index.js"], env: BASE_ENV },
+  // X-bun-pg and X-node run one file, dist-node/index.js, on one driver (postgres.js): they differ in the runtime
+  // only. X-bun against X-bun-pg is the driver on Bun.
+  { id: "X-bun-pg", label: "Express / Bun / Drizzle + postgres.js", cmd: ["bun", "apps/express-api/dist-node/index.js"], env: { ...BASE_ENV, DB_DRIVER: "postgresjs" } },
+  { id: "X-node", label: "Express / Node / Drizzle + postgres.js", cmd: ["node", "apps/express-api/dist-node/index.js"], env: BASE_ENV },
   { id: "E-aot", label: "Elysia / Bun / AOT", cmd: ["bun", "apps/elysia-api/dist-aot/index.js"], env: BASE_ENV, sensitivity: true },
   // /cpu diagnostic only: Bun.SHA256.hash instead of node:crypto, same algorithm and output.
   { id: "E-native", label: "Elysia / Bun / Bun.SHA256 hasher", cmd: ["bun", "apps/elysia-api/dist/index.js"], env: { ...BASE_ENV, CPU_HASHER: "bun-native" }, sensitivity: true },
@@ -81,22 +88,39 @@ export const mean = (xs: number[]) => xs.length ? xs.reduce((a, b) => a + b, 0) 
 export function median(xs: number[]) { const s = [...xs].sort((a,b) => a-b), m = Math.floor(s.length/2); return s.length ? (s.length%2 ? s[m]! : (s[m-1]!+s[m]!)/2) : 0; }
 export async function collectEnv() {
   const optional = async (cmd: string[]) => { try { return await sh(cmd); } catch { return "unavailable"; } };
+  // The macOS fields below read "unavailable" on Linux; these are their Linux counterparts. The server's version
+  // comes from the server itself: a client binary on PATH can be a different major than the fixture's Postgres.
+  const linux = process.platform === "linux" ? {
+    cpuModel: await optional(["sh", "-c", "grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | sed 's/^ *//'"]),
+    logicalCpus: await optional(["nproc"]), kernel: await optional(["uname", "-r"]),
+    os: await optional(["sh", "-c", ". /etc/os-release && echo \"$PRETTY_NAME\""]),
+    cpuGovernor: await optional(["cat", "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"]),
+    netCoreSomaxconn: await optional(["cat", "/proc/sys/net/core/somaxconn"]),
+    memTotal: await optional(["sh", "-c", "grep MemTotal /proc/meminfo"]),
+  } : undefined;
+  const { connect } = await import("./database");
+  const postgresServer = await (async () => { const c = connect(); try { const [r] = await c`SELECT version() AS v`; return r.v as string; } catch (e) { return `unavailable: ${e}`; } finally { await c.end(); } })();
   return {
+    linux, postgresServer, node: await optional(["node", "--version"]),
     date: new Date().toISOString(), bun: Bun.version, bunRevision: Bun.revision,
     cpu: await optional(["sysctl", "-n", "machdep.cpu.brand_string"]), cores: await optional(["sysctl", "-n", "hw.ncpu"]),
     macos: await optional(["sw_vers", "-productVersion"]), postgres: await optional(["psql", "--version"]),
     bombardier: await optional(["bombardier", "--version"]), python: await optional([py, "--version"]),
     // bombardier --version writes outside captured stdout, which left this field empty in earlier runs;
     // the binary's hash identifies the load generator exactly.
-    bombardierSha256: await optional(["sh", "-c", "shasum -a 256 \"$(command -v bombardier)\" | cut -d' ' -f1"]),
+    bombardierSha256: await optional(["sh", "-c", "f=\"$(command -v bombardier)\"; { sha256sum \"$f\" 2>/dev/null || shasum -a 256 \"$f\"; } | cut -d' ' -f1"]),
     somaxconn: await optional(["sysctl", "-n", "kern.ipc.somaxconn"]),
     // Run conditions that change what a window can see; recorded so a reader never has to guess them.
     ordersAutovacuum: process.env.ORDERS_AUTOVACUUM ?? "default (on)",
     contentionGatePct: Number(process.env.CONTENTION ?? 450),
     honoManifest: await Bun.file("apps/hono-api/package.json").exists() ? await Bun.file("apps/hono-api/package.json").json() : null,
+    expressManifest: await Bun.file("apps/express-api/package.json").exists() ? await Bun.file("apps/express-api/package.json").json() : null,
     pythonPackages: await optional(["uv", "pip", "freeze", "--python", py]),
     elysiaManifest: await Bun.file("apps/elysia-api/package.json").json(),
-    locks: Object.fromEntries(await Promise.all(["bun.lock", "apps/elysia-api/bun.lock", "apps/hono-api/bun.lock", "apps/django-api/uv.lock"].map(async path => [path, await Bun.file(path).exists() ? new Bun.CryptoHasher("sha256").update(await Bun.file(path).arrayBuffer()).digest("hex") : null]))),
-    configs: selectConfigs(), caveat: "Same-host macOS laptop, API + Postgres + load generator; no CPU affinity or causal framework-only attribution",
+    locks: Object.fromEntries(await Promise.all(["bun.lock", "apps/elysia-api/bun.lock", "apps/hono-api/bun.lock", "apps/express-api/bun.lock", "apps/django-api/uv.lock"].map(async path => [path, await Bun.file(path).exists() ? new Bun.CryptoHasher("sha256").update(await Bun.file(path).arrayBuffer()).digest("hex") : null]))),
+    configs: selectConfigs(),
+    caveat: process.platform === "linux"
+      ? "Same-host Linux desktop, API + Postgres + load generator on one machine; no CPU affinity or causal framework-only attribution"
+      : "Same-host macOS laptop, API + Postgres + load generator; no CPU affinity or causal framework-only attribution",
   };
 }
